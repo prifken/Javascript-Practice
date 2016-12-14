@@ -15,6 +15,16 @@
 	var count2 = 0;
 	var count3 = 0;
 
+	var sum_count0 = 0; 
+	var sum_count1 = 0; 
+	var sum_count2 = 0;
+	var sum_count3 = 0;
+
+	var poc_count0 = 0; 
+	var poc_count1 = 0; 
+	var poc_count2 = 0;
+	var poc_count3 = 0;
+
 $.ajax({
 type: "POST",
 contentType: "text/xml",
@@ -50,18 +60,22 @@ data: request,
 											if($(this).find("coach_name").text()=="Nathan T. Hise" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count0+= cast; 
+													sum_count0++;
 												}
 											if($(this).find("coach_name").text()=="Sean Walsh" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count1+= cast; 
+													sum_count1++;
 												}
 											if($(this).find("coach_name").text()=="Paul Grim" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count2+= cast; 
+													sum_count2++;
 												}
 											if($(this).find("coach_name").text()=="Tom Kerwin" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count3+= cast; 
+													sum_count3++;
 												}
 											//Display Count at each Iteration
 											console.log("Count 0: $"+count0+" Count 1: $"+count1+" Count 2: $"+count2 +" Count 3: $"+count3);
@@ -109,9 +123,11 @@ data: request,
 			//Looping Through Response Begins Below
 									  	 xml.find('qdbapi').find('record').each(function(index){
 										console.log("Coach Name = " + $(this).find("first_name").text());
-													var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";    //use YOUR appToken  
-													url2    += "&_fid_6= "+$(this).find("first_name").text()+" "+$(this).find("last_name").text(); //Title Field in MLB App
-													url2    += "&_fid_7="+selectCoach($(this).find("first_name").text()); //Title Field in MLB App
+													var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+													url2    += "&_fid_6= "+$(this).find("first_name").text()+" "+$(this).find("last_name").text(); 
+													url2    += "&_fid_7="+selectCoach($(this).find("first_name").text()); 
+													url2    += "&_fid_8="+selectCoach2($(this).find("first_name").text()); 
+
 																		
 													        var rid;
 													        $.ajax({
@@ -153,33 +169,7 @@ error: function (response)
 	}
 });
 
-// var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";    //use YOUR appToken  
-// url2    += "&_fid_6=Nathan_T._Hise: "+count0; //Title Field in MLB App
-// url2    += "&_fid_7=6766"; //Title Field in MLB App
-//         var rid;
-//         $.ajax({
-//             type: "GET",
-//             contentType: "text/xml",
-//             async: false,
-//             url: url2,
-//             dataType: "xml",
-//             processData: false,
-//             success: function (response) {
-//         		alert("Boom.... success baby");
-//                 var xml = $(response);
-//                 if (xml.find('qdbapi').find('errcode').text() === "0") {
-//                     rid = xml.find('qdbapi').find('rid').text();
-//                     console.log(rid);
-//                 }
-//                 else {
-//                     console.log("Quickbase returned an error.");
-//                     console.log(response);
-//                 } 
-//             },
-//             error: function (e) {
-//                  console.log(e);  
-//             }
-//         });
+
 
 function selectCoach(val){
 	var answer = count0; 
@@ -199,6 +189,32 @@ function selectCoach(val){
 		break;
 		case "Tom":
 		answer= count3;
+		console.log(val);
+		break;
+
+	}
+	console.log("value is "+val);
+	return answer;
+}
+
+function selectCoach2(val){
+	var answer = count0; 
+
+	switch(val){
+		case "Sean":
+		answer=sum_count1;
+		console.log(val);
+		break;
+		case "Nathan T.":
+		answer=sum_count0;
+		console.log(val);
+		break;
+		case "Paul":
+		answer=sum_count2;
+		console.log(val);
+		break;
+		case "Tom":
+		answer= sum_count3;
 		console.log(val);
 		break;
 
