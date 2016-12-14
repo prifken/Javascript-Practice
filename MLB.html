@@ -25,6 +25,21 @@
 	var poc_count2 = 0;
 	var poc_count3 = 0;
 
+	var poc_sum_count0 = 0; 
+	var poc_sum_count1 = 0; 
+	var poc_sum_count2 = 0;
+	var poc_sum_count3 = 0;
+
+	var oc_count0 = 0; 
+	var oc_count1 = 0; 
+	var oc_count2 = 0;
+	var oc_count3 = 0;
+
+	var oc_sum_count0 = 0; 
+	var oc_sum_count1 = 0; 
+	var oc_sum_count2 = 0;
+	var oc_sum_count3 = 0;
+
 $.ajax({
 type: "POST",
 contentType: "text/xml",
@@ -77,8 +92,46 @@ data: request,
 													count3+= cast; 
 													sum_count3++;
 												}
-											//Display Count at each Iteration
-											console.log("Count 0: $"+count0+" Count 1: $"+count1+" Count 2: $"+count2 +" Count 3: $"+count3);
+											if($(this).find("coach_name").text()=="Nathan T. Hise" && $(this).find("current_opportunity_stage").text()=="03 - Proof of Concept")
+												{
+													poc_count0+= cast; 
+													poc_sum_count0++;
+												}
+											if($(this).find("coach_name").text()=="Sean Walsh" && $(this).find("current_opportunity_stage").text()=="03 - Proof of Concept")
+												{
+													poc_count1+= cast; 
+													poc_sum_count1++;
+												}
+											if($(this).find("coach_name").text()=="Paul Grim" && $(this).find("current_opportunity_stage").text()=="03 - Proof of Concept")
+												{
+													poc_count2+= cast; 
+													poc_sum_count2++;
+												}
+											if($(this).find("coach_name").text()=="Tom Kerwin" && $(this).find("current_opportunity_stage").text()=="03 - Proof of Concept")
+												{
+													poc_count3+= cast; 
+													poc_sum_count3++;
+												}
+											if($(this).find("coach_name").text()=="Nathan T. Hise" && $(this).find("current_opportunity_stage").text()=="04 - Obtain Commitment")
+												{
+													oc_count0+= cast; 
+													oc_sum_count0++;
+												}
+											if($(this).find("coach_name").text()=="Sean Walsh" && $(this).find("current_opportunity_stage").text()=="04 - Obtain Commitment")
+												{
+													oc_count1+= cast; 
+													oc_sum_count1++;
+												}
+											if($(this).find("coach_name").text()=="Paul Grim" && $(this).find("current_opportunity_stage").text()=="04 - Obtain Commitment")
+												{
+													oc_count2+= cast; 
+													oc_sum_count2++;
+												}
+											if($(this).find("coach_name").text()=="Tom Kerwin" && $(this).find("current_opportunity_stage").text()=="04 - Obtain Commitment")
+												{
+													oc_count3+= cast; 
+													oc_sum_count3++;
+												}
 											console.log("\n\n");
 									 	});//End XML Loop
 				console.log("String Count ="+String(count0));
@@ -127,6 +180,10 @@ data: request,
 													url2    += "&_fid_6= "+$(this).find("first_name").text()+" "+$(this).find("last_name").text(); 
 													url2    += "&_fid_7="+selectCoach($(this).find("first_name").text()); 
 													url2    += "&_fid_8="+selectCoach2($(this).find("first_name").text()); 
+													url2    += "&_fid_10="+selectCoach3($(this).find("first_name").text()); 
+													url2    += "&_fid_9="+selectCoach4($(this).find("first_name").text()); 
+													url2    += "&_fid_12="+selectCoach5($(this).find("first_name").text()); 
+													url2    += "&_fid_11="+selectCoach6($(this).find("first_name").text()); 
 
 																		
 													        var rid;
@@ -215,6 +272,109 @@ function selectCoach2(val){
 		break;
 		case "Tom":
 		answer= sum_count3;
+		console.log(val);
+		break;
+
+	}
+	console.log("value is "+val);
+	return answer;
+}
+
+function selectCoach3(val){
+	var answer = count0; 
+
+	switch(val){
+		case "Sean":
+		answer=poc_sum_count1;
+		console.log(val);
+		break;
+		case "Nathan T.":
+		answer=poc_sum_count0;
+		console.log(val);
+		break;
+		case "Paul":
+		answer=poc_sum_count2;
+		console.log(val);
+		break;
+		case "Tom":
+		answer= poc_sum_count3;
+		console.log(val);
+		break;
+
+	}
+	console.log("value is "+val);
+	return answer;
+}
+
+function selectCoach4(val){
+	var answer = count0; 
+
+	switch(val){
+		case "Sean":
+		answer=poc_count1;
+		console.log(val);
+		break;
+		case "Nathan T.":
+		answer=poc_count0;
+		console.log(val);
+		break;
+		case "Paul":
+		answer=poc_count2;
+		console.log(val);
+		break;
+		case "Tom":
+		answer= poc_count3;
+		console.log(val);
+		break;
+
+	}
+	console.log("value is "+val);
+	return answer;
+}
+function selectCoach5(val){
+	var answer = count0; 
+
+	switch(val){
+		case "Sean":
+		answer=oc_sum_count1;
+		console.log(val);
+		break;
+		case "Nathan T.":
+		answer=oc_sum_count0;
+		console.log(val);
+		break;
+		case "Paul":
+		answer=oc_sum_count2;
+		console.log(val);
+		break;
+		case "Tom":
+		answer= oc_sum_count3;
+		console.log(val);
+		break;
+
+	}
+	console.log("value is "+val);
+	return answer;
+}
+
+function selectCoach6(val){
+	var answer = count0; 
+
+	switch(val){
+		case "Sean":
+		answer=oc_count1;
+		console.log(val);
+		break;
+		case "Nathan T.":
+		answer=oc_count0;
+		console.log(val);
+		break;
+		case "Paul":
+		answer=oc_count2;
+		console.log(val);
+		break;
+		case "Tom":
+		answer= oc_count3;
 		console.log(val);
 		break;
 
