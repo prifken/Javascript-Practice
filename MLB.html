@@ -11,9 +11,9 @@
   request    += "</qdbapi>";
 
 	var count0 = 0; 
-	var count1 = 1; 
-	var count2 = 2;
-	var count3 = 3;
+	var count1 = 0; 
+	var count2 = 0;
+	var count3 = 0;
 
 $.ajax({
 type: "POST",
@@ -35,6 +35,7 @@ data: request,
 									    	console.log("Opportunity ID = " + $(this).find("opportunity_id").text());
 									    	console.log("Coach Name = " + $(this).find("coach_name").text());
 									    	console.log("Forecasted Monthly Fees = " + $(this).find("forecasted_monthly_fees").text());
+									    	console.log("Opportunity Stage = " + $(this).find("current_opportunity_stage").text());
 									    	//Check for Blanks
 											if($(this).find("forecasted_monthly_fees").text()=="")
 												{
@@ -46,19 +47,19 @@ data: request,
 												cast=parseInt($(this).find("forecasted_monthly_fees").text());
 												}
 											//Sum if Coach Found
-											if($(this).find("coach_name").text()=="Nathan T. Hise")
+											if($(this).find("coach_name").text()=="Nathan T. Hise" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count0+= cast; 
 												}
-											if($(this).find("coach_name").text()=="Sean Walsh")
+											if($(this).find("coach_name").text()=="Sean Walsh" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count1+= cast; 
 												}
-											if($(this).find("coach_name").text()=="Paul Grim")
+											if($(this).find("coach_name").text()=="Paul Grim" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count2+= cast; 
 												}
-											if($(this).find("coach_name").text()=="Tom Kerwin")
+											if($(this).find("coach_name").text()=="Tom Kerwin" && $(this).find("current_opportunity_stage").text()=="02 - Investigation")
 												{
 													count3+= cast; 
 												}
