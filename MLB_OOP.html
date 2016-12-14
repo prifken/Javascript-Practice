@@ -1,11 +1,13 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 <script>
-var coaches=function(){
-	this.invFeesTotal=0,
-	this.invFeesCount=0,
-	this.pocFeesTotal=0,
-	this.pocFeesCount=0,
-	this.ocFeesTotal=0,
+function coaches(){
+	this.coachName="Name";
+	this.recordI=0;
+	this.invFeesTota=0;
+	this.invFeesCoun=0;
+	this.pocFeesTota=0;
+	this.pocFeesCoun=0;
+	this.ocFeesTota=0;
 	this.ocFeesCount=0
 }
 
@@ -18,7 +20,9 @@ var coaches=function(){
   request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
   request    += "</qdbapi>";
 
-  $.ajax({
+var coachArray=[]; 
+
+$.ajax({
 type: "POST",
 contentType: "text/xml",
 async: false,
@@ -34,11 +38,16 @@ data: request,
 					var cast = 0; 
 			//Looping Through Response Begins Below
 									  	 xml.find('qdbapi').find('record').each(function(index){	
+									  	 	var x = new coaches("Test",0,0,0,0,0,0,0); 
+									  	 	x.coachName=$(this).find("full_name").text();
+									  	 	x.recordID=$(this).find("record_id_").text();
 										    console.log("Coach Name = " + $(this).find("full_name").text());
 									    	console.log("Record ID = " + $(this).find("record_id_").text());
+									    	coachArray.push(x);
+									    	console.log(coachArray);
 											console.log("\n\n");
 									 	});//End XML Loop
-				console.log("\n\n");
+				console.log(coachArray);
 			 	}
 			    else 
 			    {
