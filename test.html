@@ -1,0 +1,76 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+
+  var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
+  url    += "/db/";
+  url    += "bk9nusrfc";                                   // Remember to put in YOUR tableDBID
+  url    += "?a=API_DoQuery";
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  //request    += "<query>{'13'.EQ.'High'}AND{'12'.XEX.'Completed'}</query>";
+  //request    += "<clist>56.6.67.10</clist>";
+ // request    += "<slist>10</slist>";
+ //request    += "<options>sortorder-D</options>";
+  request    += "</qdbapi>";
+
+
+  $.ajax({
+    type: "POST",
+    contentType: "text/xml",
+    async: false,
+    url: url,
+    dataType: "xml",
+    processData: false,
+    data: request,
+    success: function (response) {
+
+     var xml = $(response);
+     if (xml.find('qdbapi').find('errcode').text() == "0") {
+
+      processRecords(xml);
+      
+    }
+    else 
+    {
+     console.log("Quickbase returned an error.");
+     console.log(response);
+   } 
+ },
+ error: function (response) {
+  console.log("Quickbase returned an error.");
+  console.log(response);
+}
+});
+
+
+  function processRecords(xml)
+  {
+var count = 0; 
+var cast = 0; 
+   xml.find('qdbapi').find('record').each(function(index){
+
+    console.log("Opportunity Name = " + $(this).find("opportunity_name").text());
+    console.log("Opportunity ID = " + $(this).find("opportunity_id").text());
+    console.log("Coach Name = " + $(this).find("coach_name").text());
+    console.log("Forecasted Monthly Fees = " + $(this).find("forecasted_monthly_fees").text());
+    
+if($(this).find("forecasted_monthly_fees").text()==""){
+	cast=0;
+	console.log("Found Blank");
+}
+else {
+	cast=parseInt($(this).find("forecasted_monthly_fees").text());
+}
+
+count+= cast; 
+console.log("$"+count);
+console.log("\n\n");
+
+   // Do Something Useful With The Data Here....
+
+ });
+<script src="https://team.quickbase.com/db/bk89dr9hu?a=pagePreview&pageID=10"></script>
+ }
+
+</script>

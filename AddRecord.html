@@ -1,0 +1,37 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+<script>
+
+var url2 = "https://team.quickbase.com";          // use YOUR baseurl2    
+url2    += "/db/"; 
+url2    += "bmduq9ya8";                                        // use YOUR tableDBID
+url2    += "?a=API_AddRecord";
+url2    += "&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";    //use YOUR appToken  
+url2    += "&_fid_6=Micky Mouse"; //Title Field in MLB App
+
+
+        var rid;
+        $.ajax({
+            type: "GET",
+            contentType: "text/xml",
+            async: false,
+            url2: url2,
+            dataType: "xml",
+            processData: false,
+            success: function (response) {
+        
+                var xml = $(response);
+                if (xml.find('qdbapi').find('errcode').text() === "0") {
+                    rid = xml.find('qdbapi').find('rid').text();
+                    console.log(rid);
+                }
+                else {
+                    console.log("Quickbase returned an error.");
+                    console.log(response);
+                } 
+            },
+            error: function (e) {
+                 console.log(e);  
+            }
+        });
+</script>

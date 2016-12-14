@@ -1,0 +1,211 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+
+  var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
+  url    += "/db/";
+  url    += "bk9nusrfc";                                   // Remember to put in YOUR tableDBID
+  url    += "?a=API_DoQuery";
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+	var count0 = 0; 
+	var count1 = 1; 
+	var count2 = 2;
+	var count3 = 3;
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+			    success: function (response) {
+
+			     var xml = $(response); //Convert response to XML Code
+			     if (xml.find('qdbapi').find('errcode').text() == "0") {
+				
+					var cast = 0; 
+			//Looping Through Response Begins Below
+									  	 xml.find('qdbapi').find('record').each(function(index){	
+										    console.log("Opportunity Name = " + $(this).find("opportunity_name").text());
+									    	console.log("Opportunity ID = " + $(this).find("opportunity_id").text());
+									    	console.log("Coach Name = " + $(this).find("coach_name").text());
+									    	console.log("Forecasted Monthly Fees = " + $(this).find("forecasted_monthly_fees").text());
+									    	//Check for Blanks
+											if($(this).find("forecasted_monthly_fees").text()=="")
+												{
+												cast=0;
+												console.log("Found Blank");
+												}
+											else 
+												{
+												cast=parseInt($(this).find("forecasted_monthly_fees").text());
+												}
+											//Sum if Coach Found
+											if($(this).find("coach_name").text()=="Nathan T. Hise")
+												{
+													count0+= cast; 
+												}
+											if($(this).find("coach_name").text()=="Sean Walsh")
+												{
+													count1+= cast; 
+												}
+											if($(this).find("coach_name").text()=="Paul Grim")
+												{
+													count2+= cast; 
+												}
+											if($(this).find("coach_name").text()=="Tom Kerwin")
+												{
+													count3+= cast; 
+												}
+											//Display Count at each Iteration
+											console.log("Count 0: $"+count0+" Count 1: $"+count1+" Count 2: $"+count2 +" Count 3: $"+count3);
+											console.log("\n\n");
+									 	});//End XML Loop
+				console.log("String Count ="+String(count0));
+				console.log("\n\n");
+			 	}
+			    else 
+			    {
+			     console.log("Quickbase returned an error.");
+			     console.log(response);
+			   } 
+			 },
+error: function (response)
+	{
+	console.log("Quickbase returned an error.");
+	console.log(response);
+	}
+});
+
+var url3 = "https://team.quickbase.com";     // Remember to put in YOUR baseurl3
+  url3    += "/db/";
+  url3    += "bk9j6sa8r";                                   // Remember to put in YOUR tableDBID
+  url3    += "?a=API_DoQuery";
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url3,
+dataType: "xml",
+processData: false,
+data: request,
+			    success: function (response) {
+
+			     var xml = $(response); //Convert response to XML Code
+			     if (xml.find('qdbapi').find('errcode').text() == "0") {
+				
+					var cast = 0; 
+			//Looping Through Response Begins Below
+									  	 xml.find('qdbapi').find('record').each(function(index){
+										console.log("Coach Name = " + $(this).find("first_name").text());
+													var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";    //use YOUR appToken  
+													url2    += "&_fid_6= "+$(this).find("first_name").text()+" "+$(this).find("last_name").text(); //Title Field in MLB App
+													url2    += "&_fid_7="+selectCoach($(this).find("first_name").text()); //Title Field in MLB App
+																		
+													        var rid;
+													        $.ajax({
+													            type: "GET",
+													            contentType: "text/xml",
+													            async: false,
+													            url: url2,
+													            dataType: "xml",
+													            processData: false,
+													            success: function (response) {
+													        		alert("Boom.... success baby");
+													                var xml = $(response);
+													                if (xml.find('qdbapi').find('errcode').text() === "0") {
+													                    rid = xml.find('qdbapi').find('rid').text();
+													                    console.log(rid);
+													                }
+													                else {
+													                    console.log("Quickbase returned an error.");
+													                    console.log(response);
+													                } 
+													            },
+													            error: function (e) {
+													                 console.log(e);  
+													            }
+													        });											
+									 	});//End XML Loop
+				console.log("Success");
+			 	}
+			    else 
+			    {
+			     console.log("Quickbase returned an error.");
+			     console.log(response);
+			   } 
+			 },
+error: function (response)
+	{
+	console.log("Quickbase returned an error.");
+	console.log(response);
+	}
+});
+
+// var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";    //use YOUR appToken  
+// url2    += "&_fid_6=Nathan_T._Hise: "+count0; //Title Field in MLB App
+// url2    += "&_fid_7=6766"; //Title Field in MLB App
+//         var rid;
+//         $.ajax({
+//             type: "GET",
+//             contentType: "text/xml",
+//             async: false,
+//             url: url2,
+//             dataType: "xml",
+//             processData: false,
+//             success: function (response) {
+//         		alert("Boom.... success baby");
+//                 var xml = $(response);
+//                 if (xml.find('qdbapi').find('errcode').text() === "0") {
+//                     rid = xml.find('qdbapi').find('rid').text();
+//                     console.log(rid);
+//                 }
+//                 else {
+//                     console.log("Quickbase returned an error.");
+//                     console.log(response);
+//                 } 
+//             },
+//             error: function (e) {
+//                  console.log(e);  
+//             }
+//         });
+
+function selectCoach(val){
+	var answer = count0; 
+
+	switch(val){
+		case "Sean":
+		answer=count1;
+		console.log(val);
+		break;
+		case "Nathan T.":
+		answer=count0;
+		console.log(val);
+		break;
+		case "Paul":
+		answer=count2;
+		console.log(val);
+		break;
+		case "Tom":
+		answer= count3;
+		console.log(val);
+		break;
+
+	}
+	console.log("value is "+val);
+	return answer;
+}
+
+</script>
+
+
