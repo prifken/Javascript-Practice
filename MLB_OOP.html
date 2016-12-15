@@ -127,12 +127,22 @@ function checkforblanks(val,iteration,stage){
 
 											if(val !== "" && !isNaN(val))
 												{
-													console.log("fire!"+val+" "+iteration+" "+stage);
+													
 													switch(stage){
 																case "02 - Investigation":
 																	//console.log(coachArray[iteration].coachName+" "+val);
 																	coachArray[iteration].invFeesTotal += parseFloat(val);
 																	coachArray[iteration].invFeesCount ++;
+																break;
+																case "03 - Proof of Concept":
+																	//console.log(coachArray[iteration].coachName+" "+val);
+																	coachArray[iteration].pocFeesTotal += parseFloat(val);
+																	coachArray[iteration].pocFeesCount ++;
+																break;
+																case "04 - Obtain Commitment":
+																	//console.log(coachArray[iteration].coachName+" "+val);
+																	coachArray[iteration].ocFeesTotal += parseFloat(val);
+																	coachArray[iteration].ocFeesCount ++;
 																break;
 															}
 												}
