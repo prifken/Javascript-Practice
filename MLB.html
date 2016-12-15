@@ -176,14 +176,14 @@ data: request,
 			//Looping Through Response Begins Below
 									  	 xml.find('qdbapi').find('record').each(function(index){
 										console.log("Coach Name = " + $(this).find("first_name").text());
-													var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
-													url2    += "&_fid_6= "+$(this).find("first_name").text()+" "+$(this).find("last_name").text(); 
-													url2    += "&_fid_7="+selectCoach($(this).find("first_name").text()); 
-													url2    += "&_fid_8="+selectCoach2($(this).find("first_name").text()); 
-													url2    += "&_fid_10="+selectCoach3($(this).find("first_name").text()); 
-													url2    += "&_fid_9="+selectCoach4($(this).find("first_name").text()); 
-													url2    += "&_fid_12="+selectCoach5($(this).find("first_name").text()); 
-													url2    += "&_fid_11="+selectCoach6($(this).find("first_name").text()); 
+													var url2 = "https://team.quickbase.com/db/bk89mdf7j?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+													url2    += "&_fid_11="+$(this).find("first_name").text()+" "+$(this).find("last_name").text(); 
+													url2    += "&_fid_14="+selectCoach($(this).find("first_name").text()); 
+													url2    += "&_fid_15="+selectCoach2($(this).find("first_name").text()); 
+													url2    += "&_fid_26="+selectCoach3($(this).find("first_name").text()); 
+													url2    += "&_fid_27="+selectCoach4($(this).find("first_name").text()); 
+													url2    += "&_fid_23="+selectCoach5($(this).find("first_name").text()); 
+													url2    += "&_fid_25="+selectCoach6($(this).find("first_name").text()); 
 
 																		
 													        var rid;
@@ -195,7 +195,7 @@ data: request,
 													            dataType: "xml",
 													            processData: false,
 													            success: function (response) {
-													        		alert("Boom.... success baby");
+													        		//alert("Boom.... success baby");
 													                var xml = $(response);
 													                if (xml.find('qdbapi').find('errcode').text() === "0") {
 													                    rid = xml.find('qdbapi').find('rid').text();
