@@ -89,18 +89,15 @@ data: request,
 			     	for (var i = 0; i<coachArray.length; i++){
 			     			console.log(i);
 
-			     		xml.find('qdbapi').find('record').each(function(index){
+			     		xml.find('qdbapi').find('record').each(function(index)
+			     			{
 			     			
-								if($(this).find("coach_name").text()==(coachArray[i].coachName)){
-									
-										
+								if($(this).find("coach_name").text()==(coachArray[i].coachName))
+									{
 										checkforblanks($(this).find("forecasted_monthly_fees").text(),i,$(this).find("current_opportunity_stage").text());
-
-
-										
-								}
+									}
 			     			
-			     		});
+			     			});
 
 			     	}
 			     	console.log(coachArray);
@@ -119,33 +116,67 @@ error: function (response)
 	console.log(response);
 	}
 });
+//Write Values to Array
+for (var i = 0; i<coachArray.length; i++){
+var url2 = "https://team.quickbase.com/db/bk89mdf7j?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+url2    += "&_fid_11="+coachArray[i].coachName; 
+url2    += "&_fid_14="+coachArray[i].invFeesTotal; 
+url2    += "&_fid_15="+coachArray[i].invFeesCount; 
+url2    += "&_fid_27="+coachArray[i].pocFeesTotal; 
+url2    += "&_fid_26="+coachArray[i].pocFeesCount; 
+url2    += "&_fid_25="+coachArray[i].ocFeesTotal; 
+url2    += "&_fid_23="+coachArray[i].ocFeesCount; 
 
+$.ajax({
+	        type: "GET",
+	        contentType: "text/xml",
+	        async: false,
+	        url: url2,
+	        dataType: "xml",
+	        processData: false,
+	        success: function (response) {
+	    		//alert("Boom.... success baby");
+	            var xml = $(response);
+	            if (xml.find('qdbapi').find('errcode').text() === "0") {
+	                rid = xml.find('qdbapi').find('rid').text();
+	                console.log(rid);
+	            }
+	            else {
+	                console.log("Quickbase returned an error.");
+	                console.log(response);
+	            } 
+	        },
+	        error: function (e) {
+	             console.log(e);  
+	        }
+	    });	
 
-
+}
+//Functions
 function checkforblanks(val,iteration,stage){
 	
 
-											if(val !== "" && !isNaN(val))
-												{
-													
-													switch(stage){
-																case "02 - Investigation":
-																	//console.log(coachArray[iteration].coachName+" "+val);
-																	coachArray[iteration].invFeesTotal += parseFloat(val);
-																	coachArray[iteration].invFeesCount ++;
-																break;
-																case "03 - Proof of Concept":
-																	//console.log(coachArray[iteration].coachName+" "+val);
-																	coachArray[iteration].pocFeesTotal += parseFloat(val);
-																	coachArray[iteration].pocFeesCount ++;
-																break;
-																case "04 - Obtain Commitment":
-																	//console.log(coachArray[iteration].coachName+" "+val);
-																	coachArray[iteration].ocFeesTotal += parseFloat(val);
-																	coachArray[iteration].ocFeesCount ++;
-																break;
-															}
-												}
-											}
+	if(val !== "" && !isNaN(val))
+		{
+			
+			switch(stage){
+						case "02 - Investigation":
+							//console.log(coachArray[iteration].coachName+" "+val);
+							coachArray[iteration].invFeesTotal += parseFloat(val);
+							coachArray[iteration].invFeesCount ++;
+						break;
+						case "03 - Proof of Concept":
+							//console.log(coachArray[iteration].coachName+" "+val);
+							coachArray[iteration].pocFeesTotal += parseFloat(val);
+							coachArray[iteration].pocFeesCount ++;
+						break;
+						case "04 - Obtain Commitment":
+							//console.log(coachArray[iteration].coachName+" "+val);
+							coachArray[iteration].ocFeesTotal += parseFloat(val);
+							coachArray[iteration].ocFeesCount ++;
+						break;
+					}
+		}
+	}
 
 </script>
