@@ -11,7 +11,7 @@
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
-  <link rel="stylesheet" href="css/styles.css?v=1.0">
+  <!--<link rel="stylesheet" href="css/styles.css?v=1.0">-->
 
   <!--[if lt IE 9]>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.js"></script>
@@ -34,14 +34,28 @@
 	/*LIGHT-GREEN*/color: #24313C}#jsddm 
 	li ul li a:hover{ background: #8EA344}
 </style>
-<!-- script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script --><script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script>
-<script type="text/javascript">var timeout = 500;var closetimer = 0;var ddmenuitem = 0;function jsddm_open(){ jsddm_canceltimer();jsddm_close();ddmenuitem = $(this).find('ul').eq(0).css('visibility', 'visible');}function jsddm_close(){ if(ddmenuitem) ddmenuitem.css('visibility', 'hidden');}function jsddm_timer(){ closetimer = window.setTimeout(jsddm_close, timeout);}function jsddm_canceltimer(){ if(closetimer){ window.clearTimeout(closetimer);closetimer = null;}}$(document).ready(function(){ $('#jsddm > li').bind('mouseover', jsddm_open);$('#jsddm > li').bind('mouseout', jsddm_timer);});document.onclick = jsddm_close;
-<!--jquery-DD-Menu-Stops-http://bdlab.blogspot.com-->
+<!-- script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script -->
+
+<script type="text/javascript">
+var timeout = 500;
+var closetimer = 0;
+var ddmenuitem = 0;
+function jsddm_open(){ jsddm_canceltimer();jsddm_close();ddmenuitem = $(this).find('ul').eq(0).css('visibility', 'visible');}
+function jsddm_close(){ if(ddmenuitem) ddmenuitem.css('visibility', 'hidden');}
+function jsddm_timer(){ closetimer = window.setTimeout(jsddm_close, timeout);}
+function jsddm_canceltimer(){ if(closetimer){ window.clearTimeout(closetimer);closetimer = null;}}
+$(document).ready(function()
+	{ 
+	$('#jsddm > li').bind('mouseover', jsddm_open);
+	$('#jsddm > li').bind('mouseout', jsddm_timer);
+	}
+	);
+document.onclick = jsddm_close;
+//<!--jquery-DD-Menu-Stops-http://bdlab.blogspot.com-->
 $(function(){
 	$('#jsddm').on('click',function(){
 		
 			var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
-		
 			url2    += "&_fid_6=Test";
 //url2    += "&_fid_14="+coachArray[i].invFeesTotal; 
 //url2    += "&_fid_15="+coachArray[i].invFeesCount; 
@@ -61,6 +75,8 @@ $.ajax({
 	            var xml = $(response);
 	            if (xml.find('qdbapi').find('errcode').text() === "0") {
 	                rid = xml.find('qdbapi').find('rid').text();
+	                alert("test");
+	                //console.log($(this).val());
 	                $('#navigation').text(rid);
 	            }
 	            else {
