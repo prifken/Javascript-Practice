@@ -39,9 +39,9 @@
 <!--jquery-DD-Menu-Stops-http://bdlab.blogspot.com-->
 $(function(){
 	$('#jsddm').on('click',function(){
-		{
+		
 			var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
-		}
+		
 			url2    += "&_fid_6=Test";
 //url2    += "&_fid_14="+coachArray[i].invFeesTotal; 
 //url2    += "&_fid_15="+coachArray[i].invFeesCount; 
@@ -58,12 +58,9 @@ $.ajax({
 	        dataType: "xml",
 	        processData: false,
 	        success: function (response) {
-	    		//alert("Boom.... success baby");
 	            var xml = $(response);
 	            if (xml.find('qdbapi').find('errcode').text() === "0") {
 	                rid = xml.find('qdbapi').find('rid').text();
-	                
-	                
 	                $('#navigation').text(rid);
 	            }
 	            else {
@@ -86,9 +83,9 @@ $.ajax({
 <ul id="jsddm">
 	<li><a href="#">Sellers</a>
 		<ul>
-		<li><a href="#">Add Record</a></li>
+		<li><a href="#">Seller 1</a></li>
 		<!--<li><a href="#">jQuery Plugin</a></li>-->
-		<li><a href="#">Ajax Navigation</a></li>
+		<li><a href="#">Seller 2</a></li>
 		</ul>
 	</li>
 	<li><a href="#" id="effect">Effect</a>
@@ -98,7 +95,6 @@ $.ajax({
 		<li><a href="#">Opacity Mode</a></li>
 		<li><a href="#">Drop Shadow</a></li>
 		<li><a href="#">Semitransparent</a></li>
-		<button>My Button</button>
 		</ul>
 	</li>
 	<li><a href="#" id="navigation">Navigation</a></li>
