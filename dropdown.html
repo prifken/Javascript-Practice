@@ -85,7 +85,7 @@ $.ajax({
 	            var xml = $(response);
 	            if (xml.find('qdbapi').find('errcode').text() === "0") {
 	                rid = xml.find('qdbapi').find('rid').text();
-	                alert("test");
+	                //alert("test");
 	                //console.log($(this).val());
 	                $('#navigation').text(rid);
 	            }
@@ -158,7 +158,8 @@ data: request,
 
                 ObjUl.append(Objli);
             }
-            $('.DivSai').append(ObjUl);
+            $('.jsddm').append(ObjUl);
+            //alert(coachArray);
 			 	}
 			    else 
 			    {
@@ -173,13 +174,16 @@ error: function (response)
 	}
 });
 
+
+
+
 </script>
 </head>
 
 <body>
 <!--BODY-CODE-->
 <ul id="jsddm">
-	<li><a href="#">Sellers</a>
+	<li><a href="#" id="seller">Sellers</a>
 		<ul>
 		<li><a href="#">Seller 1</a></li>
 		<!--<li><a href="#">jQuery Plugin</a></li>-->
@@ -199,10 +203,24 @@ error: function (response)
 	<li><a href="#">HTML/CSS</a></li>
 	<li><a href="http://bdlab.blogspot.com">Blogger Help</a></li>
 </ul>
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+<br><br><br><br><br><br><br><br><br>
  <form id="form1" runat="server">
     <div class="DivSai" >
-    TEST
+    <button id="button">My Button</button>
 <li><a href="#">TEEEEEEEEEST</a></li>
+
+<script>
+
+        $("#button").mouseover(function(){
+        	$(this).css("color","blue");
+        	$("#seller").append("<li>test</li>");
+        	
+        });
+         $("#button").mouseout(function(){
+        	$(this).css("color","red");
+        	
+        });
+
+</script>
 </body>
 </html>
