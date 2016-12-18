@@ -20,19 +20,57 @@
   <!--jquery-DD-Menu-Starts-->
 <style type="text/css">
 /* menu styles */
-	#jsddm{ margin: 0;padding: 0}
-	#jsddm 
-	li{ float: left;list-style: none;font: 12px Tahoma, Arial}#jsddm 
-	li a{ display: block;background: #324143; 
-	/*DARK-GREEN*/padding: 5px 12px;text-decoration: none;border-right: 1px solid white;width: 70px;color: #EAFFED;white-space: nowrap}#jsddm 
-	li a:hover{ background: #24313C}#jsddm 
-	li ul{ margin: 0;padding: 0;position: absolute;visibility: hidden;border-top: 1px solid white}#jsddm 
-	li ul 
-	li{ float: none;display: inline}#jsddm 
-	li ul 
-	li a{ width: auto;background: #A9C251; 
-	/*LIGHT-GREEN*/color: #24313C}#jsddm 
-	li ul li a:hover{ background: #8EA344}
+	#jsddm
+		{ 
+		margin: 0;
+		padding: 0
+		}
+	#jsddm li
+		{ 
+		float: left;
+		list-style: none;
+		font: 12px Tahoma, Arial
+		}
+	#jsddm li a
+		{ 
+		display: block;
+		background: #324143; 
+	/*DARK-GREEN*/
+		padding: 5px 12px;
+		text-decoration: none;
+		border-right: 1px solid white;
+		width: 70px;
+		color: #fff9de; /*corn silk white */
+		white-space: nowrap
+		}
+	#jsddm li a:hover
+		{ 
+		background: #24313C
+		}
+	#jsddm li ul
+		{ 
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		visibility: hidden;
+		border-top: 1px solid white
+		}
+	#jsddm li ul li
+		{ 
+		float: none;
+		display: inline
+		}
+	#jsddm li ul li a
+		{ 
+		width: auto;
+		background: #193048; /*dark slate gray*/
+		
+		color: #fff9de /*corn silk white*/ 
+		}
+	#jsddm li ul li a:hover
+		{ 
+		background: #4a5a6c /*dim grey*/
+		}
 </style>
 <!-- script src="http://ajax.googleapis.com/ajax/libs/jquery/1.2.6/jquery.min.js" type="text/javascript"></script -->
 
@@ -183,7 +221,7 @@ $(function(){
             {
             	console.log("success: "+ coachArray[i].coachName);
             	//alert(coachArray[i].coachName)
-                $("#sellerUL").append('<li><a href="#">'+coachArray[i].coachName+'</a></li>');
+                $("#sellerUL").append('<li><a href="https://team.quickbase.com/db/bk9j6sa8r?a=dr&rid='+coachArray[i].recordID+'&rl=6x" target="_blank">'+coachArray[i].coachName+', rid= '+coachArray[i].recordID+'</a></li>');
             }
            
 });
