@@ -87,7 +87,7 @@ $.ajax({
 	                rid = xml.find('qdbapi').find('rid').text();
 	                //alert("test");
 	                //console.log($(this).val());
-	                $('#navigation').text(rid);
+	               // $('#navigation').text(rid);
 	            }
 	            else {
 	                console.log("Quickbase returned an error.");
@@ -141,24 +141,7 @@ data: request,
 				console.log(coachArray);
 
 				var ObjUl = $('<ul></ul>');
-            for (i = 0; i < coachArray.length; i++)
-            {
-            	console.log("success: "+ coachArray[i].coachName);
-                var Objli = $('<li></li>');
-                var Obja = $('<a></a>');
 
-                ObjUl.addClass("ui-menu-item");
-                ObjUl.attr("role", "menuitem");
-
-                Obja.addClass("ui-all");
-                Obja.attr("tabindex", "-1");
-
-                Obja.text(coachArray[i].coachName);
-                Objli.append(Obja);
-
-                ObjUl.append(Objli);
-            }
-            $('.jsddm').append(ObjUl);
             //alert(coachArray);
 			 	}
 			    else 
@@ -184,43 +167,37 @@ error: function (response)
 <!--BODY-CODE-->
 <ul id="jsddm">
 	<li><a href="#" id="seller">Sellers</a>
-		<ul>
-		<li><a href="#">Seller 1</a></li>
-		<!--<li><a href="#">jQuery Plugin</a></li>-->
-		<li><a href="#">Seller 2</a></li>
+		<ul id="sellerUL">
 		</ul>
 	</li>
-	<li><a href="#" id="effect">Effect</a>
-		<ul>
-		<li><a href="#">Effect</a></li>
-		<li><a href="#">Fade Effect</a></li>
-		<li><a href="#">Opacity Mode</a></li>
-		<li><a href="#">Drop Shadow</a></li>
-		<li><a href="#">Semitransparent</a></li>
-		</ul>
-	</li>
-	<li><a href="#" id="navigation">Navigation</a></li>
-	<li><a href="#">HTML/CSS</a></li>
-	<li><a href="http://bdlab.blogspot.com">Blogger Help</a></li>
+	
 </ul>
-<br><br><br><br><br><br><br><br><br>
- <form id="form1" runat="server">
-    <div class="DivSai" >
-    <button id="button">My Button</button>
-<li><a href="#">TEEEEEEEEEST</a></li>
+
 
 <script>
 
-        $("#button").mouseover(function(){
+$(function(){
+     
+
+         for (i = 0; i < coachArray.length; i++)
+            {
+            	console.log("success: "+ coachArray[i].coachName);
+            	//alert(coachArray[i].coachName)
+                $("#sellerUL").append('<li><a href="#">'+coachArray[i].coachName+'</a></li>');
+            }
+           
+});
+</script>
+</body>
+</html>
+
+<!--
+   $("#button").mouseover(function(){
         	$(this).css("color","blue");
-        	$("#seller").append("<li>test</li>");
+        	$("#sellerUL").append('<li><a href="#">Test</a></li>');
         	
         });
          $("#button").mouseout(function(){
         	$(this).css("color","red");
         	
-        });
-
-</script>
-</body>
-</html>
+        }); -->
