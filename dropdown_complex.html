@@ -1,5 +1,7 @@
 <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
-<script type="text/javascript" src="https://ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.css"/>
+ <script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.13/datatables.min.js"></script>
+
 
 <!doctype html>
 
@@ -76,23 +78,7 @@
 
 <script type="text/javascript">
 
-function coaches(){
-	this.coachName="Name";
-	this.recordID=0;
-	this.invFeesTotal=0;
-	this.invFeesCount=0;
-	this.pocFeesTotal=0;
-	this.pocFeesCount=0;
-	this.ocFeesTotal=0;
-	this.ocFeesCount=0;
-}
 
-function opportunities(){
-	this.oppname="Name";
-	this.oppID=0;
-	this.coachemail="test@aol.com"
-	this.monthlyfees=0;
-	}
 
 var timeout = 500;
 var closetimer = 0;
@@ -101,22 +87,19 @@ function jsddm_open(){ jsddm_canceltimer();jsddm_close();ddmenuitem = $(this).fi
 function jsddm_close(){ if(ddmenuitem) ddmenuitem.css('visibility', 'hidden');}
 function jsddm_timer(){ closetimer = window.setTimeout(jsddm_close, timeout);}
 function jsddm_canceltimer(){ if(closetimer){ window.clearTimeout(closetimer);closetimer = null;}}
-
-
-
+$(document).ready(function()
+	{ 
+	$('#jsddm > li').bind('mouseover', jsddm_open);
+	$('#jsddm > li').bind('mouseout', jsddm_timer);
+	}
+	);
 document.onclick = jsddm_close;
-//<!--jquery-DD-Menu-Stops-http://bdlab.blogspot.com-->
+
 $(function(){
 	$('#jsddm').on('click',function(){
 		
 			var url2 = "https://team.quickbase.com/db/bmduq9ya8?a=API_AddRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
 			url2    += "&_fid_6=Test";
-//url2    += "&_fid_14="+coachArray[i].invFeesTotal; 
-//url2    += "&_fid_15="+coachArray[i].invFeesCount; 
-//url2    += "&_fid_27="+coachArray[i].pocFeesTotal; 
-//url2    += "&_fid_26="+coachArray[i].pocFeesCount; 
-//url2    += "&_fid_25="+coachArray[i].ocFeesTotal; 
-//url2    += "&_fid_23="+coachArray[i].ocFeesCount; 
 
 $.ajax({
 	        type: "GET",
@@ -143,20 +126,42 @@ $.ajax({
 	        }
 	    });	
 		});
-
 });
-//Query Sellers Table
+
+function coaches(){
+	this.coachName="Name";
+	this.recordID=0;
+	this.invFeesTotal=0;
+	this.invFeesCount=0;
+	this.pocFeesTotal=0;
+	this.pocFeesCount=0;
+	this.ocFeesTotal=0;
+	this.ocFeesCount=0;
+}
+
+function opps(){
+	this.oppName="Name";
+}
+
 var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
   url    += "/db/";
-  url    += "bk9j6sa8r";                                   // Remember to put in YOUR tableDBID
+  url    += "bk9j6sa8r";      //Sellers DBID 
   url    += "?a=API_DoQuery";
-
   var request = "<qdbapi>";
   request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
   request    += "</qdbapi>";
 
 var coachArray=[]; 
-var oppArray=[];
+
+var url_opps = "https://team.quickbase.com";     // Remember to put in YOUR baseurl_opps
+  url_opps    += "/db/";
+  url_opps    += "bk9nusrfc";  //Opps DBID
+  url_opps    += "?a=API_DoQuery";
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+var oppsArray=[]; 
 
 $.ajax({
 type: "POST",
@@ -167,7 +172,6 @@ dataType: "xml",
 processData: false,
 data: request,
 			    success: function (response) {
-
 			     var xml = $(response); //Convert response to XML Code
 			     if (xml.find('qdbapi').find('errcode').text() == "0") {
 				
@@ -184,8 +188,7 @@ data: request,
 											console.log("\n\n");
 									 	});//End XML Loop
 				console.log(coachArray);
-
-
+				
             //alert(coachArray);
 			 	}
 			    else 
@@ -200,49 +203,36 @@ error: function (response)
 	console.log(response);
 	}
 });
-//Query Opps table
-var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
-  url    += "/db/";
-  url    += "bk9nusrfc";                                   // Remember to put in YOUR tableDBID
-  url    += "?a=API_DoQuery";
 
-  var request = "<qdbapi>";
-  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
-  request    += "</qdbapi>";
-
-var coachArray=[]; 
+var testarray=[];
 
 $.ajax({
 type: "POST",
 contentType: "text/xml",
 async: false,
-url: url,
+url: url_opps,
 dataType: "xml",
 processData: false,
 data: request,
 			    success: function (response) {
-
 			     var xml = $(response); //Convert response to XML Code
 			     if (xml.find('qdbapi').find('errcode').text() == "0") {
 				
-					var cast = 0; 
+					var cast1 = 0; 
 			//Looping Through Response Begins Below
-									  	 xml.find('qdbapi').find('record').each(function(index){	
-									  	 	var x = new opportunities("Test",0,"test",0); 
-									  	 	x.oppname=$(this).find("opportunity_name").text();
-									  	 	x.oppID=$(this).find("opportunity_id").text();
-									  	 	x.coachemail=$(this).find("coach_email_address").text();
-									  	 	x.monthlyfees=$(this).find("forecasted_monthly_fees").text();
-										    console.log("Opp Name = " + x.oppname + ", Record ID = " + x.oppID);
-									    	oppArray.push(x);
-									    	//console.log(coachArray);
-											console.log("\n");
+									  	 xml.find('qdbapi').find('record').each(function(index){
+									  	 	var x = new opps("Test"); 
+									  	 	x.oppName=$(this).find("opportunity_name").text();
+									  	 	console.log("Opportunity Name = " + $(this).find("opportunity_name").text());
+									    	oppsArray.push(x);
+									    	testarray.push($(this).find("opportunity_name").text(),cast1);
+									    	//console.log(oppsArray);
+											console.log(cast1+"\n");
+											cast1++;
 									 	});//End XML Loop
-				console.log(oppArray);
-
-
-
-            //alert(coachArray);
+				console.log(oppsArray);
+				console.log(testarray);
+            //alert(oppsArray);
 			 	}
 			    else 
 			    {
@@ -256,7 +246,6 @@ error: function (response)
 	console.log(response);
 	}
 });
-
 
 
 </script>
@@ -264,6 +253,10 @@ error: function (response)
 
 <body>
 <!--BODY-CODE-->
+
+   
+  
+
 <ul id="jsddm">
 	<li><a href="#" id="seller">Sellers</a>
 		<ul id="sellerUL">
@@ -271,24 +264,12 @@ error: function (response)
 	</li>
 	
 </ul>
-<br><br>
-<div class="container" id="main"></div>
-        <h1>These are your Opportunities</h1>
-        <table>
-            <tr>
-                <th>opportunity</th>
-                <th>Sender</th>
-                <th>Subject</th>
-                <th>Body</th>
-            </tr>
-            <tbody id="emailContainer">                
-            </tbody>    
-        </table>
+<br><br><br><br>
+<table id="example" class="display" width="100%"></table>
+ 
 <script>
-
 $(function(){
      
-
          for (i = 0; i < coachArray.length; i++)
             {
             	console.log("success: "+ coachArray[i].coachName);
@@ -301,71 +282,54 @@ $(function(){
 </body>
 </html>
 
-<script id="emailTemplate" type="text/x-jquery-tmpl">
-                 <tr>
-                    <td> ${opportunity} </td>
-                    <td> ${sender} </td>
-                    <td> ${subject} </td>
-                    <td> ${body} </td>
-                </tr>
-</script>
+
 
 <script>
-var subject = ['Call Your Mother', 'Cheap Online Meds', 'Change Your Life Today', 'Sppoky Stories', 'Meet Singles In Your Area', 'Have You Heard?', 'Yo', 'RE: Looking for a three legged cat', 'Get Rich Quick!', 'FW: Token Chain Email'];
-var sender = ['Mary Monster', 'Dave Danger', 'Spam Master', 'Spike Spurner', 'Ray Ranger', 'Catherine Chaos', 'Van Pire', 'Andy Argye', 'Rick Roger', 'Sue Mee'];
-var body = ['Message 1','Message 2','Message 3','Message 4','Message 5','Message 6','Message 7','Message 8','Message 9','Message 10'];
-
-</script>
-
-<script>
-function loadGeeMails(){
-    for (var i = 0; i < 10; i++){
-        var message = generateMessage();
-        window.geemails.push(message);
-    }
-}
-
-function generateMessage(opportunity){
-    var message = {};
-    //message.opportunity = (date || getRandomopportunity()).toDateString();
-    message.subject = getRandomElement(subject);
-    message.sender = getRandomElement(sender);
-    message.body = getRandomElement(body);
-    return message;
-}
-
-function getRandomElement(arr){
-    return arr[Math.floor(Math.random() * arr.length)];
-}
-
-function getNewMessage(){
-    var now = new Date();
-    return generateMessage(now);
-}
-
-function getRandomDate(){
-    var year = 2013;
-    var month = Math.floor(Math.random() * 12) + 1;
-    var day = Math.floor(Math.random() * 30) + 1;
-    var hours = Math.floor(Math.random() * 12) + 1;
-    var minutes = Math.floor(Math.random() * 59) + 1;
-    return new Date(year, month, day, hours, minutes);
-}
-
-$("document").ready(function(){
- window.geemails = [];
-    loadGeeMails(); console.log(window.geemails);
-      $("#emailTemplate").tmpl(window.geemails).appendTo("#emailContainer");
-});
-
-</script>
-<script>
-$(document).ready(function()
-	{ 
-	$('#jsddm > li').bind('mouseover', jsddm_open);
-	alert("test");
-	$('#jsddm > li').bind('mouseout', jsddm_timer);
-	}
-	);
-
+var dataSet = [
+    [ "Tiger Nixon", "System Architect", "Edinburgh", "5421", "2011/04/25", "$320,800" ],
+    [ "Garrett Winters", "Accountant", "Tokyo", "8422", "2011/07/25", "$170,750" ],
+    [ "Ashton Cox", "Junior Technical Author", "San Francisco", "1562", "2009/01/12", "$86,000" ],
+    [ "Cedric Kelly", "Senior Javascript Developer", "Edinburgh", "6224", "2012/03/29", "$433,060" ],
+    [ "Airi Satou", "Accountant", "Tokyo", "5407", "2008/11/28", "$162,700" ],
+    [ "Brielle Williamson", "Integration Specialist", "New York", "4804", "2012/12/02", "$372,000" ],
+    [ "Herrod Chandler", "Sales Assistant", "San Francisco", "9608", "2012/08/06", "$137,500" ],
+    [ "Rhona Davidson", "Integration Specialist", "Tokyo", "6200", "2010/10/14", "$327,900" ],
+    [ "Colleen Hurst", "Javascript Developer", "San Francisco", "2360", "2009/09/15", "$205,500" ],
+    [ "Sonya Frost", "Software Engineer", "Edinburgh", "1667", "2008/12/13", "$103,600" ],
+    [ "Jena Gaines", "Office Manager", "London", "3814", "2008/12/19", "$90,560" ],
+    [ "Quinn Flynn", "Support Lead", "Edinburgh", "9497", "2013/03/03", "$342,000" ],
+    [ "Charde Marshall", "Regional Director", "San Francisco", "6741", "2008/10/16", "$470,600" ],
+    [ "Haley Kennedy", "Senior Marketing Designer", "London", "3597", "2012/12/18", "$313,500" ],
+    [ "Tatyana Fitzpatrick", "Regional Director", "London", "1965", "2010/03/17", "$385,750" ],
+    [ "Michael Silva", "Marketing Designer", "London", "1581", "2012/11/27", "$198,500" ],
+    [ "Paul Byrd", "Chief Financial Officer (CFO)", "New York", "3059", "2010/06/09", "$725,000" ],
+    [ "Gloria Little", "Systems Administrator", "New York", "1721", "2009/04/10", "$237,500" ],
+    [ "Bradley Greer", "Software Engineer", "London", "2558", "2012/10/13", "$132,000" ],
+    [ "Dai Rios", "Personnel Lead", "Edinburgh", "2290", "2012/09/26", "$217,500" ],
+    [ "Jenette Caldwell", "Development Lead", "New York", "1937", "2011/09/03", "$345,000" ],
+    [ "Yuri Berry", "Chief Marketing Officer (CMO)", "New York", "6154", "2009/06/25", "$675,000" ],
+    [ "Caesar Vance", "Pre-Sales Support", "New York", "8330", "2011/12/12", "$106,450" ],
+    [ "Doris Wilder", "Sales Assistant", "Sidney", "3023", "2010/09/20", "$85,600" ],
+    [ "Angelica Ramos", "Chief Executive Officer (CEO)", "London", "5797", "2009/10/09", "$1,200,000" ],
+    [ "Gavin Joyce", "Developer", "Edinburgh", "8822", "2010/12/22", "$92,575" ],
+    [ "Jennifer Chang", "Regional Director", "Singapore", "9239", "2010/11/14", "$357,650" ],
+    [ "Brenden Wagner", "Software Engineer", "San Francisco", "1314", "2011/06/07", "$206,850" ],
+    [ "Fiona Green", "Chief Operating Officer (COO)", "San Francisco", "2947", "2010/03/11", "$850,000" ],
+    [ "Shou Itou", "Regional Marketing", "Tokyo", "8899", "2011/08/14", "$163,000" ],
+    [ "Michelle House", "Integration Specialist", "Sidney", "2769", "2011/06/02", "$95,400" ],
+    [ "Suki Burks", "Developer", "London", "6832", "2009/10/22", "$114,500" ],
+    [ "Prescott Bartlett", "Technical Author", "London", "3606", "2011/05/07", "$145,000" ],
+    [ "Gavin Cortez", "Team Leader", "San Francisco", "2860", "2008/10/26", "$235,500" ],
+    [ "Martena Mccray", "Post-Sales support", "Edinburgh", "8240", "2011/03/09", "$324,050" ],
+    [ "Unity Butler", "Marketing Designer", "San Francisco", "5384", "2009/12/09", "$85,675" ]
+];
+ 
+$(document).ready(function() {
+    $('#example').DataTable( {
+        data: testarray,
+        columns: [
+            { title: "Opportunity Name" }
+        ]
+    } );
+} );
 </script>
