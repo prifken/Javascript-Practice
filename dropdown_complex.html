@@ -225,7 +225,12 @@ data: request,
 									  	 	x.oppName=$(this).find("opportunity_name").text();
 									  	 	console.log("Opportunity Name = " + $(this).find("opportunity_name").text());
 									    	oppsArray.push(x);
-									    	testarray.push($(this).find("opportunity_name").text(),cast1);
+									    	testarray.push([
+									    		$(this).find("opportunity_name").text(),
+									    		$(this).find("opportunity_id").text(),
+									    		$(this).find("forecasted_monthly_fees").text(),
+									    		"<a href=https://team.quickbase.com/db/bdms4889h?a=dr&rid="+$(this).find("opportunity_id").text()+"&rl=zth>"+$(this).find("opportunity_id").text()+"</a>",
+									    		cast1]);
 									    	//console.log(oppsArray);
 											console.log(cast1+"\n");
 											cast1++;
@@ -327,8 +332,13 @@ var dataSet = [
 $(document).ready(function() {
     $('#example').DataTable( {
         data: testarray,
+        order:[[4,'asc']],
         columns: [
-            { title: "Opportunity Name" }
+            { title: "Opportunity Name" },
+            { title: "Opportunity ID" },
+            { title: "Forecasted Monthly Fees" },
+            { title: "Link to Record" },
+            { title: "Iteration" }
         ]
     } );
 } );
