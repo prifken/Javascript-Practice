@@ -54,7 +54,7 @@ var coachArray=[];
 
 var url_opps = "https://team.quickbase.com";     // Remember to put in YOUR baseurl_opps
   url_opps    += "/db/";
-  url_opps    += "bk9nusrfc";  //Opps DBID
+  url_opps    += "bmeqgiq2n";  //Opps DBID
   url_opps    += "?a=API_DoQuery";
   var request = "<qdbapi>";
   request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
@@ -86,9 +86,9 @@ data: request,
 									    	//console.log(coachArray);
 											//console.log("\n\n");
 									 	});//End XML Loop
-				console.log(coachArray);
+				//console.log(coachArray);
 				
-           // alert(coachArray);
+            //alert(coachArray);
 			 	}
 			    else 
 			    {
@@ -126,14 +126,13 @@ data: request,
 									    	oppsArray.push(x);
 									    	testarray.push([
 									    		$(this).find("opportunity_name").text(),
-									    		$(this).find("opportunity_id").text(),
 									    		$(this).find("close_quarter").text(),
+									    		$(this).find("opportunity_id").text(),
 									    		$(this).find("forecasted_monthly_fees").text(),
-									    		"<a href=https://team.quickbase.com/db/bdms4889h?a=dr&rid="+$(this).find("opportunity_id").text()+"&rl=zth target='_blank'>"+$(this).find("opportunity_id").text()+"</a>",
+									    		"<a href=https://team.quickbase.com/db/bdms4889h?a=dr&rid="+$(this).find("opportunity_id").text()+"&rl=zth>"+$(this).find("opportunity_id").text()+"</a>",
 									    		$(this).find("current_opportunity_stage").text(),
 									    		$(this).find("coach_name").text(),
-									    		$(this).find("company_name").text(),
-									    		$(this).find("primary_contact___name").text()
+									    		$(this).find("projected_close_date").text()
 									    		]);
 									    	//console.log(oppsArray);
 											//console.log(cast1+"\n");
@@ -166,14 +165,13 @@ error: function (response)
 	<tfoot>
             <tr>
                 <th>Opportunity Name</th>
-                <th>Opportunity ID</th>
                 <th>Close Quarter</th>
+                <th>Opportunity ID</th>
                 <th>Forecasted Monthly Fees</th>
                 <th>Link</th>
                 <th>Opp Stage</th>
                 <th>Coach Name</th>
-                <th>Company Name</th>
-                <th>Primary Contact Name</th>
+                <th>Close Date</th>
             </tr>
         </tfoot>
 </table>
@@ -187,14 +185,13 @@ $(document).ready(function() {
     	"pageLength": 25,
     	 columns: [
             { title: "Opportunity Name" },
-            { title: "Opportunity ID" },
             { title: "Close Quarter" },
+            { title: "Opportunity ID" },
             { title: "Forecasted Monthly Fees" },
             { title: "Link to Record" },
             { title: "Opp Stage" },
             { title: "Coach Name" },
-            { title: "Company Name" },
-            { title: "Primary Contact Name" }
+            { title: "Close Date" }
         
         ],
         order:[[1,'desc']],
