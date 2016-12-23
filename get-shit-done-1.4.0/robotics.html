@@ -144,11 +144,11 @@
                     <div class="col-sm-3"> 
                       <div class="form-group">
                       
-                              <div class="input-group date" id="sandbox-container">
-                                <input type="text" class="form-control" name="_fid_14">
-                                  <div class="input-group-addon">
-                                    <span class="glyphicon glyphicon-th"></span>
-                                  </div>
+                              <div class="input-group date" data-provide="sandbox-container">
+                             <input type="text" class="form-control" name="_fid_14">
+                              <div class="input-group-addon">
+                              <span class="glyphicon glyphicon-th"></span>
+                                </div>
                               </div>
                       </div>
                     </div>
@@ -269,7 +269,7 @@ $(function(){
 $('#getdate').mouseenter(function(){
   
 
-console.log($('#sandbox-container').datepicker("getDate"));
+console.log($('.sandbox-container').datepicker("getDate"));
 
 });
 
