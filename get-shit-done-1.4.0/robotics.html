@@ -22,7 +22,7 @@
     <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
     <!--End template scripts-->
 <style>
-.form-control::-webkit-input-placeholder { color: gray; }
+.form-control::-webkit-input-placeholder { color: gray; } /* Over-ride default placeholder color */
 </style>
 </head>
 
@@ -69,8 +69,8 @@
                             <td class=m><input type=text size=40 name=_fid_14 ></td>
                         </tr>
                         <tr>
-                            <td class=m>Vendor Name</td>
-                            <td class=m><input type=text size=40 name=_fid_17 ></td>
+                            <td class=m>Related Vendor</td>
+                            <td class=m><input type=text size=40 name=_fid_16 ></td>
                         </tr>
                     </table>
                 <input type=hidden name=rdr value='http://google.com'>
@@ -98,6 +98,69 @@
     <script src="assets/js/gsdk-bootstrapswitch.js"></script> <!--came with Get Sh*t done --> 
     <script src="assets/js/get-shit-done.js"></script> <!--came with Get Sh*t done --> 
     <script src="assets/js/custom.js"></script> <!--came with Get Sh*t done --> 
+    <!--Prototype Definitions-->
+	<script>
+		 function vendors()
+		  		{
+		this.vendorName="Name";
+		this.recordID=0;
+				}	
+	</script>
+	<!--End Prototype Definitions-->
+
+		<script>
+		//Query Vendors Table and Create Vendors Array
+		 var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL https://team.quickbase.com/db/bk7szc9ck
+		  url    += "/db/";
+		  url    += "bk7szc9ck";                                   // Remember to put in YOUR tableDBID
+		  url    += "?a=API_DoQuery";
+		
+		  var request = "<qdbapi>";
+		  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+		  request    += "</qdbapi>";
+		
+		var vendorArray=[]; 
+		
+		$.ajax({
+		type: "POST",
+		contentType: "text/xml",
+		async: false,
+		url: url,
+		dataType: "xml",
+		processData: false,
+		data: request,
+					    success: function (response) {
+		
+					     var xml = $(response); //Convert response to XML Code
+					     if (xml.find('qdbapi').find('errcode').text() == "0") {
+						
+							var cast = 0; 
+					//Looping Through Response Begins Below
+											  	 xml.find('qdbapi').find('record').each(function(index){	
+											  	 	var x = new vendors("Test",0); 
+											  	 	x.vendorName=$(this).find("vendor_name").text();
+											  	 	x.recordID=$(this).find("record_id_").text();
+												    console.log("Vendor Name = " + $(this).find("vendor_name").text());
+											    	console.log("Record ID = " + $(this).find("record_id_").text());
+											    	vendorArray.push(x);
+											    	//console.log(vendorArray);
+													console.log("\n\n");
+											 	});//End XML Loop
+						console.log(vendorArray);
+					 	}
+					    else 
+					    {
+					     console.log("Quickbase returned an error.");
+					     console.log(response);
+					   } 
+					 },
+		error: function (response)
+			{
+			console.log("Quickbase returned an error.");
+			console.log(response);
+			}
+		});
+		</script>
     <!-- Begin Quickbase Form Scripts--> 
     <script lang="javascript">
    
