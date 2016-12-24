@@ -21,6 +21,9 @@
     <link href="bootstrap3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
     <!--End template scripts-->
+<style>
+.form-control::-webkit-input-placeholder { color: gray; }
+</style>
 </head>
 
 <body>
@@ -33,8 +36,11 @@
                 <input type=hidden name=fform value=1>
                     <table>
                         <tr>
-                            <td class=m>Description</td>
-                            <td class=m><input type=text size=40 name=_fid_6 ></td>
+                            <td class=m>
+                            <div class="form-group">
+                            <input placeholder="Description" font-color="gray" type=text name=_fid_6 class="form-control" />
+                            </div>
+                            </td>
                         </tr>
                         <tr>
                             <td class=m><font color=red size=+1>* </font>Link to Part Online</td>
