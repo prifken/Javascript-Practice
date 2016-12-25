@@ -48,7 +48,7 @@
                     <div class="row">
                     		<div class="col-md-4">
                            		 <div class="form-group" placeholder="test">
-                           		     <select name=_fid_15 class="form-control" data-toggle="tooltip" data-placement="top" title="Priority">
+                           		     <select name=_fid_15 class="form-control">
                            		         <option value="" disabled selected>Select Priority</option>
                            		         <option>Urgent</option>
                            		         <option>Medium</option>
@@ -72,9 +72,13 @@
 					</div>
 					<div class="row">
                         	<div class="col-md-4 form-group">
-                            		<select class="form-control" name=_fid_16 id=appendme>
+                        	<!-- $("#jqxDropDownList").val(); -->
+                            		<select class="form-control" id=appendme onchange="changefunction($('#appendme').val())">
                             		<option value="" disabled selected>Select Vendor</option>
+                            		<option>Vendor A</option>
+                            		<option>Vendor B</option>
                             		</select>
+                            		<!--<input type=hidden name=_fid_16 id=hiddenitem>-->
                             </div>
                         
                     
@@ -236,14 +240,11 @@
 	
 	});
 	</script>
-	<script>
-	$(document).ready(function(){
-	    $('[data-toggle="tooltip"]').tooltip(); 
-	    $('.datepicker').datepicker({
-    		format: 'mm/dd/yyyy',
-    		startDate: '-3d'
-			});
-	});
+	<script type="text/javascript">
+
+	function changefunction(val){
+		alert(val);
+	};
 
 	</script>
 </html>
