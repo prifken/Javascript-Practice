@@ -1,5 +1,0 @@
-<script>
-    $(function(){
-        $('body').prepend('HELLO EVERYONE!');
-    });
-</script>

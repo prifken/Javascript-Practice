@@ -3,25 +3,27 @@
 
 <head>
     <meta charset="utf-8" />
-
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <!--Begin template scripts-->
     <link rel="apple-touch-icon" sizes="76x76" href="assets/img/apple-icon.png">
     <link rel="icon" type="image/png" href="assets/img/favicon.png">
         
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-    <title>Get Shit Done Kit Template by Creative Tim</title>
+    <title>Order Request Form</title>
 
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     
-    <link href="bootstrap3/css/bootstrap.css" rel="stylesheet" />
-    <link href="assets/css/gsdk.css" rel="stylesheet" />   
-    <link href="assets/css/demo.css" rel="stylesheet" /> 
+    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=41" rel="stylesheet" />
+    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=42" rel="stylesheet" />   
+    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=43" rel="stylesheet" /> 
     
     <!--     Font Awesome     -->
-    <link href="bootstrap3/css/font-awesome.css" rel="stylesheet">
-    <link href='http://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
+    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=50" rel="stylesheet"> <!--font-awesome.css-->
+    <link href='https://fonts.googleapis.com/css?family=Grand+Hotel' rel='stylesheet' type='text/css'>
     <!--End template scripts-->
+    <!--Date Picker-->
+    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=54" rel="stylesheet" /> <!--bootstrap-datepicker-standalone.css-->
 <style>
 .form-control::-webkit-input-placeholder { color: gray; } /* Over-ride default placeholder color */
 </style>
@@ -35,71 +37,82 @@
         <h2>Robotics - Team Project Manager: Order Requests</h2>
             <form name=qdbform method=POST onsubmit='return validateForm(this)' encType='multipart/form-data' action=https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr>
                 <input type=hidden name=fform value=1>
-                    <table>
-                        <tr>
-                            <td class=m>
-                            <div class="form-group">
-                            <input placeholder="Description" font-color="gray" type=text name=_fid_6 class="form-control" />
+                    <div class="row">
+                        <!--<div class="col-md-4">.col-md-4</div>-->
+                            <div class="form-group col-md-4"><input placeholder="Description" type=text name=_fid_6 class="form-control">
                             </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=m><font color=red size=+1>* </font>Link to Part Online</td>
-                            <td class=m><input type=text size=40 name=_fid_12 ></td>
-                        </tr>
-                        <tr>
-                            <td class=m>Part Number</td>
-                            <td class=m><input type=text size=40 name=_fid_7 ></td>
-                        </tr>
-                        <tr>
-                            <td class=m>Priority</td>
-                            <td class=m>
-                                <select  name=_fid_15 >
-                                    <option>Urgent</option>
-                                    <option>Medium</option>
-                                    <option>Low</option>
-                                </select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td class=m><font color=red size=+1>*</font>Quantity Requested</td>
-                            <td class=m><input type=text size=10 name=_fid_8 ></td>
-                        </tr>
-                        <tr>
-                            <td class=m>Need By Date</td>
-                            <td class=m><input type=text size=40 name=_fid_14 ></td>
-                        </tr>
-                        <tr>
-                            <td class=m>Related Vendor</td>
-                            <td class=m><input type=text size=40 name=_fid_16 ></td>
-                        </tr>
-                    </table>
-                <input type=hidden name=rdr value='http://google.com'>
-                <input type=submit value=Save>
+                            <div class="form-group col-md-4"><input placeholder="Link to Parts Online" class="form-control" type=text name=_fid_12 ></div>
+                            <div class="form-group col-md-4"><input placeholder="Part Number" class="form-control" type=text name=_fid_7 ></div>
+                       
+                    </div>
+                    <div class="row">
+                    		<div class="col-md-4">
+                           		 <div class="form-group" placeholder="test">
+                           		     <select name=_fid_15 class="form-control" data-toggle="tooltip" data-placement="top" title="Priority">
+                           		         <option value="" disabled selected>Select Priority</option>
+                           		         <option>Urgent</option>
+                           		         <option>Medium</option>
+                           		         <option>Low</option>
+                           		     </select>
+                           		 </div>
+                        	</div>
+                            <div class="col-md-4 form-group">
+                            	<!--<div><font color=red size=+1>*</font>Quantity Requested</div>-->
+                            	<input type=text placeholder="Quantity Requested" name=_fid_8 class="form-control">
+                       		</div>
+                        	<div class="col-md-4">
+                            	<!--<div class="form-group">Need By Date</div>-->
+                        			<div class="input-group date" data-provide="datepicker" placeholder="Need by">
+                        				<input type=text name=_fid_14 class="form-control" placeholder="Date Requested By">
+   											<div class="input-group-addon">
+        										<!--<span class="glyphicon glyphicon-th"></span>-->
+    										</div>
+									</div>
+							</div>
+					</div>
+					<div class="row">
+                        	<div class="col-md-4 form-group">
+                            		<select class="form-control" name=_fid_16 id=appendme>
+                            		<option value="" disabled selected>Select Vendor</option>
+                            		</select>
+                            </div>
+                        
+                    
+                    		<div class="col-md-4 form-group">
+                					<!--<input type=hidden name=rdr value='http://google.com'>-->
+                					<input type=submit class="btn btn-primary" value="Submit Order Form" type="form-control">
+                			</div>
+                	</div>
             </form>
         <br />
         <font color=red>* required fields</font>
 
-
+        	
             <!--
                 <br>
                 <button type="button" class="btn btn-info">This is a button</button>
+                <button type="button" class="btn btn-default btn-tooltip" data-toggle="tooltip" data-placement="top" title="" data-original-title="Tooltip on top">Tooltip on top</button>
+
+                 <button type="button" class="btn btn-default btn-tooltip" data-toggle="tooltip" data-placement="top" title="Tooltip on top" data-original-title="ToolTipOnTop" id="mybutton">Button with Tooltip</button>
             -->
+           
         </div>    
     </div>
     
 
 </body>
 
-    <script src="jquery/jquery-1.10.2.js" type="text/javascript"></script> <!--came with Get Sh*t done --> 
-    <script src="assets/js/jquery-ui-1.10.4.custom.min.js" type="text/javascript"></script> <!--came with Get Sh*t done --> 
-    <script src="bootstrap3/js/bootstrap.js" type="text/javascript"></script> <!--came with Get Sh*t done --> 
-    <script src="assets/js/gsdk-checkbox.js"></script> <!--came with Get Sh*t done --> 
-    <script src="assets/js/gsdk-radio.js"></script> <!--came with Get Sh*t done --> 
-    <script src="assets/js/gsdk-bootstrapswitch.js"></script> <!--came with Get Sh*t done --> 
-    <script src="assets/js/get-shit-done.js"></script> <!--came with Get Sh*t done --> 
-    <script src="assets/js/custom.js"></script> <!--came with Get Sh*t done --> 
-
+    
+    <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=44" type="text/javascript"></script><!-- jquery-ui-1.10.4.custom.min.js--> 
+    <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=45" type="text/javascript"></script> <!--came with Get Sh*t done --> 
+    <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=46"></script> <!--came with Get Sh*t done --> 
+    <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=47"></script> <!--came with Get Sh*t done --> 
+    <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=48"></script> <!--came with Get Sh*t done --> 
+    <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=49"></script> <!--came with Get Sh*t done --> 
+    <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=51"></script> <!--came with Get Sh*t done --> 
+    <!--Date Picker--> 
+	<script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=53"></script>
+	
     <!--Prototype Definitions-->
 	<script>
 		 function vendors()
@@ -130,9 +143,6 @@
 		url: url,
 		dataType: "xml",
 		processData: false,
-		crossDomain: true,
-		Access-Control-Request-Method: POST,
-		Access-Control-Request-Headers: x-requested-with,
 		data: request,
 					    success: function (response) {
 		
@@ -145,11 +155,11 @@
 											  	 	var x = new vendors("Test",0); 
 											  	 	x.vendorName=$(this).find("vendor_name").text();
 											  	 	x.recordID=$(this).find("record_id_").text();
-												    console.log("Vendor Name = " + $(this).find("vendor_name").text());
-											    	console.log("Record ID = " + $(this).find("record_id_").text());
+												    //console.log("Vendor Name = " + $(this).find("vendor_name").text());
+											    	//console.log("Record ID = " + $(this).find("record_id_").text());
 											    	vendorArray.push(x);
 											    	//console.log(vendorArray);
-													console.log("\n\n");
+													//console.log("\n\n");
 											 	});//End XML Loop
 						console.log(vendorArray);
 					 	}
@@ -212,4 +222,28 @@
     }
     </script>
     <!-- End Quickbase Form Scripts--> 
+
+    <script>
+	
+	$(function(){
+     
+         for (i = 0; i < vendorArray.length; i++)
+            {
+            	//console.log("success: "+ vendorArray[i].vendor_name);
+                $("#appendme").append('<option>'+vendorArray[i].recordID+'</option>');
+            }
+           
+	
+	});
+	</script>
+	<script>
+	$(document).ready(function(){
+	    $('[data-toggle="tooltip"]').tooltip(); 
+	    $('.datepicker').datepicker({
+    		format: 'mm/dd/yyyy',
+    		startDate: '-3d'
+			});
+	});
+
+	</script>
 </html>
