@@ -72,13 +72,10 @@
 					</div>
 					<div class="row">
                         	<div class="col-md-4 form-group">
-                        	<!-- $("#jqxDropDownList").val(); -->
                             		<select class="form-control" id=appendme onchange="changefunction($('#appendme').val())">
-                            		<option value="" disabled selected>Select Vendor</option>
-                            		<option>Vendor A</option>
-                            		<option>Vendor B</option>
+                            			<option value="" disabled selected>Select Vendor</option>
                             		</select>
-                            		<!--<input type=hidden name=_fid_16 id=hiddenitem>-->
+                            		<input type=hidden name=_fid_16 id=hiddenitem> <!--This sends related vendor ID to QB -->
                             </div>
                         
                     
@@ -234,7 +231,7 @@
          for (i = 0; i < vendorArray.length; i++)
             {
             	//console.log("success: "+ vendorArray[i].vendor_name);
-                $("#appendme").append('<option>'+vendorArray[i].recordID+'</option>');
+                $("#appendme").append('<option>'+vendorArray[i].vendorName+'</option>');
             }
            
 	
@@ -244,6 +241,15 @@
 
 	function changefunction(val){
 		alert(val);
+		for (i = 0; i < vendorArray.length; i++)
+            {
+            	//console.log("success: "+ vendorArray[i].vendor_name);
+                console.log(val+" "+vendorArray[i].vendorName);
+                if(val==vendorArray[i].vendorName){
+                	alert(vendorArray[i].recordID);
+                	$('#hiddenitem').val(vendorArray[i].recordID);
+                }
+            }
 	};
 
 	</script>
