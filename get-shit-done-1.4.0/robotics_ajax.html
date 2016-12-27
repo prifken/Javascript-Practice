@@ -41,20 +41,20 @@
             </div>
           </div><script>$('#banner').hide();</script>
         <h2>Robotics - Team Project Manager: Order Requests</h2>
-            <form id="formoid" name=qdbform method=POST onsubmit='return validateForm(this);' encType='multipart/form-data' action=https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr>
+            <form id="formoid" name=qdbform method=POST action=https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr>
                 <input type=hidden name=fform value=1>
                     <div class="row">
                         <!--<div class="col-md-4">.col-md-4</div>-->
                             <div class="form-group col-md-4"><input placeholder="Description" type=text id="_fid_6" name=_fid_6 class="form-control">
                             </div>
-                            <div class="form-group col-md-4 has-error has-feedback"><input placeholder="Link to Parts Online" class="form-control" type=text name=_fid_12 id="_fid_12"></div>
-                            <div class="form-group col-md-4"><input placeholder="Part Number" class="form-control" type=text name=_fid_7 id="_fid_7"></div>
+                            <div class="form-group col-md-4 has-error has-feedback"><input placeholder="Link to Parts Online" class="form-control" type=text id="_fid_12" name=_fid_12 ></div>
+                            <div class="form-group col-md-4"><input placeholder="Part Number" class="form-control" type=text name=_fid_7 ></div>
                        
                     </div>
                     <div class="row">
                         <div class="col-md-4">
                                <div class="form-group" placeholder="test">
-                                   <select name=_fid_15 id="_fid_15" class="form-control">
+                                   <select name=_fid_15 class="form-control">
                                        <option value="" disabled selected>Select Priority</option>
                                        <option>Urgent</option>
                                        <option>Medium</option>
@@ -64,12 +64,12 @@
                           </div>
                             <div class="col-md-4 form-group has-error has-feedback">
                               <!--<div><font color=red size=+1>*</font>Quantity Requested</div>-->
-                              <input type=number min=1 step="1" placeholder="Quantity Requested" name=_fid_8 id="_fid_8" class="form-control">
+                              <input type=number min=1 step="1" placeholder="Quantity Requested" name=_fid_8 class="form-control">
                           </div>
                           <div class="col-md-4">
                               <div class="form-group">
                                  <div class="input-group date" data-provide="datepicker">
-                                  <input type=text name=_fid_14 id="_fid_14" class="form-control" placeholder="Date Requested By">
+                                  <input type=text name=_fid_14 class="form-control" placeholder="Date Requested By">
                                       <span class="the-icons input-group-addon">
                                           <span class="glyphicon glyphicon-calendar"></span>
                                       </span>
@@ -82,7 +82,7 @@
                                 <select class="form-control" id=appendme onchange="changefunction($('#appendme').val())">
                                   <option value="" disabled selected>Select Vendor</option>
                                 </select>
-                                <input type=hidden name=_fid_16 id="_fid_16"> <!--This sends related vendor ID to QB -->
+                                <input type=hidden name=_fid_16 id=hiddenitem> <!--This sends related vendor ID to QB -->
                           </div>
                           <div class="col-md-4 form-group">
                           <!--<input type=hidden name=rdr value='http://google.com'>-->
@@ -182,60 +182,34 @@
       }
     });
     </script>
-    <!-- Begin Quickbase Form Scripts--> 
-    <script lang="javascript">
-   
-    function CheckForOther (item, origlen)
-        {
-        var sitem = item.options[item.selectedIndex];
-    
-        if (item.selectedIndex == (item.length - 1))
-            {
-            var val = prompt ("ADD A NEW CHOICE:", "");
-    
-            if (val == null)
-                item.selectedIndex = 0;
-            else    
-                {
-                var slen = item.length;
-    
-                if (slen == origlen+1){
-                    item.options[slen] = new Option (sitem.text, sitem.value);
-                            }
-                
-                item.options[item.length-2].text = val;
-                item.options[item.length-2].value = val;
-                item.selectedIndex = item.length-2;
-                }
-            }
-        }
-    </script>
-    <script lang=javascript>
-        function validateForm(theForm)
-          {
-            if(theForm._fid_12.value == "")
-                {
-                  theForm._fid_12.focus();
-                  
-                  $(document).ready(function(){
-                     $('#banner').fadeIn(500).delay(1500).fadeOut(500);
 
-                   });
-                  return false;
-                }
-            if(theForm._fid_8.value == "")
-                {
-                  theForm._fid_8.focus();
-                  
-                  $(document).ready(function(){
-                     $('#banner').fadeIn(500).delay(1500).fadeOut(500);
-                     
-                   });
-                  return false;
-                }
-          }
-    </script>
-    <!-- End Quickbase Form Scripts--> 
+    <script type='text/javascript'>
+    /* attach a submit handler to the form */
+    $("#formoid").submit(function(event) {
+
+      /* stop form from submitting normally */
+      event.preventDefault();
+
+      /* get the action attribute from the <form action=""> element */
+      var $form = $( this ),
+          url = $form.attr( 'action' );
+
+      /* Send the data using post with element id name and name2*/
+      var posting = $.post( url, { 
+        _fid_12: $('#_fid_12').val(),
+        _fid_6: $('#_fid_6').val(),
+    } );
+
+      /* Alerts the results */
+      posting.done(function( data ) {
+        //alert('success');
+        var xml = $(data); //Convert response to XML Code
+        var rid = xml.find('qdbapi').find('rid').text();
+        alert("Record ID= "+rid);
+        var url2 = "https://team.quickbase.com/db/bk8p6344r?a=dr&rid="+rid+"&rl=gk9";
+      });
+    });
+</script>
 
     <script>
   
@@ -260,7 +234,7 @@
                 console.log(val+" "+vendorArray[i].vendorName);
                 if(val==vendorArray[i].vendorName){
                   //alert(vendorArray[i].recordID);
-                  $('#_fid_16').val(vendorArray[i].recordID);
+                  $('#hiddenitem').val(vendorArray[i].recordID);
                 }
             }
   };
