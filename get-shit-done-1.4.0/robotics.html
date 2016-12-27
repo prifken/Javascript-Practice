@@ -14,7 +14,7 @@
     <meta content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0' name='viewport' />
     <meta name="viewport" content="width=device-width" />
     
-    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=41" rel="stylesheet" />
+    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=41" rel="stylesheet" /><!--bootstrap.css-->
     <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=42" rel="stylesheet" />   
     <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=43" rel="stylesheet" /> 
     
@@ -24,6 +24,7 @@
     <!--End template scripts-->
     <!--Date Picker-->
     <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=54" rel="stylesheet" /> <!--bootstrap-datepicker-standalone.css-->
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet" />
 <style>
 .form-control::-webkit-input-placeholder { color: gray; } /* Over-ride default placeholder color */
 </style>
@@ -33,15 +34,20 @@
     <div class="main">
         <div class="container">
         
+          <div class="alert alert-danger text-center" id="banner">
 
+             <div class="container">
+                 <b>Warning</b> Missing a Required Field
+            </div>
+          </div><script>$('#banner').hide();</script>
         <h2>Robotics - Team Project Manager: Order Requests</h2>
-            <form name=qdbform method=POST onsubmit='return validateForm(this)' encType='multipart/form-data' action=https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr>
+            <form name=qdbform method=POST onsubmit='return validateForm(this);' encType='multipart/form-data' action=https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr>
                 <input type=hidden name=fform value=1>
                     <div class="row">
                         <!--<div class="col-md-4">.col-md-4</div>-->
                             <div class="form-group col-md-4"><input placeholder="Description" type=text name=_fid_6 class="form-control">
                             </div>
-                            <div class="form-group col-md-4"><input placeholder="Link to Parts Online" class="form-control" type=text name=_fid_12 ></div>
+                            <div class="form-group col-md-4 has-error has-feedback"><input placeholder="Link to Parts Online" class="form-control" type=text name=_fid_12 ></div>
                             <div class="form-group col-md-4"><input placeholder="Part Number" class="form-control" type=text name=_fid_7 ></div>
                        
                     </div>
@@ -56,37 +62,36 @@
                            		     </select>
                            		 </div>
                         	</div>
-                            <div class="col-md-4 form-group">
+                            <div class="col-md-4 form-group has-error has-feedback">
                             	<!--<div><font color=red size=+1>*</font>Quantity Requested</div>-->
-                            	<input type=text placeholder="Quantity Requested" name=_fid_8 class="form-control">
+                            	<input type=number min=1 step="1" placeholder="Quantity Requested" name=_fid_8 class="form-control">
                        		</div>
                         	<div class="col-md-4">
-                            	<!--<div class="form-group">Need By Date</div>-->
-                        			<div class="input-group date" data-provide="datepicker" placeholder="Need by">
-                        				<input type=text name=_fid_14 class="form-control" placeholder="Date Requested By">
-   											<div class="input-group-addon">
-        										<!--<span class="glyphicon glyphicon-th"></span>-->
-    										</div>
-									</div>
-							</div>
-					</div>
-					<div class="row">
+                            	<div class="form-group">
+                        			   <div class="input-group date" data-provide="datepicker">
+                        			   	<input type=text name=_fid_14 class="form-control" placeholder="Date Requested By">
+   											              <span class="the-icons input-group-addon">
+        								              		<span class="glyphicon glyphicon-calendar"></span>
+    										              </span>
+									               </div>
+                              </div>
+							            </div>
+					          </div>
+					          <div class="row">
                         	<div class="col-md-4 form-group">
                             		<select class="form-control" id=appendme onchange="changefunction($('#appendme').val())">
                             			<option value="" disabled selected>Select Vendor</option>
                             		</select>
                             		<input type=hidden name=_fid_16 id=hiddenitem> <!--This sends related vendor ID to QB -->
-                            </div>
-                        
-                    
-                    		<div class="col-md-4 form-group">
+                          </div>
+                    		  <div class="col-md-4 form-group">
                 					<!--<input type=hidden name=rdr value='http://google.com'>-->
-                					<input type=submit class="btn btn-primary" value="Submit Order Form" type="form-control">
-                			</div>
-                	</div>
+                					      <input type=submit class="btn btn-primary" value="Submit Order Form" type="form-control">
+                			    </div>
+                	  </div>
             </form>
         <br />
-        <font color=red>* required fields</font>
+        
 
         	
             <!--
@@ -206,21 +211,28 @@
         }
     </script>
     <script lang=javascript>
-    function validateForm(theForm)
-    {
-    if(theForm._fid_12.value == "")
-    {
-    alert('Please enter a value for the "Link to Part Online" field.');
-    theForm._fid_12.focus();
-    return (false);
-    }
-    if(theForm._fid_8.value == "")
-    {
-    alert('Please enter a value for the "Quantity Requested" field.');
-    theForm._fid_8.focus();
-    return (false);
-    }
-    }
+        function validateForm(theForm)
+          {
+            if(theForm._fid_12.value == "")
+                {
+                  theForm._fid_12.focus();
+                  theForm.preventDefault();
+                  $(document).ready(function(){
+                     $('#banner').fadeIn(500).delay(1500).fadeOut(500);
+
+                   });
+                  return (false);
+                }
+            if(theForm._fid_8.value == "")
+                {
+                  theForm._fid_8.focus();
+                  theForm.preventDefault();
+                  $(document).ready(function(){
+                     $('#banner').fadeIn(500).delay(1500).fadeOut(500);
+                   });
+                  return (false);
+                }
+          }
     </script>
     <!-- End Quickbase Form Scripts--> 
 
@@ -233,20 +245,26 @@
             	//console.log("success: "+ vendorArray[i].vendor_name);
                 $("#appendme").append('<option>'+vendorArray[i].vendorName+'</option>');
             }
+          $('#banner').hide();
+          //alert("ran");
            
+          $('#form').submit(function (evt) {
+          evt.preventDefault();
+          window.history.back();
+});
 	
 	});
 	</script>
 	<script type="text/javascript">
 
 	function changefunction(val){
-		alert(val);
+		//alert(val);
 		for (i = 0; i < vendorArray.length; i++)
             {
             	//console.log("success: "+ vendorArray[i].vendor_name);
                 console.log(val+" "+vendorArray[i].vendorName);
                 if(val==vendorArray[i].vendorName){
-                	alert(vendorArray[i].recordID);
+                	//alert(vendorArray[i].recordID);
                 	$('#hiddenitem').val(vendorArray[i].recordID);
                 }
             }
