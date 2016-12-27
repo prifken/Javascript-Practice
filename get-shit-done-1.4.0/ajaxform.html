@@ -1,26 +1,121 @@
-<html> 
-<head> 
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7/jquery.js"></script> 
-    <script src="http://malsup.github.com/jquery.form.js"></script> 
- 
-    <script> 
-        // wait for the DOM to be loaded 
-        $(document).ready(function() { 
-            // bind 'myForm' and provide a simple callback function 
-            $('#myForm').ajaxForm(function() { 
-                alert("Thank you for your comment!"); 
-            }); 
-        }); 
-    </script> 
-</head> 
-<body>
+<!-- index.html -->
 
-    <form id="myForm" action="comment.php" method="post"> 
-        Name: <input type="text" name="name" /> 
-        Comment: <textarea name="comment"></textarea> 
-        <input type="submit" value="Submit Comment" /> 
+<!doctype html>
+<html>
+<head>
+    <title>Look I'm AJAXing!</title>
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> <!-- load bootstrap via CDN -->
+
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> <!-- load jquery via CDN -->
+    <script>
+        // magic.js
+        $(document).ready(function() {
+        
+            // process the form
+            $('form').submit(function(event) {
+        
+                // get the form data
+                // there are many ways to get this data using jQuery (you can use the class or id also)
+                var formData = {
+                    '_fid_6'              : $('input[name=_fid_6]').val(),
+                    '_fid_8'             : $('input[name=_fid_8]').val(),
+                    'superheroAlias'    : $('input[name=superheroAlias]').val()
+                };
+        
+                // process the form
+                $.ajax({
+                    type        : 'POST', // define the type of HTTP verb we want to use (POST for our form)
+                    url         : 'https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr', // the url where we want to POST
+                    data        : formData, // our data object
+                    dataType    : 'xml', // what type of data do we expect back from the server
+                                encode          : true
+                })
+                    // using the done promise callback
+                    .done(function(data) {
+                        var xml=$(data);
+                        // log data to the console so we can see
+                        console.log(data); 
+        
+                        // here we will handle errors and validation messages
+                                if (xml.find('qdbapi').find('errcode').text() !== "0") {
+                               /* alert("error detected, code: "+xml.find('qdbapi').find('errcode').text()); */
+                               /*
+                                // handle errors for name ---------------
+                               */ 
+                               $('form').append('<div></div></br><div class="alert alert-danger"><b>Error Code</b>: ' + xml.find('qdbapi').find('errcode').text() + ', '+ xml.find('qdbapi').find('errtext').text() + '. '+"<br/>"+ '<b>Error Text: </b>'+xml.find('qdbapi').find('errdetail').text()+'</div>');
+
+                               /*
+                                if (data.errors._fid_6) {
+                                    $('#name-group').addClass('has-error'); // add the error class to show red input
+                                    $('#name-group').append('<div class="help-block">' + data.errors.name + '</div>'); // add the actual error message under our input
+                                }
+
+                                // handle errors for email ---------------
+                                if (data.errors._fid_8) {
+                                    $('#email-group').addClass('has-error'); // add the error class to show red input
+                                    $('#email-group').append('<div class="help-block">' + data.errors.email + '</div>'); // add the actual error message under our input
+                                }
+
+                                // handle errors for superhero alias ---------------
+                                if (data.errors.superheroAlias) {
+                                    $('#superhero-group').addClass('has-error'); // add the error class to show red input
+                                    $('#superhero-group').append('<div class="help-block">' + data.errors.superheroAlias + '</div>'); // add the actual error message under our input
+                                } */
+
+                            } else {
+                                
+                                // ALL GOOD! just show the success message!
+                                $('form').append('<div class="alert alert-success">Success! RID: ' + xml.find('qdbapi').find('rid').text() + '</div>');
+
+                                // usually after form submission, you'll want to redirect
+                                // window.location = '/thank-you'; // redirect a user to another page
+                                alert('success'); // for now we'll just alert the user
+                                
+                            }
+                                        });
+        
+                                    // stop the form from submitting the normal way and refreshing the page
+                                    event.preventDefault();
+            });
+        
+        });
+    </script>
+
+</head>
+<body>
+<div class="col-sm-6 col-sm-offset-3">
+
+    <h1>Order Request Form</h1>
+
+    <!-- OUR FORM -->
+    <form action="https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr" method="POST">
+        
+        <!-- NAME -->
+        <div id="name-group" class="form-group">
+            <label for="_fid_6">Description</label>
+            <input type="text" class="form-control" name="_fid_6" placeholder="Description">
+            <!-- errors will go here -->
+        </div>
+
+        <!-- EMAIL -->
+        <div id="email-group" class="form-group">
+            <label for="_fid_8">Quantity Requested</label>
+            <input type="number" class="form-control" name="_fid_8" placeholder="0">
+            <!-- errors will go here -->
+        </div>
+
+        <!-- SUPERHERO ALIAS -->
+        <div id="superhero-group" class="form-group">
+            <label for="superheroAlias">Superhero Alias</label>
+            <input type="text" class="form-control" name="superheroAlias" placeholder="Ant Man">
+            <!-- errors will go here -->
+        </div>
+
+        <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
+
     </form>
 
-
+</div>
 </body>
 </html>
+
