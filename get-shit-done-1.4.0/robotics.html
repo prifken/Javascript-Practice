@@ -86,7 +86,7 @@
                           </div>
                     		  <div class="col-md-4 form-group">
                 					<!--<input type=hidden name=rdr value='http://google.com'>-->
-                					      <input type=submit class="btn btn-primary" value="Submit Order Form" type="form-control">
+                					      <input type=submit class="btn btn-primary" value="Submit Order Form" type="form-control" id="buttonclick">
                 			    </div>
                 	  </div>
             </form>
@@ -216,21 +216,22 @@
             if(theForm._fid_12.value == "")
                 {
                   theForm._fid_12.focus();
-                  theForm.preventDefault();
+                  
                   $(document).ready(function(){
                      $('#banner').fadeIn(500).delay(1500).fadeOut(500);
 
                    });
-                  return (false);
+                  return false;
                 }
             if(theForm._fid_8.value == "")
                 {
                   theForm._fid_8.focus();
-                  theForm.preventDefault();
+                  
                   $(document).ready(function(){
                      $('#banner').fadeIn(500).delay(1500).fadeOut(500);
+                     
                    });
-                  return (false);
+                  return false;
                 }
           }
     </script>
@@ -246,13 +247,7 @@
                 $("#appendme").append('<option>'+vendorArray[i].vendorName+'</option>');
             }
           $('#banner').hide();
-          //alert("ran");
-           
-          $('#form').submit(function (evt) {
-          evt.preventDefault();
-          window.history.back();
-});
-	
+         
 	});
 	</script>
 	<script type="text/javascript">
