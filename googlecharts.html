@@ -1,0 +1,90 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+  <head>
+<script>
+var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
+  url    += "/db/";
+  url    += "bmfdccc8k";                                   // Remember to put in YOUR tableDBID
+  url    += "?a=API_DoQuery";
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_r4sh5ybgb8hpsdaq5k5rcmutwp9</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+
+var dateArray=[]; 
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+          success: function (response) {
+
+           var xml = $(response); //Convert response to XML Code
+           if (xml.find('qdbapi').find('errcode').text() == "0") {
+        
+          var cast = 0; 
+      //Looping Through Response Begins Below
+                       xml.find('qdbapi').find('record').each(function(index){  
+                        //var x = new coaches("Test",0,0,0,0,0,0,0); 
+                        //var start date=new Date(date);
+                        //console.log($(this).find("start_date").text());
+                        var x = new Date(parseInt($(this).find("start_date").text()));
+                        console.log("start date: "+x);
+
+                        var y = new Date(parseInt($(this).find("end_date").text()));
+                        console.log("end date: "+y);
+
+                        var z = $(this).find("name").text();
+                        dateArray[index]=new Array(z,x,y);
+                        
+                        
+                        //console.log(coachArray);
+                      console.log("\n\n");
+                    });//End XML Loop
+     //   console.log(coachArray);
+        }
+          else 
+          {
+           console.log("Quickbase returned an error.");
+           console.log(response);
+         } 
+       },
+error: function (response)
+  {
+  console.log("Quickbase returned an error.");
+  console.log(response);
+  }
+});
+console.log(dateArray);
+</script>
+
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script type="text/javascript">
+      google.charts.load('current', {'packages':['timeline']});
+      google.charts.setOnLoadCallback(drawChart);
+      
+      function drawChart() {
+        var container = document.getElementById('timeline');
+        var chart = new google.visualization.Timeline(container);
+        var dataTable = new google.visualization.DataTable();
+        dataTable.addColumn({ type: 'string', id: 'President' });
+        dataTable.addColumn({ type: 'date', id: 'Start' });
+        dataTable.addColumn({ type: 'date', id: 'End' });
+         dataTable.addRows(dateArray);
+        //dataTable.addRows(dateArray);
+
+        chart.draw(dataTable);
+      }
+    </script>
+  </head>
+  <body>
+    <div id="timeline" style="height: 180px;"></div>
+  </body>
+</html>
+
+

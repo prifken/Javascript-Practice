@@ -1,0 +1,119 @@
+
+<script async defer src="https://maps.googleapis.com/maps/api/js?v=3.26&key=AIzaSyBEiUp-oqXopKXCD0SSOWhF967fS1khhfE"></script> 
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+<script src="https://team.quickbase.com/db/bmdkjprga?a=pagePreview&pageID=4"></script> <!--maplace.js in QB-->
+<script src="https://team.quickbase.com/db/bmdkjprga?a=pagePreview&pageID=5"></script><!--maplace.min.js-->
+
+<html>
+<head>
+</head>
+
+<body>
+
+<div id="gmap" style="with:300px;height:250px;"></div>
+<div id="controls"></div>
+
+</body>
+
+</html>
+
+<script type="text/javascript">
+$(function() {
+    new Maplace({
+        locations: [{
+        lat: 45.9,
+        lon: 10.9,
+        zoom: 8
+    }]
+    }).Load();
+});
+</script>
+
+<script type="text/javascript">  
+   
+function getaddress(address){
+	console.log(address);
+   var geocoder = new google.maps.Geocoder();
+   var address = address;
+
+   if (geocoder) {
+      geocoder.geocode({ 'address': address }, function (results, status) {
+         if (status == google.maps.GeocoderStatus.OK) {
+            console.log(results[0].geometry.location);
+         }
+         else {
+            console.log("Geocoding failed: " + status);
+         }
+      });
+   }    
+  }
+</script>
+
+<script>
+
+function locations(){
+	this.locationName="Name";
+	this.lat=0.0;
+	this.long=0.0;
+}
+
+//Query Sellers Table and Create Coaches Array
+ var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
+  url    += "/db/";
+  url    += "bmfc3i2sw";                                   // Remember to put in YOUR tableDBID
+  url    += "?a=API_DoQuery";
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_r4sh5ybgb8hpsdaq5k5rcmutwp9</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+var addressArray=[]; 
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+			    success: function (response) {
+
+			     var xml = $(response); //Convert response to XML Code
+			     if (xml.find('qdbapi').find('errcode').text() == "0") {
+				
+					var cast = 0; 
+			//Looping Through Response Begins Below
+									  	 xml.find('qdbapi').find('record').each(function(index){
+									  	 	//var x = new locations("Test",0,0);
+									  	 	console.log($(this).find("address").text())	
+									  	 	var address=$(this).find("address").text();
+									  	 	getaddress(address);
+
+									  	 	//var x = new coaches("Test",0,0,0,0,0,0,0); 
+									  	 	//x.coachName=$(this).find("full_name").text();
+									  	 	//x.recordID=$(this).find("record_id_").text();
+										    //console.log("Coach Name = " + $(this).find("full_name").text());
+									    	//console.log("Record ID = " + $(this).find("record_id_").text());
+									    	//coachArray.push(x);
+									    	//console.log(coachArray);
+											//console.log("\n\n");
+									 	});//End XML Loop
+				//console.log(coachArray);
+			 	}
+			    else 
+			    {
+			     console.log("Quickbase returned an error.");
+			     console.log(response);
+			   } 
+			 },
+error: function (response)
+	{
+	console.log("Quickbase returned an error.");
+	console.log(response);
+	}
+});
+</script>
+
+
+
