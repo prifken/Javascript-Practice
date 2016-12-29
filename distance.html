@@ -38,11 +38,12 @@ data: request,
           var cast = 0; 
       //Looping Through Response Begins Below
                        xml.find('qdbapi').find('record').each(function(index){  
-                        var x = new pairs("Test","Test",0,0); 
+                        var x = new pairs("Test","Test",0, "Test"); 
                         x.addressA=$(this).find("location_a").text();
                         x.addressB=$(this).find("location_b").text();
                         x.recordID=$(this).find("record_id_").text();
-                        
+                       // x.dist=$(this).find("record_id_").text();
+
                         addressarray.push(x);
                         //console.log(coachArray);
                       console.log("\n\n");
@@ -63,7 +64,7 @@ error: function (response)
 });
 var addressA=[];
 var addressB=[];
-
+var globals=0; 
 for (var i=0; i<addressarray.length; i++){
   addressA.push(addressarray[i].addressA);
   addressB.push(addressarray[i].addressB);
@@ -141,6 +142,7 @@ for (var i=0; i<addressarray.length; i++){
     <div id="map"></div>
     <script>
      var responsearray = []; 
+     var globals = 0; 
       function initMap() 
         {
        
@@ -165,7 +167,7 @@ for (var i=0; i<addressarray.length; i++){
                   avoidHighways: false,
                   avoidTolls: false
                     },
-                function (response, status) 
+                function callback (response, status) 
                     {
                       
                       
@@ -174,17 +176,13 @@ for (var i=0; i<addressarray.length; i++){
                           console.log('Error:', status);
                           } else 
                             {
-                          //var json = jQuery.parseJSON(response);
-                          //console.log(JSON.stringify(response));
-                          //console.log(JSON.parse(JSON.stringify(response)));
-                           
-                          console.log(response.rows[0].elements[0].distance.text); 
+                          addnumber(response.rows[0].elements[0].distance.text) ;
                             }
                      
                     });
           }
           
-
+          //console.log(globals); 
 
         };
          
@@ -212,11 +210,14 @@ for (var i=0; i<addressarray.length; i++){
 
 
 <script>
-
+function addnumber(distance){
+  console.log(addressarray); 
   
-
-
-                 
+  //alert("Globals= "+globals+", distance= "+distance); 
+  addressarray[globals]['dist']=distance;
+  console.log(addressarray); 
+  globals++; 
+}
 </script>
 
   </body>

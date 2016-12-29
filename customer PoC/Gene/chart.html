@@ -1,0 +1,149 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+ <head>
+ <style>
+ .google-visualization-tooltip {
+  opacity: 0 !important;
+  max-width: 200px !important;
+}
+.google-visualization-tooltip[clone] {
+  opacity: 1 !important;
+}
+html,
+body,
+timeline {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+ </style>
+<script>
+var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
+ url    += "/db/";
+ url    += "bmfba8a5h";                                   // Remember to put in YOUR tableDBID
+ url    += "?a=API_DoQuery";
+
+
+var url1 = "<iframe src=\""
+url1    += "https://team.quickbase.com";
+url1    += "/db/";
+url1    += "bmfba8a5h";
+url1    += "?a=q";
+url1    += "&qid=6";
+url1    += "&ifv=20"
+url1    += "&nv=1";
+url1    += "&v0=";
+
+var url2 = "\"width=800\""
+url2    += ">";
+
+
+ var request = "<qdbapi>";
+ request    += "<usertoken>bzwp2g_uyp_jth8vmd55szkwd9954tfcahmdvk</usertoken>";            // Remember to put in YOUR user Token
+ request    += "</qdbapi>";
+
+
+var dateArray=[];
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+         success: function (response) {
+
+          var xml = $(response); //Convert response to XML Code
+          if (xml.find('qdbapi').find('errcode').text() == "0") {
+       
+         var cast = 0; 
+     //Looping Through Response Begins Below
+                      xml.find('qdbapi').find('record').each(function(index){  
+                       //var x = new coaches("Test",0,0,0,0,0,0,0); 
+                       //var start date=new Date(date);
+                       //console.log($(this).find("start_date").text());
+                       var x = new Date(parseInt($(this).find("start_date").text()));
+                       console.log("start date: "+x);
+
+                       var y = new Date(parseInt($(this).find("end_date").text()));
+                       console.log("end date: "+y);
+
+                       var z = $(this).find("name").text();
+			var w = $(this).find("task").text();
+			var v = '';	
+                        var r = $(this).find("task_id").text();
+			console.log("Task ID: " +r);
+			console.log("task name: "+w);
+			var l = url1 + r + url2;
+
+			console.log("URL: " + l);
+                       dateArray[index]=new Array(z,v,l,x,y);
+                       
+                       
+                       //console.log(coachArray);
+                     console.log("\n\n");
+                   });//End XML Loop
+    //   console.log(coachArray);
+       }
+         else 
+         {
+          console.log("Quickbase returned an error.");
+          console.log(response);
+        } 
+      },
+error: function (response)
+ {
+ console.log("Quickbase returned an error.");
+ console.log(response);
+ }
+});
+console.log(dateArray);
+</script>
+
+   <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+   <script type="text/javascript">
+     google.charts.load('current', {'packages':['timeline']});
+     google.charts.setOnLoadCallback(drawChart);
+     
+     function drawChart() {
+       var container = document.getElementById('timeline');
+       var chart = new google.visualization.Timeline(container);
+       var dataTable = new google.visualization.DataTable();
+       dataTable.addColumn({ type: 'string', id: 'Assigned To' });
+      dataTable.addColumn({type: 'string', id: 'Task Name' });
+      dataTable.addColumn({type: 'string', role: 'tooltip', 'p': {'html': true}});
+       dataTable.addColumn({ type: 'date', id: 'Start' });
+       dataTable.addColumn({ type: 'date', id: 'End' });
+	 
+        dataTable.addRows(dateArray);
+       //dataTable.addRows(dateArray);
+      //var options = { tooltip: { trigger: 'selection' }};
+
+       //select-handler
+      google.visualization.events.addListener(chart, 'select', function(e) {
+    //the built-in tooltip
+      var tooltip = document.querySelector('.google-visualization-tooltip:not([clone])');
+    //remove previous clone when there is any
+    if (chart.ttclone) {
+      chart.ttclone.parentNode.removeChild(chart.ttclone)
+    }
+    //create a clone of the built-in tooltip
+    chart.ttclone = tooltip.cloneNode(true);
+    //create a custom attribute to be able to distinguish
+    //built-in tooltip and clone
+    chart.ttclone.setAttribute('clone', true);
+    //inject clone into document
+    tooltip.parentNode.insertBefore(chart.ttclone, chart.tooltip);
+  });
+       chart.draw(dataTable);
+     }
+
+   </script>
+ </head>
+ <body>
+   <div id="timeline" style="height: 100%; width: 100%;"></div>
+ </body>
+</html>
