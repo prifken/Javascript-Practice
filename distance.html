@@ -8,7 +8,7 @@ function pairs(){
   this.addressA="Name";
   this.addressB="Name";
   this.rid=0;
-  this.dist="Name";
+  this.dist=0;
 }
 
 var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
@@ -41,9 +41,9 @@ data: request,
                         var x = new pairs("Test","Test",0, "Test"); 
                         x.addressA=$(this).find("location_a").text();
                         x.addressB=$(this).find("location_b").text();
-                        x.recordID=$(this).find("record_id_").text();
+                        x.rid=$(this).find("record_id_").text();
                        // x.dist=$(this).find("record_id_").text();
-
+                       //alert(x.addressA, x.addressB, x.recordID)
                         addressarray.push(x);
                         //console.log(coachArray);
                       console.log("\n\n");
@@ -66,9 +66,35 @@ var addressA=[];
 var addressB=[];
 var globals=0; 
 for (var i=0; i<addressarray.length; i++){
+  console.log(i, addressarray[i].addressA, addressarray[i].addressB)
   addressA.push(addressarray[i].addressA);
   addressB.push(addressarray[i].addressB);
 }
+console.log(addressarray[2].addressA, addressarray[2].addressB)
+var a = "";
+var b = ""; 
+  for (var i=0; i<addressarray.length; i++)
+    {
+      
+      //console.log(i, eval(a), eval(b), addressarray.length); 
+      if(i==(addressarray.length-1))
+        {
+          console.log("at length"); 
+      a += addressarray[i]['addressA']; //no comma and spaces for last element
+      b += addressarray[i]['addressB'];
+        } 
+      else
+        {
+          console.log("not at length")
+      a += addressarray[i]['addressA']+", "; 
+      b += addressarray[i]['addressB']+", ";
+      //alert(addressarray[i]['addressA'],addressarray[i]['addressB']);
+        }
+        console.log(i, "a="+a, "b="+b);
+    }
+console.log("origins: ["+a+"]","destinations: ["+b+"]"); 
+//alert("origins: ["+a+"]");
+//alert("origins: ["+b+"]");
 //console.log(addressA, addressB)
 //console.log(addressA,addressB);
 
@@ -108,41 +134,11 @@ for (var i=0; i<addressarray.length; i++){
   </head>
   <body>
     <div id="floating-panel">
-    <b>Start: </b>
-    <select id="start">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
-    </select>
-    <b>End: </b>
-    <select id="end">
-      <option value="chicago, il">Chicago</option>
-      <option value="st louis, mo">St Louis</option>
-      <option value="joplin, mo">Joplin, MO</option>
-      <option value="oklahoma city, ok">Oklahoma City</option>
-      <option value="amarillo, tx">Amarillo</option>
-      <option value="gallup, nm">Gallup, NM</option>
-      <option value="flagstaff, az">Flagstaff, AZ</option>
-      <option value="winona, az">Winona</option>
-      <option value="kingman, az">Kingman</option>
-      <option value="barstow, ca">Barstow</option>
-      <option value="san bernardino, ca">San Bernardino</option>
-      <option value="los angeles, ca">Los Angeles</option>
-    </select>
     </div>
     <div id="map"></div>
     <script>
      var responsearray = []; 
-     var globals = 0; 
+     //var globals = 0; 
       function initMap() 
         {
        
@@ -155,12 +151,15 @@ for (var i=0; i<addressarray.length; i++){
               });
         directionsDisplay.setMap(map);
         var distanceService = new google.maps.DistanceMatrixService();
-        for(var i=0; i<addressarray.length; i++)
-        {
+        
           distanceService.getDistanceMatrix(
                     {
-                  origins: [addressA[i]], //addressA is an string of starting points
-                  destinations: [addressB[i]], //addressB is an string of end points
+                  origins: addressA, //addressA is an string of starting points
+                  destinations: addressB, //addressB is an string of end points */
+                  
+                  //origins: [addressA[0], addressA[1], addressA[2]], //addressA is an string of starting points
+                  //destinations: [addressB[0], addressB[1], addressB[2]], //addressB is an string of end points
+                  
                   travelMode: google.maps.TravelMode.DRIVING,
                   unitSystem: google.maps.UnitSystem.METRIC,
                   durationInTraffic: true,
@@ -176,11 +175,14 @@ for (var i=0; i<addressarray.length; i++){
                           console.log('Error:', status);
                           } else 
                             {
-                          addnumber(response.rows[0].elements[0].distance.text) ;
+                              //console.log(response.rows);
+                              //console.log(response); 
+                              
+                              addnumber(response);
                             }
                      
                     });
-          }
+        
           
           //console.log(globals); 
 
@@ -210,15 +212,59 @@ for (var i=0; i<addressarray.length; i++){
 
 
 <script>
-function addnumber(distance){
-  console.log(addressarray); 
+function addnumber(response){
+  //for (var i=0; i<addressarray.length; i++){
+ console.log(response); 
+ for(var i=0; i<addressarray.length; i++){
+  //console.log(addressarray[i]);
+  //console.log("Origins[i]: "+response.originAddresses[i]);
+  //console.log("Destination[i]: "+response.destinationAddresses[i]);
+  //console.log("Distance[i]: "+response.rows[i].elements[i].distance.value +" km \n\n");
+  //console.log("at this point: "+addressarray); 
   
-  //alert("Globals= "+globals+", distance= "+distance); 
-  addressarray[globals]['dist']=distance;
-  console.log(addressarray); 
-  globals++; 
+  addressarray[i]['dist']=response.rows[i].elements[i].distance.value; 
+  }
+  //console.log(addressarray); 
+  editrecord(); 
+    //editrecord(); 
+  //}
 }
 </script>
 
   </body>
 </html>
+
+<script>
+function editrecord(){
+for (var i = 0; i<addressarray.length; i++){
+var url2 = "https://team.quickbase.com/db/bmfdm4hh4?a=API_EditRecord&usertoken=b287yg_uyp_r4sh5ybgb8hpsdaq5k5rcmutwp9";   
+url2    += "&rid="+addressarray[i].rid;
+url2    += "&_fid_20="+addressarray[i].dist; 
+//alert(url2);
+$.ajax({
+          type: "POST",
+          contentType: "text/xml",
+          async: false,
+          url: url2,
+          dataType: "xml",
+          processData: false,
+          success: function (response) {
+          //alert("Boom.... success baby");
+              var xml = $(response);
+              if (xml.find('qdbapi').find('errcode').text() === "0") {
+                  rid = xml.find('qdbapi').find('rid').text();
+                  console.log("RID= "+rid);
+              }
+              else {
+                  console.log("Quickbase returned an error.");
+                  console.log(response);
+              } 
+          },
+          error: function (e) {
+               console.log(e);  
+          }
+      }); 
+
+  }
+}
+</script>
