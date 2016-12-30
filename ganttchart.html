@@ -55,7 +55,7 @@ data: request,
                         x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
                         //alert(x.taskPercentComplete);
                         x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
-                        console.log(x); 
+                        //console.log(x); 
 
                         taskArray.push(x);
                         //console.log(coachArray);
@@ -88,6 +88,7 @@ error: function (response)
     google.charts.load('current', {'packages':['gantt']});
     google.charts.setOnLoadCallback(drawChart);
 
+
     function daysToMilliseconds(days) {
       return days * 24 * 60 * 60 * 1000;
     }
@@ -95,6 +96,7 @@ error: function (response)
     function drawChart() {
 
       var data = new google.visualization.DataTable();
+      
       data.addColumn('string', 'Task ID');
       data.addColumn('string', 'Task Name');
       data.addColumn('string', 'Resource');
@@ -105,29 +107,41 @@ error: function (response)
       data.addColumn('string', 'Dependencies');
       console.log(taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], new Date(parseInt(taskArray[0]['taskStartDate'])), new Date(parseInt(taskArray[0]['taskEndDate'])),null,  taskArray[0]['taskPercentComplete'],  null); 
 
-      data.addRows(
+      for(var i=0; i<taskArray.length; i++){
+      data.addRow(
         [
-        /*taskArray[0]['taskID'],taskArray[0]['taskName'],taskArray[0]['taskStatus'],new Date(taskArray[0]['taskStartDate']),new Date(taskArray[0]['taskEndDate']),taskArray[0]['taskDuration'],taskArray[0]['taskPercentComplete'],taskArray[0]['taskPredID']*/
-        
-        [taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], taskArray[0]['taskStartDate'], taskArray[0]['taskEndDate'],null,  taskArray[0]['taskPercentComplete'],  taskArray[0]['taskPredID']],
-        [taskArray[1]['taskID'], taskArray[1]['taskName'], taskArray[1]['taskStatus'], taskArray[1]['taskStartDate'], taskArray[1]['taskEndDate'],null,  taskArray[1]['taskPercentComplete'],  taskArray[1]['taskPredID']],
-
-        /*,
-        ['Write', 'Write paper', 'write', null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
-        ['Cite', 'Create bibliography', 'write', null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
-        ['Complete', 'Hand in paper', 'complete', null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
-        ['Outline', 'Outline paper', 'write5', null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research'],
-        ['Outlined', 'Outline paper again', 'new', null, new Date(2015, 0, 8), daysToMilliseconds(1), 100, 'Research']
-        */
+        taskArray[i]['taskID'], taskArray[i]['taskName'], taskArray[i]['taskStatus'], taskArray[i]['taskStartDate'], taskArray[i]['taskEndDate'],null,  taskArray[i]['taskPercentComplete'],  taskArray[i]['taskPredID']
         ]
+
                   );
+      }
 
       var options = {
-        height: 275
+        height: 700,
+        width: 1000
       };
 
       var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
 
+      
+      
+       
+      google.visualization.events.addListener(chart, 'select', selectHandler);
+      google.visualization.events.addListener(chart, 'onmouseover', saveSelection);
+
+        var selectedItem; //custom selector
+        var selectedItem1; //custom selector
+        function saveSelection(e) {
+        selectedItem = { row:e.row,column:null};  //save selected item
+        selectedItem1 = { data:e};  //save selected item
+        //alert("On Mouse Over!"); 
+        }
+        function selectHandler() {
+          console.log(selectedItem, selectedItem1, taskArray); 
+          alert("On Click! Name: "+ taskArray[selectedItem.row].taskName); 
+          console.log("On Click! row: "+ selectedItem.row); 
+          //alert(data.getValue(selectedItem.row,0));
+        }
       chart.draw(data, options);
     }
   </script>
@@ -136,3 +150,6 @@ error: function (response)
   <div id="chart_div"></div>
 </body>
 </html>
+
+
+
