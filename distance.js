@@ -133,7 +133,7 @@ console.log("origins: ["+a+"]","destinations: ["+b+"]");
     </style>
   </head>
   <body>
-    <div class="hidden" type="text-container hidden">
+    <div id="floating-panel">
     </div>
     <div id="map"></div>
     <script>
