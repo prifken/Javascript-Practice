@@ -1,0 +1,138 @@
+<html>
+<head>
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+
+<script>
+function tasks(){
+  this.taskID="string";
+  this.taskName="string";
+  this.taskStatus="string (Resource)";
+  this.taskStartDate="StartDate";
+  this.taskEndDate="EndDate";
+  this.taskDuration=0;
+  this.taskPercentComplete=0;
+  this.taskPredID="Name";
+}
+
+//Query Sellers Table and Create Coaches Array
+ var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
+  url    += "/db/";
+  url    += "bmfirusyr";                                   // Remember to put in YOUR tableDBID
+  url    += "?a=API_DoQuery";
+  url    += "&query={'48'.EX.'6'}";
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+var taskArray=[]; 
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+          success: function (response) {
+
+           var xml = $(response); //Convert response to XML Code
+           if (xml.find('qdbapi').find('errcode').text() == "0") {
+        
+          console.log(response); 
+      //Looping Through Response Begins Below
+                       xml.find('qdbapi').find('record').each(function(index){  
+                        var x = new tasks(0,"Name","Status","StartDate","EndDate",0,0,0); 
+                        x.taskID=$(this).find("task_id").text();
+                        x.taskName=$(this).find("task_name").text();
+                        x.taskStatus=$(this).find("status").text();
+                        x.taskStartDate=$(this).find("start").text();
+                        x.taskEndDate=$(this).find("projected_finish").text();
+                        x.taskDuration=10; 
+                        x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
+                        //alert(x.taskPercentComplete);
+                        x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
+                        console.log(x); 
+
+                        taskArray.push(x);
+                        //console.log(coachArray);
+
+                        
+                      console.log("\n\n");
+                    });//End XML Loop
+        //console.log(coachArray);
+        }
+          else 
+          {
+           console.log("Quickbase returned an error.");
+           console.log(response);
+         } 
+       },
+error: function (response)
+  {
+  console.log("Quickbase returned an error.");
+  console.log(response);
+  }
+});
+//console.log(taskArray); 
+</script>
+
+
+
+
+
+  <script type="text/javascript">
+    google.charts.load('current', {'packages':['gantt']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function daysToMilliseconds(days) {
+      return days * 24 * 60 * 60 * 1000;
+    }
+
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Task ID');
+      data.addColumn('string', 'Task Name');
+      data.addColumn('string', 'Resource');
+      data.addColumn('date', 'Start Date');
+      data.addColumn('date', 'End Date');
+      data.addColumn('number', 'Duration');
+      data.addColumn('number', 'Percent Complete');
+      data.addColumn('string', 'Dependencies');
+      console.log(taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], new Date(parseInt(taskArray[0]['taskStartDate'])), new Date(parseInt(taskArray[0]['taskEndDate'])),null,  taskArray[0]['taskPercentComplete'],  null); 
+
+      data.addRows(
+        [
+        /*taskArray[0]['taskID'],taskArray[0]['taskName'],taskArray[0]['taskStatus'],new Date(taskArray[0]['taskStartDate']),new Date(taskArray[0]['taskEndDate']),taskArray[0]['taskDuration'],taskArray[0]['taskPercentComplete'],taskArray[0]['taskPredID']*/
+        
+        [taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], new Date(parseInt(taskArray[0]['taskStartDate'])), new Date(parseInt(taskArray[0]['taskEndDate'])),null,  taskArray[0]['taskPercentComplete'],  taskArray[0]['taskPredID']],
+        [taskArray[1]['taskID'], taskArray[1]['taskName'], taskArray[1]['taskStatus'], new Date(parseInt(taskArray[1]['taskStartDate'])), new Date(parseInt(taskArray[1]['taskEndDate'])),null,  taskArray[1]['taskPercentComplete'],  taskArray[1]['taskPredID']],
+
+        /*,
+        ['Write', 'Write paper', 'write', null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
+        ['Cite', 'Create bibliography', 'write', null, new Date(2015, 0, 7), daysToMilliseconds(1), 20, 'Research'],
+        ['Complete', 'Hand in paper', 'complete', null, new Date(2015, 0, 10), daysToMilliseconds(1), 0, 'Cite,Write'],
+        ['Outline', 'Outline paper', 'write5', null, new Date(2015, 0, 6), daysToMilliseconds(1), 100, 'Research'],
+        ['Outlined', 'Outline paper again', 'new', null, new Date(2015, 0, 8), daysToMilliseconds(1), 100, 'Research']
+        */
+        ]
+                  );
+
+      var options = {
+        height: 275
+      };
+
+      var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
+
+      chart.draw(data, options);
+    }
+  </script>
+</head>
+<body>
+  <div id="chart_div"></div>
+</body>
+</html>
