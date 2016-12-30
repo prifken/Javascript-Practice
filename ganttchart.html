@@ -49,8 +49,8 @@ data: request,
                         x.taskID=$(this).find("task_id").text();
                         x.taskName=$(this).find("task_name").text();
                         x.taskStatus=$(this).find("status").text();
-                        x.taskStartDate=$(this).find("start").text();
-                        x.taskEndDate=$(this).find("projected_finish").text();
+                        x.taskStartDate=new Date(parseInt($(this).find("start").text()));
+                        x.taskEndDate=new Date(parseInt($(this).find("projected_finish").text()));
                         x.taskDuration=10; 
                         x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
                         //alert(x.taskPercentComplete);
@@ -109,8 +109,8 @@ error: function (response)
         [
         /*taskArray[0]['taskID'],taskArray[0]['taskName'],taskArray[0]['taskStatus'],new Date(taskArray[0]['taskStartDate']),new Date(taskArray[0]['taskEndDate']),taskArray[0]['taskDuration'],taskArray[0]['taskPercentComplete'],taskArray[0]['taskPredID']*/
         
-        [taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], new Date(parseInt(taskArray[0]['taskStartDate'])), new Date(parseInt(taskArray[0]['taskEndDate'])),null,  taskArray[0]['taskPercentComplete'],  taskArray[0]['taskPredID']],
-        [taskArray[1]['taskID'], taskArray[1]['taskName'], taskArray[1]['taskStatus'], new Date(parseInt(taskArray[1]['taskStartDate'])), new Date(parseInt(taskArray[1]['taskEndDate'])),null,  taskArray[1]['taskPercentComplete'],  taskArray[1]['taskPredID']],
+        [taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], taskArray[0]['taskStartDate'], taskArray[0]['taskEndDate'],null,  taskArray[0]['taskPercentComplete'],  taskArray[0]['taskPredID']],
+        [taskArray[1]['taskID'], taskArray[1]['taskName'], taskArray[1]['taskStatus'], taskArray[1]['taskStartDate'], taskArray[1]['taskEndDate'],null,  taskArray[1]['taskPercentComplete'],  taskArray[1]['taskPredID']],
 
         /*,
         ['Write', 'Write paper', 'write', null, new Date(2015, 0, 9), daysToMilliseconds(3), 25, 'Research,Outline'],
