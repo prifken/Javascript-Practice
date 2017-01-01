@@ -21,7 +21,7 @@ function tasks(){
   url    += "/db/";
   url    += "bmfirusyr";                                   // Remember to put in YOUR tableDBID
   url    += "?a=API_DoQuery";
-  url    += "&query={'48'.EX.'6'}";
+  url    += "&query={'48'.EX.'6'}"; //Replace with {'YOUR RELATED PROJECT IDE'.EX."RELATED PROJECT}"
 
   var request = "<qdbapi>";
   request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
@@ -42,7 +42,7 @@ data: request,
            var xml = $(response); //Convert response to XML Code
            if (xml.find('qdbapi').find('errcode').text() == "0") {
         
-          console.log(response); 
+         // console.log(response); 
       //Looping Through Response Begins Below
                        xml.find('qdbapi').find('record').each(function(index){  
                         var x = new tasks(0,"Name","Status","StartDate","EndDate",0,0,0); 
@@ -77,7 +77,7 @@ error: function (response)
   console.log(response);
   }
 });
-//console.log(taskArray); 
+console.log(taskArray); 
 </script>
 
 
@@ -105,7 +105,7 @@ error: function (response)
       data.addColumn('number', 'Duration');
       data.addColumn('number', 'Percent Complete');
       data.addColumn('string', 'Dependencies');
-      console.log(taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], new Date(parseInt(taskArray[0]['taskStartDate'])), new Date(parseInt(taskArray[0]['taskEndDate'])),null,  taskArray[0]['taskPercentComplete'],  null); 
+      //console.log(taskArray[0]['taskID'], taskArray[0]['taskName'], taskArray[0]['taskStatus'], new Date(parseInt(taskArray[0]['taskStartDate'])), new Date(parseInt(taskArray[0]['taskEndDate'])),null,  taskArray[0]['taskPercentComplete'],  null); 
 
       for(var i=0; i<taskArray.length; i++){
       data.addRow(
@@ -118,7 +118,14 @@ error: function (response)
 
       var options = {
         height: 700,
-        width: 1000
+        width: 1000,
+        gantt: {
+          labelStyle: {
+           fontName: arial,
+           fontSize: 14,
+           color: 'red'
+          }
+        }
       };
 
       var chart = new google.visualization.Gantt(document.getElementById('chart_div'));
@@ -137,9 +144,12 @@ error: function (response)
         //alert("On Mouse Over!"); 
         }
         function selectHandler() {
-          console.log(selectedItem, selectedItem1, taskArray); 
-          alert("On Click! Name: "+ taskArray[selectedItem.row].taskName); 
-          console.log("On Click! row: "+ selectedItem.row); 
+          console.log(taskArray[selectedItem.row], selectedItem.row, taskArray[selectedItem.row].taskID); 
+          //alert("On Click! Name: "+ taskArray[selectedItem.row].taskName); 
+         // console.log("On Click! row: "+ selectedItem.row); 
+          var win = window.open("https://team.quickbase.com/db/bmfirusyr?a=dr&rid="+taskArray[selectedItem.row].taskID+"&rl=vhk", '_blank');
+          //alert(win); 
+          win.focus();
           //alert(data.getValue(selectedItem.row,0));
         }
       chart.draw(data, options);
