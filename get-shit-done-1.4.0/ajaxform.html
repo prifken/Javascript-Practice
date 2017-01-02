@@ -6,7 +6,7 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 <!doctype html>
 <html>
 <head>
-    <title>Look I'm AJAXing!</title>
+    <title>Order Form</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> <!-- load bootstrap via CDN -->
 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> <!-- load jquery via CDN -->
@@ -45,7 +45,8 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                                /*
                                 // handle errors for name ---------------
                                */ 
-                               $('form').append('<div></div></br><div class="alert alert-danger"><b>Error Code</b>: ' + xml.find('qdbapi').find('errcode').text() + ', '+ xml.find('qdbapi').find('errtext').text() + '. '+"<br/>"+ '<b>Error Text: </b>'+xml.find('qdbapi').find('errdetail').text()+'</div>');
+                               var newerror = $('<div></div></br><div class="alert alert-danger"><b>Error Code</b>: ' + xml.find('qdbapi').find('errcode').text() + ', '+ xml.find('qdbapi').find('errtext').text() + '. '+"<br/>"+ '<b>Error Text: </b>'+xml.find('qdbapi').find('errdetail').text()+'</div>');
+                               $('form').append(newerror); 
 
                                /*
                                 if (data.errors._fid_6) {
@@ -68,13 +69,16 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                             } else {
                                 
                                 // ALL GOOD! just show the success message!
+                                $('alert').remove(); 
                                 $('form').append('<div class="alert alert-success">Success! RID: ' + xml.find('qdbapi').find('rid').text() + '</div>');
-
+                                var win = window.open("http://www.google.com", '_blank');
+          //alert(win); 
+          						win.focus();
                                 // usually after form submission, you'll want to redirect
                                 // window.location = '/thank-you'; // redirect a user to another page
-                                alert('success'); // for now we'll just alert the user
+                                //alert('success'); // for now we'll just alert the user
                                 
-                            }
+                           			 }
                                         });
         
                                     // stop the form from submitting the normal way and refreshing the page
