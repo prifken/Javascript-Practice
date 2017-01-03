@@ -8,7 +8,8 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 <head>
     <title>Order Form</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> <!-- load bootstrap via CDN -->
-
+    <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet" /> <!-- Glyphicons! -->
+    <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=54" rel="stylesheet" /> <!--bootstrap-datepicker-standalone.css, Don't forget to include bootstrap-datepicker.js--> 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> <!-- load jquery via CDN -->
     <script>
         // magic.js
@@ -20,9 +21,12 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                 // get the form data
                 // there are many ways to get this data using jQuery (you can use the class or id also)
                 var formData = {
-                    '_fid_6'              : $('input[name=_fid_6]').val(),
-                    '_fid_8'             : $('input[name=_fid_8]').val(),
-                    'superheroAlias'    : $('input[name=superheroAlias]').val()
+                    '_fid_6'                : $('input[name=_fid_6]').val(),
+                    '_fid_8'                : $('input[name=_fid_8]').val(),
+                    '_fid_12'    			: $('input[name=_fid_12]').val(),
+                    '_fid_27'    			: $('select[name=_fid_27]').val(),
+                    '_fid_15'    			: $('select[name=_fid_15]').val(),
+                    '_fid_14'    			: $('input[name=_fid_14]').val()
                 };
         
                 // process the form
@@ -45,7 +49,8 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                                /*
                                 // handle errors for name ---------------
                                */ 
-                               var newerror = $('<div></div></br><div class="alert alert-danger"><b>Error Code</b>: ' + xml.find('qdbapi').find('errcode').text() + ', '+ xml.find('qdbapi').find('errtext').text() + '. '+"<br/>"+ '<b>Error Text: </b>'+xml.find('qdbapi').find('errdetail').text()+'</div>');
+                               $('.alert-success').remove(); 
+                               var newerror = $('<div></div></br><div class="alert alert-danger" id="newerror"><b>Error Code</b>: ' + xml.find('qdbapi').find('errcode').text() + ', '+ xml.find('qdbapi').find('errtext').text() + '. '+"<br/>"+ '<b>Error Text: </b>'+xml.find('qdbapi').find('errdetail').text()+'</div>');
                                $('form').append(newerror); 
 
                                /*
@@ -69,7 +74,7 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                             } else {
                                 
                                 // ALL GOOD! just show the success message!
-                                $('alert').remove(); 
+                                $('.alert').remove(); 
                                 $('form').append('<div class="alert alert-success">Success! RID: ' + xml.find('qdbapi').find('rid').text() + '</div>');
                                 var win = window.open("http://www.google.com", '_blank');
           //alert(win); 
@@ -112,9 +117,43 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
         </div>
 
         <!-- SUPERHERO ALIAS -->
-        <div id="superhero-group" class="form-group">
-            <label for="superheroAlias">Superhero Alias</label>
-            <input type="text" class="form-control" name="superheroAlias" placeholder="Ant Man">
+        <div id="link-group" class="form-group">
+            <label for="_fid_12">Link to Parts Online</label>
+            <input type="text" class="form-control" name="_fid_12" placeholder="www.mcmastercarr.com">
+            <!-- errors will go here -->
+        </div>
+
+         <div id="type-group" class="form-group">
+            <label for="_fid_27">Select Type</label>
+            
+            <select name=_fid_27 id="_fid_27" class="form-control">
+                     <option value="" disabled selected>Select Priority</option>
+                     <option>Quarter-Zip ($55)</option>
+                     <option>T-Shirt (No Cost)</option>
+                     <option>Raw Materials</option>
+             </select>
+            <!-- errors will go here -->
+        </div>
+
+        <div id="priority-group" class="form-group">
+            <label for="_fid_15">Priority</label>
+             <select name=_fid_15 id="_fid_15" class="form-control">
+                     <option value="" disabled selected>Select Priority</option>
+                     <option>Urgent</option>
+                     <option>Medium</option>
+                     <option>Low</option>
+             </select>
+            <!-- errors will go here -->
+        </div>
+
+         <div id="priority-group" class="form-group">
+            <label for="_fid_14">Date Requested By</label>
+             <div class="input-group date" data-provide="datepicker">
+             <input type=text name=_fid_14 id="_fid_14" class="form-control" placeholder="Date Requested By">
+                 <span class="the-icons input-group-addon">
+                     <span class="glyphicon glyphicon-calendar"></span>
+                 </span>
+             </div>
             <!-- errors will go here -->
         </div>
 
@@ -123,6 +162,9 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
     </form>
 
 </div>
+<!--Date Picker--> 
+<script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=53"></script><!--Don't Forget to  Includebootstrap-datepicker-standalone.css--> 
+<!--End Date Picker--> 
 </body>
 </html>
 
