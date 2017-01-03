@@ -6,11 +6,80 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 <!doctype html>
 <html>
 <head>
+<style>
+.main{
+	margin-top: 1cm; 
+}
+
+
+
+
+</style>
     <title>Order Form</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css"> <!-- load bootstrap via CDN -->
     <link href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css" rel="stylesheet" /> <!-- Glyphicons! -->
     <link href="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=54" rel="stylesheet" /> <!--bootstrap-datepicker-standalone.css, Don't forget to include bootstrap-datepicker.js--> 
     <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script> <!-- load jquery via CDN -->
+    <script>
+   		  function vendors()
+   		       {
+   		 this.vendorName="Name";
+   		 this.recordID=0;
+   		     } 
+   </script>
+    <script>
+    //Query Vendors Table and Create Vendors Array
+     var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL https://team.quickbase.com/db/bk7szc9ck
+      url    += "/db/";
+      url    += "bk7szc9ck";                                   // Remember to put in YOUR tableDBID
+      url    += "?a=API_DoQuery";
+    
+      var request = "<qdbapi>";
+      request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+      request    += "</qdbapi>";
+    
+    var vendorArray=[]; 
+    
+    $.ajax({
+    type: "POST",
+    contentType: "text/xml",
+    async: false,
+    url: url,
+    dataType: "xml",
+    processData: false,
+    data: request,
+              success: function (response) {
+    
+               var xml = $(response); //Convert response to XML Code
+               if (xml.find('qdbapi').find('errcode').text() == "0") {
+            
+              var cast = 0; 
+          //Looping Through Response Begins Below
+                           xml.find('qdbapi').find('record').each(function(index){  
+                            var x = new vendors("Test",0); 
+                            x.vendorName=$(this).find("vendor_name").text();
+                            x.recordID=$(this).find("record_id_").text();
+                            //console.log("Vendor Name = " + $(this).find("vendor_name").text());
+                            //console.log("Record ID = " + $(this).find("record_id_").text());
+                            vendorArray.push(x);
+                            //console.log(vendorArray);
+                          //console.log("\n\n");
+                        });//End XML Loop
+            console.log(vendorArray);
+            }
+              else 
+              {
+               console.log("Quickbase returned an error.");
+               console.log(response);
+             } 
+           },
+    error: function (response)
+      {
+      console.log("Quickbase returned an error.");
+      console.log(response);
+      }
+    });
+    </script>
     <script>
         // magic.js
         $(document).ready(function() {
@@ -26,7 +95,9 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                     '_fid_12'    			: $('input[name=_fid_12]').val(),
                     '_fid_27'    			: $('select[name=_fid_27]').val(),
                     '_fid_15'    			: $('select[name=_fid_15]').val(),
-                    '_fid_14'    			: $('input[name=_fid_14]').val()
+                    '_fid_14'    			: $('input[name=_fid_14]').val(),
+                    '_fid_16'    			: $('input[name=_fid_16]').val(),
+                    '_fid_11'    			: $('textarea[name=_fid_11]').val()
                 };
         
                 // process the form
@@ -50,6 +121,7 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                                 // handle errors for name ---------------
                                */ 
                                $('.alert-success').remove(); 
+                               $('.alert').remove(); 
                                var newerror = $('<div></div></br><div class="alert alert-danger" id="newerror"><b>Error Code</b>: ' + xml.find('qdbapi').find('errcode').text() + ', '+ xml.find('qdbapi').find('errtext').text() + '. '+"<br/>"+ '<b>Error Text: </b>'+xml.find('qdbapi').find('errdetail').text()+'</div>');
                                $('form').append(newerror); 
 
@@ -76,8 +148,7 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
                                 // ALL GOOD! just show the success message!
                                 $('.alert').remove(); 
                                 $('form').append('<div class="alert alert-success">Success! RID: ' + xml.find('qdbapi').find('rid').text() + '</div>');
-                                var win = window.open("http://www.google.com", '_blank');
-          //alert(win); 
+                                var win = window.open("https://team.quickbase.com/db/bk8p6344r?a=dr&rid="+xml.find('qdbapi').find('rid').text()+"&rl=c26", '_blank');
           						win.focus();
                                 // usually after form submission, you'll want to redirect
                                 // window.location = '/thank-you'; // redirect a user to another page
@@ -95,76 +166,136 @@ HELP LINK: https://scotch.io/tutorials/submitting-ajax-forms-with-jquery
 
 </head>
 <body>
-<div class="col-sm-6 col-sm-offset-3">
 
-    <h1>Order Request Form</h1>
+<div class="main"> <!-- col-sm-6 col-sm-offset-3 -->
+	<div class="container">
+    <!--<h1>Order Request Form</h1>-->
 
     <!-- OUR FORM -->
-    <form action="https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr" method="POST">
-        
-        <!-- NAME -->
-        <div id="name-group" class="form-group">
-            <label for="_fid_6">Description</label>
-            <input type="text" class="form-control" name="_fid_6" placeholder="Description">
-            <!-- errors will go here -->
-        </div>
+    <div class="panel panel-success">
+    <div class="panel-heading">
+    	<h3 class="panel-title">Order Request Form</h3>
+    </div>
+    <div class="panel-body">
+   		 <form action="https://team.quickbase.com/db/bk8p6344r?act=API_AddRecord&apptoken=cwfcy7gdzqrsyncqbi2bn4u4kr" method="POST">
+   		     
+   		     <!-- NAME -->
+   		 <div class="row">
+   		     <div id="name-group" class="form-group col-md-4">
+   		         <label for="_fid_6">Description</label>
+   		         <input type="text" class="form-control" name="_fid_6" placeholder="Description">
+   		         <!-- errors will go here -->
+   		     </div>
 
-        <!-- EMAIL -->
-        <div id="email-group" class="form-group">
-            <label for="_fid_8">Quantity Requested</label>
-            <input type="number" class="form-control" name="_fid_8" placeholder="0">
-            <!-- errors will go here -->
-        </div>
+   		     <!-- EMAIL -->
+   		     <div id="email-group" class="form-group col-md-4">
+   		         <label for="_fid_8">Quantity Requested</label>
+   		         <input type="number" class="form-control" name="_fid_8" placeholder="0">
+   		         <!-- errors will go here -->
+   		     </div>
 
-        <!-- SUPERHERO ALIAS -->
-        <div id="link-group" class="form-group">
-            <label for="_fid_12">Link to Parts Online</label>
-            <input type="text" class="form-control" name="_fid_12" placeholder="www.mcmastercarr.com">
-            <!-- errors will go here -->
-        </div>
+   		     <!-- SUPERHERO ALIAS -->
+   		     <div id="link-group" class="form-group col-md-4">
+   		         <label for="_fid_12">Link to Parts Online</label>
+   		         <input type="text" class="form-control" name="_fid_12" placeholder="www.mcmastercarr.com">
+   		         <!-- errors will go here -->
+   		     </div>
+   		 </div>
+   		 <div class="row">    
+   		      <div id="type-group" class="form-group col-md-4">
+   		         <label for="_fid_27">Select Type</label>
+   		         
+   		         <select name=_fid_27 id="_fid_27" class="form-control">
+   		                  <option selected>Raw Materials</option>
+   		                  <!--<option>Quarter-Zip ($55)</option>
+   		                  <option>T-Shirt (No Cost)</option>-->
+   		          </select>
+   		         <!-- errors will go here -->
+   		     </div>
 
-         <div id="type-group" class="form-group">
-            <label for="_fid_27">Select Type</label>
-            
-            <select name=_fid_27 id="_fid_27" class="form-control">
-                     <option value="" disabled selected>Select Priority</option>
-                     <option>Quarter-Zip ($55)</option>
-                     <option>T-Shirt (No Cost)</option>
-                     <option>Raw Materials</option>
-             </select>
-            <!-- errors will go here -->
-        </div>
+   		     <div id="priority-group" class="form-group col-md-4">
+   		         <label for="_fid_15">Priority</label>
+   		          <select name=_fid_15 id="_fid_15" class="form-control">
+   		                  <option value="" disabled selected>Select Priority</option>
+   		                  <option>Urgent</option>
+   		                  <option>Medium</option>
+   		                  <option>Low</option>
+   		          </select>
+   		         <!-- errors will go here -->
+   		     </div>
 
-        <div id="priority-group" class="form-group">
-            <label for="_fid_15">Priority</label>
-             <select name=_fid_15 id="_fid_15" class="form-control">
-                     <option value="" disabled selected>Select Priority</option>
-                     <option>Urgent</option>
-                     <option>Medium</option>
-                     <option>Low</option>
-             </select>
-            <!-- errors will go here -->
-        </div>
+   		      <div id="date-group" class="form-group col-md-4">
+   		         <label for="_fid_14">Date Requested By</label>
+   		          <div class="input-group date" data-provide="datepicker">
+   		          <input type=text name=_fid_14 id="_fid_14" class="form-control" placeholder="Date Requested By">
+   		              <span class="the-icons input-group-addon">
+   		                  <span class="glyphicon glyphicon-calendar"></span>
+   		              </span>
+   		          </div>
+   		         <!-- errors will go here -->
+   		     </div>
+   		 </div>
+   		 <div class="row">
+   		 	
+   		     <div id="vendor-group" class="form-group col-md-4">
+   		         <label for="_fid_16">Select Vendor</label>
+   		          <select class="form-control" id=appendme onchange="changefunction($('#appendme').val())">
+   		                 <option value="" disabled selected>Select Vendor</option>
+   		          </select>
+   		                 <input type=hidden name=_fid_16 id="_fid_16"> <!--This sends related vendor ID to QB -->
+   		         <!-- errors will go here -->
+   		     </div>
+   		     
+   		     <div id="link-group" class="form-group col-md-8">
+   		         <label for="_fid_11">Additional Notes </label>
+   		         <textarea class="form-control" rows="3" name="_fid_11" placeholder="Additional Notes"></textarea>
+   		         
+   		     </div>
 
-         <div id="priority-group" class="form-group">
-            <label for="_fid_14">Date Requested By</label>
-             <div class="input-group date" data-provide="datepicker">
-             <input type=text name=_fid_14 id="_fid_14" class="form-control" placeholder="Date Requested By">
-                 <span class="the-icons input-group-addon">
-                     <span class="glyphicon glyphicon-calendar"></span>
-                 </span>
-             </div>
-            <!-- errors will go here -->
-        </div>
+   		 </div>
+   		 <div class="row">
 
-        <button type="submit" class="btn btn-success">Submit <span class="fa fa-arrow-right"></span></button>
-
-    </form>
-
-</div>
+   		     <div id="submit-group" class="form-group col-md-4">
+   		    		 <input type="submit" class="btn btn-success" value="Submit Order Form" type="form-control" id="buttonclick"> 
+   		    		 	<!--<span class="fa fa-arrow-right"></span>-->
+   		    		 
+   		     </div>
+   		 </div>
+   		 </form>
+   	</div> <!--panel body-->
+   	</div> <!--panel-->
+    </div><!--container-->
+</div><!--main-->
 <!--Date Picker--> 
 <script src="https://team.quickbase.com/db/bk7sy9jda?a=pagePreview&pageID=53"></script><!--Don't Forget to  Includebootstrap-datepicker-standalone.css--> 
 <!--End Date Picker--> 
+<script>
+  function changefunction(val){
+    //alert(val);
+    for (i = 0; i < vendorArray.length; i++)
+            {
+              //console.log("success: "+ vendorArray[i].vendor_name);
+                console.log(val+" "+vendorArray[i].vendorName);
+                if(val==vendorArray[i].vendorName){
+                  //alert(vendorArray[i].recordID);
+                  $('#_fid_16').val(vendorArray[i].recordID);
+                }
+            }
+  };
+
+</script>
+<script>
+  
+  $(function(){
+     
+         for (i = 0; i < vendorArray.length; i++)
+            {
+              //console.log("success: "+ vendorArray[i].vendor_name);
+                $("#appendme").append('<option>'+vendorArray[i].vendorName+'</option>');
+            }
+         
+  });
+</script>
 </body>
 </html>
 
