@@ -1,0 +1,24 @@
+<script>
+titleCase("I'm a little tea pot");
+
+function titleCase(str) {
+  
+  var split = str.split(" "); 
+  console.log(split);
+  length = 0;
+  index = 0; 
+  for(i=0; i<split.length; i++){
+  	var letters=split[i].split(''); 
+  	console.log(letters); 
+  	for(i=0; i<letters.length; i++){
+  		letters[i]=letters[i].toUpperCase();
+  		console.log(letters[i]);  
+  	}
+  	
+  }
+  console.log(split); 
+  return split[index].length;
+}
+
+
+</script>
