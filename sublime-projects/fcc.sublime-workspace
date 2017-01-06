@@ -1,0 +1,412 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"btn",
+				"btn-primary"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<script>\n\n\nfunction rot13(str) { // LBH QVQ VG!\n\tconsole.log(str);\nfor(var i=0; i<26; i++){\n  console.log(i, str.charCodeAt(i));\n  var numcode = parseInt(str.charCodeAt(i)); \n  console.log(numcode); \n  numcode -= 13; \n  console.log(\"from Char Code: \"+String.fromCharCode(numcode)); \n\n}\n  return str;\n}\n\n// Change the inputs below to test\nrot13(\"SERR PBQR PNZC\");\n\t\n</script>\n<!--\ngetIndexToIns([10, 20, 30, 40, 50], 35) should return 3.\ngetIndexToIns([10, 20, 30, 40, 50], 30) should return 2.\ngetIndexToIns([40, 60], 50) should return 1.\ngetIndexToIns([3, 10, 5], 3) should return 0.\ngetIndexToIns([5, 3, 20, 3], 5) should return 2.\ngetIndexToIns([2, 20, 10], 19) should return 2.\ngetIndexToIns([2, 5, 10], 15) should return 3.\n-->",
+			"file": "/C/Users/prifken/Documents/GitHub/Javascript/fcc.html",
+			"file_size": 1133,
+			"file_write_time": 131281333512629292,
+			"settings":
+			{
+				"buffer_size": 732,
+				"encoding": "UTF-8",
+				"line_ending": "Windows"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 392.0,
+		"last_filter": "Package Control: package",
+		"selected_items":
+		[
+			[
+				"Package Control: package",
+				"Package Control: Install Package"
+			]
+		],
+		"width": 392.0
+	},
+	"console":
+	{
+		"height": 454.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = 'df21e130d211cfc94d9b0905775a7c0f' + '1e3d39e33b79698005270310898eea76'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/prifken/Documents/GitHub/Javascript/distance.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/fcc.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/ganttchart.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/robotics.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/ajaxform.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/googlecharts.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/MLB_OOP.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/googlemap.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/customer PoC/NancyJones/mapreport.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/distance.js",
+		"/C/Users/prifken/Documents/GitHub/bower_components/async/dist/async.js",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/robotics_ajax.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/customer PoC/NancyJones/googlemap.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/customer PoC/NancyJones/maplace.js",
+		"/C/Users/prifken/Documents/GitHub/Javascript/customer PoC/NancyJones/maplace.min.js",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/bootstrap_edited.css",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap_datepicker_edited.css",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/font-awesome_edited.css",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/fontawesome-webfont.ttf",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/fontawesome-webfont.svg",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/fontawesome-webfont.woff",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/fontawesome-webfont.eot",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/glyphicons-halflings-regular.svg",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/glyphicons-halflings-regular.ttf",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/glyphicons-halflings-regular.woff",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/glyphicons-halflings-regular.eot",
+		"/C/Users/prifken/Downloads/ThalesFlow.html",
+		"/C/Users/prifken/Dropbox (Intuit Quickbase SE)/Apps/drawio/ThalesFlow.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/ajax.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/assets/css/bootstrap-responsive.css",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/assets/less/dist/datepicker.less",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/assets/less/dist/less.js",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/css/bootstrap.css",
+		"/C/Users/prifken/Documents/GitHub/Javascript/bootstrap-4.0.0-alpha.5/docs/examples/testing/bootstrap.html",
+		"/C/Users/prifken/Desktop/Advanced formulas.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/MLB.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/dropdown_complex_withcolumns.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/bootstrap.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/charts.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/dropdown_complex_withcolumns_fulldataset.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/dropdown.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/table.html",
+		"/C/Users/prifken/Documents/GitHub/formtastic-js/js/formtastic-js.js",
+		"/C/Users/prifken/Documents/GitHub/formtastic-js/dist/formtastic-js.min.js",
+		"/C/Users/prifken/Documents/GitHub/formtastic-js/example/index.html",
+		"/C/Users/prifken/Documents/GitHub/bower_components/formtastic-js/example/index.html",
+		"/C/Users/prifken/Documents/GitHub/bower_components/underscore/underscore-min.js",
+		"/C/Users/prifken/Documents/GitHub/bower_components/jquery/dist/jquery.min.js",
+		"/C/Users/prifken/Documents/GitHub/bower_components/formtastic-js/dist/formtastic-js.js",
+		"/C/Users/prifken/Documents/GitHub/bower_components/formtastic-js/karma.conf.js",
+		"/C/Users/prifken/Documents/GitHub/bower_components/formtastic-js/README.md",
+		"/C/Users/prifken/Documents/GitHub/bower_components/formtastic-js/example/sample.js",
+		"/C/Users/prifken/Documents/GitHub/Javascript/gaa.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/video.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/helloworld.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/test3.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/jquery-3.1.1.js",
+		"/C/Users/prifken/Documents/GitHub/Javascript/test.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/test.js",
+		"/C/Users/prifken/Documents/GitHub/Javascript/JavaScript.sublime-build",
+		"/C/Users/prifken/AppData/Roaming/Sublime Text 3/Packages/User/untitled.sublime-build",
+		"/C/Users/prifken/AppData/Roaming/Sublime Text 3/Packages/User/Javascript.sublime-build"
+	],
+	"find":
+	{
+		"height": 26.0
+	},
+	"find_in_files":
+	{
+		"height": 90.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"arr",
+			"rob",
+			"robo",
+			"head",
+			"vendor",
+			"buttonclick",
+			"vendors",
+			"vend",
+			"banner",
+			"appendme",
+			"vendorArray",
+			"click",
+			"0",
+			"taskPercentComplete",
+			"coacharray",
+			"div",
+			"alert",
+			"addressA",
+			"dist",
+			"0",
+			"elements",
+			"Elements",
+			"elements",
+			"Elements",
+			"elements",
+			"Elements",
+			"elements",
+			"console.log",
+			"var globals",
+			"console.log",
+			"alert",
+			"addressarray",
+			"async",
+			"(",
+			"responsearray",
+			"httpResponse",
+			"console.log",
+			"initmap",
+			"global",
+			"console.log",
+			"distance",
+			"element",
+			"addressar",
+			"addressA",
+			"console.log",
+			"alert",
+			"key",
+			"var",
+			"directionsSer",
+			"map",
+			"floating-panel",
+			"hidden",
+			"alert",
+			"address",
+			"submit",
+			"quantity",
+			"submit",
+			"doquery",
+			"query",
+			"ajaxform",
+			"form",
+			"ajax",
+			"checkforo",
+			"form",
+			"addrec",
+			"submit",
+			"preventDefault",
+			"validateForm",
+			"alert",
+			"banner",
+			"quantity req",
+			"banner",
+			"data-toggle",
+			"hide",
+			"banner",
+			"return",
+			"err",
+			"banner",
+			"50",
+			"src",
+			"font",
+			"url",
+			"src",
+			"font-face",
+			"dropbox",
+			"responsive",
+			"clearfix",
+			"bootstrap.css",
+			"getdate",
+			"option",
+			"div",
+			"  <",
+			"form-group",
+			"has-success",
+			"color",
+			"<td class=m>",
+			"<tr>",
+			"</tr>",
+			"</td>",
+			"  <td class=m>",
+			"input",
+			"rdr",
+			"tether",
+			"tooltip",
+			"<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->\n    <meta name=\"description\" content=\"\">\n    <meta name=\"author\" content=\"\">\n    <link rel=\"icon\" href=\"../../favicon.ico\">\n\n    <title>Starter Template for Bootstrap</title>\n\n    <!-- Bootstrap core CSS -->\n    <link href=\"../../dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n\n    <!-- Custom styles for this template -->\n    <link href=\"starter-template.css\" rel=\"stylesheet\">\n  </head>\n\n  <body>\n\n    <nav class=\"navbar navbar-fixed-top navbar-dark bg-inverse\">\n      <a class=\"navbar-brand\" href=\"#\">Project name</a>\n      <ul class=\"nav navbar-nav\">\n        <li class=\"nav-item active\">\n          <a class=\"nav-link\" href=\"#\">Home <span class=\"sr-only\">(current)</span></a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#\">About</a>\n        </li>\n        <li class=\"nav-item\">\n          <a class=\"nav-link\" href=\"#\">Contact</a>\n        </li>\n      </ul>\n    </nav>\n\n    <div class=\"container\">\n\n      <div class=\"starter-template\">\n        <h1>Bootstrap starter template</h1>\n        <p class=\"lead\">Use this document as a way to quickly start any new project.<br> All you get is this text and a mostly barebones HTML document.</p>\n      </div>\n\n    </div><!-- /.container -->\n\n<div class=\"container\">\n    <h1> Peter's new h1 inside of a div </h1>\n    <p id=\"mytest\" onmouseover=\"stext\" onmouseout=\"htext\">This is some text</p>\n    <h2> Peter's new h1 inside of a div </h2>\n</div>\n\n    <!-- Bootstrap core JavaScript\n    ================================================== -->\n    <!-- Placed at the end of the document so the pages load faster -->\n    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js\" integrity=\"sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY\" crossorigin=\"anonymous\"></script>\n    <script>window.jQuery || document.write('<script src=\"../../assets/js/vendor/jquery.min.js\"><\\/script>')</script>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js\" integrity=\"sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB\" crossorigin=\"anonymous\"></script>\n    <script src=\"../../dist/js/bootstrap.min.js\"></script>\n    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->\n    <script src=\"../../assets/js/ie10-viewport-bug-workaround.js\"></script>\n    <script>\n    setInterval(function() {\n    var x = document.getElementById(\"mytest\");\n    \n\n    function stext() {\n        x.style.color = 'red';\n        \n    }\n\n    function htext() {\n        x.style.color = 'black';\n        \n    }\n}, 250);\n    </script>\n  </body>\n</html>\n",
+			"h1",
+			"starter-template",
+			"testarr",
+			"data",
+			"query",
+			"DoQuery",
+			"query",
+			"src",
+			"menu",
+			"table",
+			"testarray",
+			"data",
+			"mouse",
+			"date",
+			"ObjUL",
+			"checkforblank",
+			"monthly",
+			"coachArray",
+			"api_do",
+			"loadGeeMails",
+			"subject",
+			"date",
+			"Date"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "/C/Users/prifken/Documents/GitHub/Javascript/fcc.html",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 732,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								732,
+								732
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/HTML/HTML.sublime-syntax"
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 26.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.exec":
+	{
+		"height": 167.0
+	},
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "Packages/User/Javascript.sublime-build",
+	"project": "fcc.sublime-project",
+	"replace":
+	{
+		"height": 48.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"C:\\Users\\prifken\\Documents\\GitHub\\Javascript\\fcc.html"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": true,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 120.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
