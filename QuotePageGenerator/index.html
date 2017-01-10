@@ -22,27 +22,50 @@
   padding: 0 90px !important;
   border-radius: 25px !important;
 }
+.site-wrapper {
+  border: 2px solid #C2C2C2 !important;
+  padding: 0 90px !important;
+  border-radius: 25px !important;
+}
+.site-wrapper-inner {
+  border: 2px solid #C2C2C2 !important;
+  padding: 0 90px !important;
+  border-radius: 25px !important;
+}
+.cover-container {
+  border: 2px solid #C2C2C2 !important;
+  padding: 0 90px !important;
+  border-radius: 25px !important;
+}
 .blockquote {
   border:none;
 }
+
+.unique {
+	
+	width: 800px;
+	height: 400px;
+	overflow: hidden; 
+}
+
 </style>
   </head>
 
   <body>
 
-    <div class="site-wrapper">
+    <div class="site-wrapper"> Site Wrapper
 
-      <div class="site-wrapper-inner">
+      <div class="site-wrapper-inner"> Site Inner Wrapper
 
-        <div class="cover-container">
+        <div class="cover-container"> Cover Container
 
-          <div class="masthead clearfix">
+          <div class="masthead clearfix">MastHead Clear Fix
             <div class="inner">
-              
+             Div Class Inner
             </div>
           </div>
 
-          <div class="inner cover">
+          <div class="inner cover unique" id="fademe">
             <h1 class="cover-heading">Chuck Norris Jokes:</h1>
             
             <blockquote class="blockquote new" id="quoteplace"></blockquote>
@@ -87,7 +110,8 @@ function genQuote() {
             console.log(data["value"]["joke"], "fired!"); 
             
              
-            $("blockquote").text(data["value"]["joke"]);
+            $("blockquote").text(data["value"]["joke"]).hide().fadeIn(1000);
+            //$("#fademe").hide().fadeIn(500); 
             
           },
           xhrFields: {
