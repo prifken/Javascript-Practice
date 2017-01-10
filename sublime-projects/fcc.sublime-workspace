@@ -12,15 +12,15 @@
 	"buffers":
 	[
 		{
-			"contents": "<script>\n\n\nfunction rot13(str) { // LBH QVQ VG!\n\tconsole.log(str);\nfor(var i=0; i<26; i++){\n  console.log(i, str.charCodeAt(i));\n  var numcode = parseInt(str.charCodeAt(i)); \n  console.log(numcode); \n  numcode -= 13; \n  console.log(\"from Char Code: \"+String.fromCharCode(numcode)); \n\n}\n  return str;\n}\n\n// Change the inputs below to test\nrot13(\"SERR PBQR PNZC\");\n\t\n</script>\n<!--\ngetIndexToIns([10, 20, 30, 40, 50], 35) should return 3.\ngetIndexToIns([10, 20, 30, 40, 50], 30) should return 2.\ngetIndexToIns([40, 60], 50) should return 1.\ngetIndexToIns([3, 10, 5], 3) should return 0.\ngetIndexToIns([5, 3, 20, 3], 5) should return 2.\ngetIndexToIns([2, 20, 10], 19) should return 2.\ngetIndexToIns([2, 5, 10], 15) should return 3.\n-->",
-			"file": "/C/Users/prifken/Documents/GitHub/Javascript/fcc.html",
-			"file_size": 1133,
-			"file_write_time": 131281333512629292,
+			"contents": "<!DOCTYPE html>\n<html lang=\"en\">\n  <head>\n    <meta charset=\"utf-8\">\n    <meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge\">\n    <meta name=\"viewport\" content=\"width=device-width, initial-scale=1, shrink-to-fit=no\">\n    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->\n    <meta name=\"description\" content=\"\">\n    <meta name=\"author\" content=\"\">\n    <link rel=\"icon\" href=\"../../favicon.ico\">\n\n    <title>Cover Template for Bootstrap</title>\n\n    <!-- Bootstrap core CSS -->\n    <link href=\"../../dist/css/bootstrap.min.css\" rel=\"stylesheet\">\n\n    <!-- Custom styles for this template -->\n    <link href=\"cover.css\" rel=\"stylesheet\">\n  </head>\n\n  <body>\n\n    <div class=\"site-wrapper\">\n\n      <div class=\"site-wrapper-inner\">\n\n        <div class=\"cover-container\">\n\n          <div class=\"masthead clearfix\">\n            <div class=\"inner\">\n              <h3 class=\"masthead-brand\">Cover</h3>\n              <nav class=\"nav nav-masthead\">\n                <a class=\"nav-link active\" href=\"#\">Home</a>\n                <a class=\"nav-link\" href=\"#\">Features</a>\n                <a class=\"nav-link\" href=\"#\">Contact</a>\n              </nav>\n            </div>\n          </div>\n\n          <div class=\"inner cover\">\n            <h1 class=\"cover-heading\">Cover your page.</h1>\n            <p class=\"lead\">Cover is a one-page template for building simple and beautiful home pages. Download, edit the text, and add your own fullscreen background photo to make it your own.</p>\n            <p class=\"lead\">\n              <a href=\"#\" class=\"btn btn-lg btn-secondary\">Learn more</a>\n            </p>\n          </div>\n\n          <div class=\"mastfoot\">\n            <div class=\"inner\">\n              <p>Cover template for <a href=\"https://getbootstrap.com\">Bootstrap</a>, by <a href=\"https://twitter.com/mdo\">@mdo</a>.</p>\n            </div>\n          </div>\n\n        </div>\n\n      </div>\n\n    </div>\n\n    <!-- Bootstrap core JavaScript\n    ================================================== -->\n   \n\n  </body>\n</html>\n\n <!-- Placed at the end of the document so the pages load faster -->\n    <script src=\"https://ajax.googleapis.com/ajax/libs/jquery/3.0.0/jquery.min.js\" integrity=\"sha384-THPy051/pYDQGanwU6poAc/hOdQxjnOEXzbT+OuUAFqNqFjL+4IGLBgCJC3ZOShY\" crossorigin=\"anonymous\"></script>\n    <script>window.jQuery || document.write('<script src=\"../../assets/js/vendor/jquery.min.js\"><\\/script>')</script>\n    <script src=\"https://cdnjs.cloudflare.com/ajax/libs/tether/1.2.0/js/tether.min.js\" integrity=\"sha384-Plbmg8JY28KFelvJVai01l8WyZzrYWG825m+cZ0eDDS1f7d/js6ikvy1+X+guPIB\" crossorigin=\"anonymous\"></script>",
+			"file": "/C/Users/prifken/Documents/GitHub/Javascript/CodePageGenerator/index.html",
+			"file_size": 2860,
+			"file_write_time": 131285326513586771,
 			"settings":
 			{
-				"buffer_size": 732,
+				"buffer_size": 2661,
 				"encoding": "UTF-8",
-				"line_ending": "Windows"
+				"line_ending": "Unix"
 			}
 		}
 	],
@@ -61,14 +61,22 @@
 	},
 	"file_history":
 	[
+		"/C/Users/prifken/Documents/GitHub/Javascript/googlemap.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/EdisonTribute/index.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/distance.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/fcc.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/ajax.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/ganttchart.html",
+		"/C/Users/prifken/Documents/GitHub/bootstrap/docs/examples/starter-template/index.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/Portfolio/index.html",
+		"/C/Users/prifken/Documents/GitHub/bootstrap/docs/components/navbar.md",
+		"/C/Users/prifken/Documents/GitHub/bootstrap/docs/examples/navbar-top-fixed/navbar-top-fixed.css",
+		"/C/Users/prifken/Documents/GitHub/startbootstrap-clean-blog/index.html",
+		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/template.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/robotics.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/ajaxform.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/googlecharts.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/MLB_OOP.html",
-		"/C/Users/prifken/Documents/GitHub/Javascript/googlemap.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/customer PoC/NancyJones/mapreport.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/distance.js",
 		"/C/Users/prifken/Documents/GitHub/bower_components/async/dist/async.js",
@@ -89,7 +97,6 @@
 		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/bootstrap3/fonts/glyphicons-halflings-regular.eot",
 		"/C/Users/prifken/Downloads/ThalesFlow.html",
 		"/C/Users/prifken/Dropbox (Intuit Quickbase SE)/Apps/drawio/ThalesFlow.html",
-		"/C/Users/prifken/Documents/GitHub/Javascript/ajax.html",
 		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/assets/css/bootstrap-responsive.css",
 		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/assets/less/dist/datepicker.less",
 		"/C/Users/prifken/Documents/GitHub/Javascript/get-shit-done-1.4.0/assets/less/dist/less.js",
@@ -126,7 +133,7 @@
 	],
 	"find":
 	{
-		"height": 26.0
+		"height": 35.0
 	},
 	"find_in_files":
 	{
@@ -140,6 +147,8 @@
 		"case_sensitive": false,
 		"find_history":
 		[
+			"json",
+			"css",
 			"arr",
 			"rob",
 			"robo",
@@ -265,9 +274,7 @@
 			"coachArray",
 			"api_do",
 			"loadGeeMails",
-			"subject",
-			"date",
-			"Date"
+			"subject"
 		],
 		"highlight": true,
 		"in_selection": false,
@@ -290,24 +297,26 @@
 			[
 				{
 					"buffer": 0,
-					"file": "/C/Users/prifken/Documents/GitHub/Javascript/fcc.html",
+					"file": "/C/Users/prifken/Documents/GitHub/Javascript/CodePageGenerator/index.html",
 					"semi_transient": false,
 					"settings":
 					{
-						"buffer_size": 732,
+						"buffer_size": 2661,
 						"regions":
 						{
 						},
 						"selection":
 						[
 							[
-								732,
-								732
+								678,
+								681
 							]
 						],
 						"settings":
 						{
-							"syntax": "Packages/HTML/HTML.sublime-syntax"
+							"syntax": "Packages/HTML/HTML.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
 						},
 						"translation.x": 0.0,
 						"translation.y": 0.0,
