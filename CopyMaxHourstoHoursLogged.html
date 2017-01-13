@@ -1,0 +1,109 @@
+<!-- This script replaced workato in the process of summarizing opportunity details and spitting to QB App--> 
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script>
+function TeamMembers(){
+	this.memberName="Name";
+	this.recordID=0;
+	this.hoursLogged=0;
+	this.maxHours=0;
+
+}
+
+//Query Sellers Table and Create TeamMembers Array
+ var url = "https://team.quickbase.com/db/bk86syyx4?a=API_DoQuery&query={9.EX.'2017'}";     // Remember to put in YOUR baseURL
+
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+var teamArray=[]; 
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+			    success: function (response) {
+
+			     var xml = $(response); //Convert response to XML Code
+			     if (xml.find('qdbapi').find('errcode').text() == "0") {
+				
+					var cast = 0; 
+			//Looping Through Response Begins Below
+									  	 xml.find('qdbapi').find('record').each(function(index){	
+									  	 	var x = new TeamMembers("Test",0,0,0); 
+									  	 	x.memberName=$(this).find("team_member___full_name").text();
+									  	 	x.recordID=$(this).find("record_id_").text();
+									  	 	x.maxHours=$(this).find("maximum_hours").text();
+										    console.log("Team Name = " + $(this).find("team_member___full_name").text());
+									    	console.log("Record ID = " + $(this).find("record_id_").text());
+									    	console.log("Max Hours = " + $(this).find("maximum_hours").text());
+									    	changehours($(this).find("maximum_hours").text(),$(this).find("record_id_").text())
+									    	teamArray.push(x);
+									    	//console.log(teamArray);
+											console.log("\n\n");
+									 	});//End XML Loop
+				console.log(teamArray);
+			 	}
+			    else 
+			    {
+			     console.log("Quickbase returned an error.");
+			     console.log(response);
+			   } 
+			 },
+error: function (response)
+	{
+	console.log("Quickbase returned an error.");
+	console.log(response);
+	}
+});
+
+//Query Opps Table and Increment Coaches Array
+ 
+
+//Write Values to Array
+
+function changehours(maxHours, rid){
+	console.log("Change Hours: ", maxHours, rid); 
+
+
+
+var url2 = "https://team.quickbase.com/db/bk86syyx4?a=EditRecord&rid="+rid+"&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+url2    += "&_fid_8="+maxHours; 
+
+
+$.ajax({
+	        type: "GET",
+	        contentType: "text/xml",
+	        async: false,
+	        url: url2,
+	        dataType: "xml",
+	        processData: false,
+	        success: function (response) {
+	    		//alert("Boom.... success baby");
+	            var xml = $(response);
+	            if (xml.find('qdbapi').find('errcode').text() === "0") {
+	                rid = xml.find('qdbapi').find('rid').text();
+	                console.log(rid);
+	            }
+	            else {
+	                console.log("Quickbase returned an error.");
+	                console.log(response);
+	            } 
+	        },
+	        error: function (e) {
+	             console.log(e);  
+	        }
+	    });	
+
+
+
+}
+//Functions
+
+
+</script>
