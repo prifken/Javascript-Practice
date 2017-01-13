@@ -10,7 +10,7 @@ function TeamMembers(){
 }
 
 //Query Sellers Table and Create TeamMembers Array
- var url = "https://team.quickbase.com/db/bk86syyx4?a=API_DoQuery&query={9.EX.'2017'}";     // Remember to put in YOUR baseURL
+ var url = "https://team.quickbase.com/db/bk86syyx4?a=API_DoQuery&query={19.EX.'true'}";     // Remember to put in YOUR baseURL
 
 
   var request = "<qdbapi>";
@@ -72,9 +72,9 @@ function changehours(maxHours, rid){
 
 
 
-var url2 = "https://team.quickbase.com/db/bk86syyx4?a=EditRecord&rid="+rid+"&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
-url2    += "&_fid_8="+maxHours; 
-
+var url2 = "https://team.quickbase.com/db/bk86syyx4?a=API_EditRecord&rid="+String(rid)+"&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+url2    += "&_fid_8="+String(maxHours); 
+console.log(url2); 
 
 $.ajax({
 	        type: "GET",
