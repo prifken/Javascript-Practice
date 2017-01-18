@@ -78,7 +78,19 @@
 		gantt.init("gantt_here");
 		gantt.message({text:"Some text", expire:-1});
 		gantt.message({text:"Some text", type:"error", expire:-1});
-		gantt.parse(projects_with_milestones);
+		//gantt.parse(projects_with_milestones);
+		for(var i=0; i<projArray.length; i++){
+			console.log("original date: "+ projArray[i].projStart); 
+			var date = new Date(parseInt(projArray[i].projStart));
+			console.log("modified date: " + date); 
+			gantt.addTask({
+		    id:projArray[i].projRID,
+		    text:projArray[i].projName,
+		    start_date:date, 
+		    duration: 28
+		}, "project_2", 1);
+		}
+		
 
 	</script>
 <script>
@@ -88,6 +100,8 @@ function addrecord(){
 function editrecord(){
 	alert("Record Edited"); 
 }
+
+
 </script>
 </body>
 
