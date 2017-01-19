@@ -138,10 +138,10 @@ function datatree(){
 }
 var dataArray = []; 
 for(var i = 0; i<projArray.length; i++){
-	console.log(projArray[i].projRID, projArray[i].projName)
+//	console.log(projArray[i].projRID, projArray[i].projName)
  dataArray.push([projArray[i].projRID,projArray[i].projName, "type:gantt.config.types.project"]); 
 }
-console.log(dataArray); 
+//console.log(dataArray); 
 
 var projects_with_milestones = {
 	"data": 

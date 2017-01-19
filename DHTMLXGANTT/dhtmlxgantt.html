@@ -6,10 +6,71 @@
 	<script src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=35" type="text/javascript" charset="utf-8"></script> <!--../../codebase/dhtmlxgantt.js-->
 	<script src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=36" type="text/javascript" charset="utf-8"></script> <!--../../codebase/ext/dhtmlxgantt_quick_info.js-->
 	<script src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=37" type="text/javascript" charset="utf-8"></script> <!--../../codebase/ext/dhtmlxgantt_tooltip.js --> 
-	<link rel="stylesheet" href="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=38" type="text/css" title="no title" charset="utf-8"> <!--../../codebase/skins/dhtmlxgantt_contrast_black.css-->
+	<link rel="stylesheet" href="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=40" type="text/css" media="screen" title="no title" charset="utf-8"> <!--../../codebase/skins/dhtmlxgantt_contrast_default.css-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script type="text/javascript" src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=39"></script><!--../common/testdata.js-->
 	<script>
+	function gettaskarray(RID){
+		var url = "https://team.quickbase.com/db/bmfirusyr/?a=API_DoQuery&query={'48'.EX.'"+RID+"'}";     // Remember to put in YOUR baseURL
+		
+		  var request = "<qdbapi>";
+		  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+		  request    += "</qdbapi>";
+		//console.log("Entered task array function, RID= "+RID); 
+		$.ajax({
+		type: "POST",
+		contentType: "text/xml",
+		async: false,
+		url: url,
+		dataType: "xml",
+		processData: false,
+		data: request,
+		          success: function (response) {
+		
+		           var xml = $(response); //Convert response to XML Code
+		           if (xml.find('qdbapi').find('errcode').text() == "0") {
+		        
+		         // console.log(response); 
+		      //Looping Through Response Begins Below
+		                       xml.find('qdbapi').find('record').each(function(index){  
+		                        var x = new tasks(0,"Name","Status","StartDate","EndDate",0,0,0); 
+		                        x.taskID=$(this).find("task_id").text();
+		                        x.taskName=$(this).find("task_name").text();
+		                        x.taskStatus=$(this).find("status").text();
+		                        x.taskStartDate=new Date(parseInt($(this).find("start").text()));
+		                        x.taskEndDate=new Date(parseInt($(this).find("projected_finish").text()));
+		                        x.taskDuration=10; 
+		                        x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
+		                        //alert(x.taskPercentComplete);
+		                        x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
+		                        x.taskRelProject=$(this).find("related_project").text();
+		                        //console.log(x); 
+		
+		                      //console.log(x); 
+		                        gantt.addTask({
+		   						 id:x.taskPredID,
+		   						 text:x.taskName,
+		   						 start_date:x.taskStartDate, 
+		   						 duration: x.taskDuration
+								}, RID, 1);
+		                      //console.log("\n\n");
+		                    });//End XML Loop
+		        //console.log(coachArray);
+		        }
+		          else 
+		          {
+		           console.log("Quickbase returned an error.");
+		           console.log(response);
+		         } 
+		       },
+		error: function (response)
+		  {
+		  console.log("Quickbase returned an error.");
+		  console.log(response);
+		  }
+		});
+		
+		}
     /*
 	gantt.attachEvent("onLightboxSave", function(id, task, is_new){
     var values=gantt.getLightboxValues(); 
@@ -43,7 +104,6 @@
 	</script>
 	<style type="text/css">
 		html, body{
-			background: #000;
 			font-family: arial;
 			height:100%;
 			padding:0px;
@@ -63,14 +123,14 @@
 	</style>
 
 <body>
-	<div class="header">
+	<!--<div class="header">
 		<input type="button" value="Show Lightbox" onclick="gantt.createTask()"/>
 		<input type="button" value="Show Quick Info" onclick="gantt.showQuickInfo(gantt.getTaskByTime()[0].id)"/>
 		<input type="button" value="Show message" onclick="gantt.message({text:'Some text'})"/>
 		<input type="button" value="Show error" onclick="gantt.message({text:'Some text', type:'error'})"/>
 		<input type="button" value="Show alert" onclick="gantt.alert({text:'Some text'})"/>
 		<input type="button" value="Show alert with header" onclick="gantt.alert({text:'Some text', title:'Title'})"/>
-	</div>
+	</div>-->
 	<div class="main-content">
 		<div id="gantt_here" style='width:100%; height:100%;'></div>
 	</div>
@@ -80,15 +140,20 @@
 		gantt.message({text:"Some text", type:"error", expire:-1});
 		//gantt.parse(projects_with_milestones);
 		for(var i=0; i<projArray.length; i++){
-			console.log("original date: "+ projArray[i].projStart); 
+			//console.log("original date: "+ projArray[i].projStart); 
 			var date = new Date(parseInt(projArray[i].projStart));
-			console.log("modified date: " + date); 
+			console.log("Bad Date = "+date); 
+			//console.log("modified date: " + date); 
 			gantt.addTask({
 		    id:projArray[i].projRID,
 		    text:projArray[i].projName,
 		    start_date:date, 
 		    duration: 28
-		}, "project_2", 1);
+
+		});
+			//console.log("PROJECT TASK ADDED",projArray[i].projRID);
+			gettaskarray(projArray[i].projRID); 
+
 		}
 		
 
@@ -100,6 +165,9 @@ function addrecord(){
 function editrecord(){
 	alert("Record Edited"); 
 }
+
+
+; 
 
 
 </script>
