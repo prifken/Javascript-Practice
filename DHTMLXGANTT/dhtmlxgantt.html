@@ -39,7 +39,7 @@
 		                        x.taskStatus=$(this).find("status").text();
 		                        x.taskStartDate=new Date(parseInt($(this).find("start").text()));
 		                        x.taskEndDate=new Date(parseInt($(this).find("projected_finish").text()));
-		                        x.taskDuration=10; 
+		                        x.taskDuration=1; 
 		                        x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
 		                        //alert(x.taskPercentComplete);
 		                        x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
@@ -136,6 +136,9 @@ gantt.attachEvent("onTaskSelected", function(id,item){
 		<div id="gantt_here" style='width:100%; height:100%;'></div>
 	</div>
 	<script type="text/javascript">
+		gantt.config.scale_unit= "week";
+		gantt.config.start_date = new Date(2015, 06, 16);
+		gantt.config.end_date = new Date(2015, 11, 05);
 		gantt.init("gantt_here");
 		//gantt.message({text:"Some text", expire:-1});
 		//gantt.message({text:"Some text", type:"error", expire:-1});
@@ -148,8 +151,7 @@ gantt.attachEvent("onTaskSelected", function(id,item){
 			gantt.addTask({
 		    id:projArray[i].projRID,
 		    text:projArray[i].projName,
-		    start_date:date, 
-		    duration: 28
+		    start_date:date
 			});
 			//console.log("PROJECT TASK ADDED",projArray[i].projRID);
 			gettaskarray(projArray[i].projRID); 

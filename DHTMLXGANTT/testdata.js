@@ -42,7 +42,7 @@ data: request,
                         x.taskStatus=$(this).find("status").text();
                         x.taskStartDate=new Date(parseInt($(this).find("start").text()));
                         x.taskEndDate=new Date(parseInt($(this).find("projected_finish").text()));
-                        x.taskDuration=10; 
+                        x.taskDuration=parseInt(($(this).find("duration").text()));; 
                         x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
                         //alert(x.taskPercentComplete);
                         x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
