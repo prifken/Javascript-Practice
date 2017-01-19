@@ -103,7 +103,7 @@ data: request,
                         var x = new projects("string","string"); 
                         x.projRID=$(this).find("record_id_").text();
                         x.projName=$(this).find("project_name").text();
-                        x.projStart=$(this).find("est_start_date"); 
+                        x.projStart=$(this).find("est_start_date").text(); 
                         projArray.push(x);
                         //console.log(coachArray);
                         //console.log(x); 

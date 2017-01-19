@@ -48,11 +48,12 @@
 		
 		                      //console.log(x); 
 		                        gantt.addTask({
-		   						 id:x.taskPredID,
+		   						 id:RID+"_"+x.taskID,
 		   						 text:x.taskName,
 		   						 start_date:x.taskStartDate, 
 		   						 duration: x.taskDuration
 								}, RID, 1);
+								console.log(RID+"_"+x.taskID);
 		                      //console.log("\n\n");
 		                    });//End XML Loop
 		        //console.log(coachArray);
@@ -88,10 +89,10 @@
     return true;
 })
 */
-	gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
-    console.log(id, mode, e); 
-    var task = gantt.getTask(id); 
-    console.log(JSON.stringify(task)); 
+gantt.attachEvent("onTaskSelected", function(id,item){
+	console.log(id,item); 
+
+    //any custom logic here
 });
 	
 	 
@@ -136,21 +137,20 @@
 	</div>
 	<script type="text/javascript">
 		gantt.init("gantt_here");
-		gantt.message({text:"Some text", expire:-1});
-		gantt.message({text:"Some text", type:"error", expire:-1});
+		//gantt.message({text:"Some text", expire:-1});
+		//gantt.message({text:"Some text", type:"error", expire:-1});
 		//gantt.parse(projects_with_milestones);
 		for(var i=0; i<projArray.length; i++){
 			//console.log("original date: "+ projArray[i].projStart); 
 			var date = new Date(parseInt(projArray[i].projStart));
-			console.log("Bad Date = "+date); 
+			console.log("Bad Date = "+date, projArray[i].projStart, i);
 			//console.log("modified date: " + date); 
 			gantt.addTask({
 		    id:projArray[i].projRID,
 		    text:projArray[i].projName,
 		    start_date:date, 
 		    duration: 28
-
-		});
+			});
 			//console.log("PROJECT TASK ADDED",projArray[i].projRID);
 			gettaskarray(projArray[i].projRID); 
 
