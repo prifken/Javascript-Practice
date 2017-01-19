@@ -9,92 +9,20 @@
 	<link rel="stylesheet" href="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=40" type="text/css" media="screen" title="no title" charset="utf-8"> <!--../../codebase/skins/dhtmlxgantt_contrast_default.css-->
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<script type="text/javascript" src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=39"></script><!--../common/testdata.js-->
+	<script type="text/javascript" src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=41"></script><!--gettaskarray.js from QB, takes "RID" as an input and creates tasks under projects -->
+
 	<script>
-	function gettaskarray(RID){
-		var url = "https://team.quickbase.com/db/bmfirusyr/?a=API_DoQuery&query={'48'.EX.'"+RID+"'}";     // Remember to put in YOUR baseURL
-		
-		  var request = "<qdbapi>";
-		  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
-		  request    += "</qdbapi>";
-		//console.log("Entered task array function, RID= "+RID); 
-		$.ajax({
-		type: "POST",
-		contentType: "text/xml",
-		async: false,
-		url: url,
-		dataType: "xml",
-		processData: false,
-		data: request,
-		          success: function (response) {
-		
-		           var xml = $(response); //Convert response to XML Code
-		           if (xml.find('qdbapi').find('errcode').text() == "0") {
-		        
-		         // console.log(response); 
-		      //Looping Through Response Begins Below
-		                       xml.find('qdbapi').find('record').each(function(index){  
-		                        var x = new tasks(0,"Name","Status","StartDate","EndDate",0,0,0); 
-		                        x.taskID=$(this).find("task_id").text();
-		                        x.taskName=$(this).find("task_name").text();
-		                        x.taskStatus=$(this).find("status").text();
-		                        x.taskStartDate=new Date(parseInt($(this).find("start").text()));
-		                        x.taskEndDate=new Date(parseInt($(this).find("projected_finish").text()));
-		                        x.taskDuration=1; 
-		                        x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
-		                        //alert(x.taskPercentComplete);
-		                        x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
-		                        x.taskRelProject=$(this).find("related_project").text();
-		                        //console.log(x); 
-		
-		                      //console.log(x); 
-		                        gantt.addTask({
-		   						 id:RID+"_"+x.taskID,
-		   						 text:x.taskName,
-		   						 start_date:x.taskStartDate, 
-		   						 duration: x.taskDuration
-								}, RID, 1);
-								console.log(RID+"_"+x.taskID);
-		                      //console.log("\n\n");
-		                    });//End XML Loop
-		        //console.log(coachArray);
-		        }
-		          else 
-		          {
-		           console.log("Quickbase returned an error.");
-		           console.log(response);
-		         } 
-		       },
-		error: function (response)
-		  {
-		  console.log("Quickbase returned an error.");
-		  console.log(response);
-		  }
-		});
-		
-		}
-    /*
-	gantt.attachEvent("onLightboxSave", function(id, task, is_new){
-    var values=gantt.getLightboxValues(); 
-    console.log(values);
-    console.log("Parent: "+values.parent);
-    console.log("Start Date: "+values.start_date);
-    console.log("New Task? "+is_new);
-    console.log("Task: "+JSON.stringify(task));
-    if(is_new){
-    	addrecord(); 
-    }
-    else {
-    	editrecord(); 
-    }
-    return true;
-})
-*/
+
 gantt.attachEvent("onTaskSelected", function(id,item){
-	console.log(id,item); 
+	console.log("Task Selected: ",id,item); 
 
     //any custom logic here
 });
-	
+
+gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
+    //console.log("After Task Dragged: ",id,mode,e); 
+    console.log(gantt.getTask(id));
+});
 	 
 	function is_selected_column (column_date){
 	    if(selected_column && column_date.valueOf() == selected_column.valueOf()){
@@ -146,7 +74,7 @@ gantt.attachEvent("onTaskSelected", function(id,item){
 		for(var i=0; i<projArray.length; i++){
 			//console.log("original date: "+ projArray[i].projStart); 
 			var date = new Date(parseInt(projArray[i].projStart));
-			console.log("Bad Date = "+date, projArray[i].projStart, i);
+			//console.log("Bad Date = "+date, projArray[i].projStart, i);
 			//console.log("modified date: " + date); 
 			gantt.addTask({
 		    id:projArray[i].projRID,

@@ -53,7 +53,7 @@ data: request,
                         //console.log(coachArray);
                         //console.log(x); 
                         
-                      console.log("\n\n");
+                      //console.log("\n\n");
                     });//End XML Loop
         //console.log(coachArray);
         }
@@ -108,7 +108,7 @@ data: request,
                         //console.log(coachArray);
                         //console.log(x); 
                         
-                      console.log("\n\n");
+                     // console.log("\n\n");
                     });//End XML Loop
         //console.log(coachArray);
         }
