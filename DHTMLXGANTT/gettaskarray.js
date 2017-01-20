@@ -33,14 +33,16 @@ function gettaskarray(RID){
 		                        x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
 		                        x.taskRelProject=$(this).find("related_project").text();
 		                        //console.log(x); 
-		
+		                        var num = (x.taskEndDate-x.taskStartDate)/(24*3600*1000);
+								console.log("duration: "+num); 
 		                      //console.log(x); 
+		                      
 		                        gantt.addTask({
-		   						 id:RID+"_"+x.taskID,
+		   						 id:x.taskID,
 		   						 text:x.taskName,
 		   						 start_date:x.taskStartDate, 
-		   						 duration: x.taskDuration
-								}, RID, 1);
+		   						 duration: num
+								}, RID+"_project", 1);
 								//console.log(RID+"_"+x.taskID);
 		                      //console.log("\n\n");
 		                    });//End XML Loop

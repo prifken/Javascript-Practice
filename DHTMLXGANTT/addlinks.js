@@ -11,8 +11,8 @@ function tasks(){
   this.taskRelProject="string"; 
 }
 */
-function gettaskarray(RID){
-		var url = "https://team.quickbase.com/db/bmfirusyr/?a=API_DoQuery&query={'48'.EX.'"+RID+"'}";     // Remember to put in YOUR baseURL
+function addlinks(){
+		var url = "https://team.quickbase.com/db/bmfirusyr/?a=API_DoQuery";     // Remember to put in YOUR baseURL
 		
 		  var request = "<qdbapi>";
 		  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
@@ -44,22 +44,16 @@ function gettaskarray(RID){
 		                        x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
 		                        x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
 		                        x.taskRelProject=$(this).find("related_project").text();
-		                        //console.log(x); 
-		
-		                      //console.log(x); 
-		                        gantt.addTask({
-		   						 id:RID+"_"+x.taskID,
-		   						 text:x.taskName,
-		   						 start_date:x.taskStartDate, 
-		   						 duration: x.taskDuration
-								}, RID, 1);
 
 								if(x.taskPredID){
 									console.log("add link"); 
 									console.log(x.taskID,x.taskPredID); 
-									/*gantt.addLink({
-									id:RID+"_"+x.taskID,
-									});*/
+									gantt.addLink({
+									id:x.taskID+"_link",
+									source: x.taskPredID,
+									target: x.taskID, 
+									type:0
+									});
 								}
 								else{
 									console.log("empty"); 

@@ -23,13 +23,13 @@ gantt.attachEvent("onTaskSelected", function(id,item){
 gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
     //console.log("After Task Dragged: ",id,mode,e); 
     var id = gantt.getTask(id).id; 
-    console.log(gantt.getTask(id)); 
+    console.log("START DATE="+gantt.getTask(id).start_date, "END DATE="+gantt.getTask(id).end_date, JSON.stringify(gantt.getTask(id))); 
     //console.log(gantt.getTask(id)); 
     //console.log("Start Date: "+gantt.getTask(id).start_date); 
     //console.log("End Date: "+gantt.getTask(id).end_date); 
-    var split = id.split("_");
+    //var split = id.split("_");
     //console.log(id,split); 
-    adjustdate(split[1],split[0],gantt.getTask(id).start_date,gantt.getTask(id).end_date);
+    adjustdate(gantt.getTask(id).id,gantt.getTask(id).start_date,gantt.getTask(id).end_date, gantt.getTask(id).parent);
 
 });
 
@@ -80,14 +80,16 @@ gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
 			//console.log("Bad Date = "+date, projArray[i].projStart, i);
 			//console.log("modified date: " + date); 
 			gantt.addTask({
-		    id:projArray[i].projRID,
+		    id:projArray[i].projRID+"_project",
 		    text:projArray[i].projName,
 		    start_date:date
 			});
 			//console.log("PROJECT TASK ADDED",projArray[i].projRID);
+			console.log("i=",i,"about to get task array"); 
 			gettaskarray(projArray[i].projRID); 
 
 		}
+			console.log("done creating tasks, add links here"); 
 			addlinks(); 
 		
 
@@ -100,9 +102,9 @@ function editrecord(){
 	alert("Record Edited"); 
 }
 
-function adjustdate(taskID,parentID,start,end){
+function adjustdate(taskID,start,end, ID_project){
 	var diff = (end-start)/(24*3600*1000);
-	console.log(taskID,parentID,start,end, "Diff= "+diff, end-start); 
+	console.log(taskID,"Start="+start,"End="+end, "Diff= "+diff, end-start); 
     
 	var url2 = "https://team.quickbase.com/db/bmfirusyr?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
 	url2    += "&rid="+taskID;
@@ -123,7 +125,7 @@ function adjustdate(taskID,parentID,start,end){
               if (xml.find('qdbapi').find('errcode').text() === "0") {
                   rid = xml.find('qdbapi').find('rid').text();
                   console.log("RID= "+rid, taskID);
-                  checkparentdate(taskID); 
+                  //checkparentdate(); 
               }
               else {
                   console.log("Quickbase returned an error.");
@@ -135,15 +137,13 @@ function adjustdate(taskID,parentID,start,end){
           }
       }); 
 }; 
-function adjustprojectdate(parentID,min,max){
 
-}; 
 </script>
 </body>
 
 <script>
-function checkparentdate(taskID){
-	console.log(taskID); 
+function checkparentdate(){
+	
 		var url = "https://team.quickbase.com/db/bmfirusyp/?a=API_DoQuery";     // Remember to put in YOUR baseURL
 		
 		  var request = "<qdbapi>";
@@ -214,5 +214,30 @@ function checkparentdate(taskID){
 		
 		}
 		</script>
+
+<script type="text/javascript">
+var idleTime = 0;
+$(document).ready(function () {
+    //Increment the idle time counter every second.
+    var idleInterval = setInterval(timerIncrement, 5000); // 1 minute
+    console.log(idleTime); 
+    //Zero the idle timer on mouse movement.
+    $(this).mousemove(function (e) {
+        idleTime = 0;
+    });
+    $(this).keypress(function (e) {
+        idleTime = 0;
+    });
+});
+
+function timerIncrement() {
+    idleTime = idleTime + 1;
+    if (idleTime > 2) { // 20 minutes
+        console.log("fire"); 
+        checkparentdate();
+        //window.location.reload();
+    }
+}
+</script> 
 
 
