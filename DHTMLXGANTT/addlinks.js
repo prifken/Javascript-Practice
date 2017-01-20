@@ -1,3 +1,16 @@
+/*
+function tasks(){
+  this.taskID="string";
+  this.taskName="string";
+  this.taskStatus="string (Resource)";
+  this.taskStartDate="StartDate";
+  this.taskEndDate="EndDate";
+  this.taskDuration=0;
+  this.taskPercentComplete=0;
+  this.taskPredID="Name";
+  this.taskRelProject="string"; 
+}
+*/
 function gettaskarray(RID){
 		var url = "https://team.quickbase.com/db/bmfirusyr/?a=API_DoQuery&query={'48'.EX.'"+RID+"'}";     // Remember to put in YOUR baseURL
 		
@@ -29,7 +42,6 @@ function gettaskarray(RID){
 		                        x.taskEndDate=new Date(parseInt($(this).find("projected_finish").text()));
 		                        x.taskDuration=parseInt(($(this).find("duration").text())); 
 		                        x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
-		                        //alert(x.taskPercentComplete);
 		                        x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
 		                        x.taskRelProject=$(this).find("related_project").text();
 		                        //console.log(x); 
@@ -41,9 +53,22 @@ function gettaskarray(RID){
 		   						 start_date:x.taskStartDate, 
 		   						 duration: x.taskDuration
 								}, RID, 1);
+
+								if(x.taskPredID){
+									console.log("add link"); 
+									console.log(x.taskID,x.taskPredID); 
+									/*gantt.addLink({
+									id:RID+"_"+x.taskID,
+									});*/
+								}
+								else{
+									console.log("empty"); 
+								}
+								
 								//console.log(RID+"_"+x.taskID);
 		                      //console.log("\n\n");
 		                    });//End XML Loop
+		        //console.log(coachArray);
 		        }
 		          else 
 		          {
