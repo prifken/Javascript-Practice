@@ -21,8 +21,17 @@ gantt.attachEvent("onTaskSelected", function(id,item){
 
 gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
     //console.log("After Task Dragged: ",id,mode,e); 
-    console.log(gantt.getTask(id));
+    var id = gantt.getTask(id).id; 
+    console.log(gantt.getTask(id)); 
+    //console.log(gantt.getTask(id)); 
+    //console.log("Start Date: "+gantt.getTask(id).start_date); 
+    //console.log("End Date: "+gantt.getTask(id).end_date); 
+    var split = id.split("_");
+    //console.log(id,split); 
+    adjustdate(split[1],split[0],gantt.getTask(id).start_date,gantt.getTask(id).end_date);
+
 });
+
 	 
 	function is_selected_column (column_date){
 	    if(selected_column && column_date.valueOf() == selected_column.valueOf()){
@@ -65,8 +74,9 @@ gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
 	</div>
 	<script type="text/javascript">
 		gantt.config.scale_unit= "week";
-		gantt.config.start_date = new Date(2015, 06, 16);
-		gantt.config.end_date = new Date(2015, 11, 05);
+		/*gantt.config.start_date = new Date(2015, 06, 16);
+		gantt.config.end_date = new Date(2016, 6, 05);*/
+		gantt.config.fit_tasks = true;
 		gantt.init("gantt_here");
 		//gantt.message({text:"Some text", expire:-1});
 		//gantt.message({text:"Some text", type:"error", expire:-1});
@@ -96,33 +106,119 @@ function editrecord(){
 	alert("Record Edited"); 
 }
 
+function adjustdate(taskID,parentID,start,end){
+	var diff = (end-start)/(24*3600*1000);
+	console.log(taskID,parentID,start,end, "Diff= "+diff, end-start); 
+    
+	var url2 = "https://team.quickbase.com/db/bmfirusyr?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+	url2    += "&rid="+taskID;
+	url2    += "&_fid_77="+start; 
+	url2    += "&_fid_10="+end; 
+	url2    += "&_fid_76="+diff; 
+	//alert(url2);
+	$.ajax({
+          type: "POST",
+          contentType: "text/xml",
+          async: false,
+          url: url2,
+          dataType: "xml",
+          processData: false,
+          success: function (response) {
+          //alert("Boom.... success baby");
+              var xml = $(response);
+              if (xml.find('qdbapi').find('errcode').text() === "0") {
+                  rid = xml.find('qdbapi').find('rid').text();
+                  console.log("RID= "+rid, taskID);
+                  checkparentdate(taskID); 
+              }
+              else {
+                  console.log("Quickbase returned an error.");
+                  console.log(response);
+              } 
+          },
+          error: function (e) {
+               console.log(e);  
+          }
+      }); 
+}; 
+function adjustprojectdate(parentID,min,max){
 
-; 
-
-
+}; 
 </script>
 </body>
 
-<!--
-function tasks(){
-  this.taskID="string";
-  this.taskName="string";
-  this.taskStatus="string (Resource)";
-  this.taskStartDate="StartDate";
-  this.taskEndDate="EndDate";
-  this.taskDuration=0;
-  this.taskPercentComplete=0;
-  this.taskPredID="Name";
-}
+<script>
+function checkparentdate(taskID){
+	console.log(taskID); 
+		var url = "https://team.quickbase.com/db/bmfirusyp/?a=API_DoQuery";     // Remember to put in YOUR baseURL
+		
+		  var request = "<qdbapi>";
+		  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+		  request    += "</qdbapi>";
+		//console.log("Entered task array function, RID= "+RID); 
+		$.ajax({
+		type: "POST",
+		contentType: "text/xml",
+		async: false,
+		url: url,
+		dataType: "xml",
+		processData: false,
+		data: request,
+		          success: function (response) {
+		
+		           var xml = $(response); //Convert response to XML Code
+		           if (xml.find('qdbapi').find('errcode').text() == "0") {
+		                       xml.find('qdbapi').find('record').each(function(index){  
+		                        var projectstart =new Date(parseInt($(this).find("project_start__from_tasks_").text()));
+		                        var projectend=new Date(parseInt($(this).find("project_end__from_tasks_").text()));
+		                        var RID =$(this).find("record_id_").text();
+		                        //console.log("Before Adjusting",RID,projectstart,projectend);
+		                        //adjustprojectdate(RID, projectstart, projectend); 
+		                        	var url2 = "https://team.quickbase.com/db/bmfirusyp?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+									url2    += "&rid="+RID;
+									url2    += "&_fid_23="+projectstart; 
+									url2    += "&_fid_24="+projectend; 
+									//alert(url2);
+									$.ajax({
+  								        type: "POST",
+  								        contentType: "text/xml",
+  								        async: false,
+  								        url: url2,
+  								        dataType: "xml",
+  								        processData: false,
+  								        success: function (response) {
+  								        //alert("Boom.... success baby");
+  								            var xml = $(response);
+  								            if (xml.find('qdbapi').find('errcode').text() === "0") {
+  								                rid = xml.find('qdbapi').find('rid').text();
+  								                console.log("RID= "+rid);
+  								            }
+  								            else {
+  								                console.log("Quickbase returned an error.");
+  								                console.log(response);
+  								            } 
+  								        },
+  								        error: function (e) {
+  								             console.log(e);  
+  								        }
+  								    }); 
 
-var taskArray=[]; 
+		                    });//End XML Loop
+		        }
+		          else 
+		          {
+		           console.log("Quickbase returned an error.");
+		           console.log(response);
+		         } 
+		       },
+		error: function (response)
+		  {
+		  console.log("Quickbase returned an error.");
+		  console.log(response);
+		  }
+		});
+		
+		}
+		</script>
 
-x.taskID=$(this).find("task_id").text();
-x.taskName=$(this).find("task_name").text();
-x.taskStatus=$(this).find("status").text();
-x.taskStartDate=new Date(parseInt($(this).find("start").text()));
-x.taskEndDate=new Date(parseInt($(this).find("projected_finish").text()));
-x.taskDuration=10; 
-x.taskPercentComplete=parseInt(($(this).find("___complete").text()*100));
-x.taskPredID=$(this).find("predecessors").text();; /*$(this).find("predecessors").text();*/
 
