@@ -35,12 +35,6 @@ gantt.templates.grid_row_class = function(start, end, task){ //Ensures end user 
 gantt.attachEvent("onAfterTaskDrag", function(id, mode, e){
     //console.log("After Task Dragged: ",id,mode,e); 
     var id = gantt.getTask(id).id; 
-    console.log("START DATE="+gantt.getTask(id).start_date, "END DATE="+gantt.getTask(id).end_date, JSON.stringify(gantt.getTask(id))); 
-    //console.log(gantt.getTask(id)); 
-    //console.log("Start Date: "+gantt.getTask(id).start_date); 
-    //console.log("End Date: "+gantt.getTask(id).end_date); 
-    //var split = id.split("_");
-    //console.log(id,split); 
     adjustdate(gantt.getTask(id).id,gantt.getTask(id).start_date,gantt.getTask(id).end_date, gantt.getTask(id).parent);
 
 });
@@ -52,23 +46,39 @@ gantt.attachEvent("onLightboxSave", function(id, task, is_new){
     	if(task.$level==0){
     		var returnID = addtask(task.id, task.text, task.start_date, task.end_date, task.id, "project");
     		console.log("Project RID= "+returnID); 
-    		gantt.changeTaskId(id, returnID); //Change Task ID from GANTT generated ID to QB generated ID
-            gantt.updateTask(returnID); 
+    		
+            //gantt.updateTask(returnID); 
             //gantt.deleteTask(id);
-            //gantt.refreshData();
+            
     	}
     	else if(task.$level==1){
+    			console.log("Task Created: "+task.text+" ID: "+task.id);  
+    			var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
     		console.log("This is a task within a project with ID "+task.parent.split("_")[0]); 
-    		var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
-    		console.log("Return ID = "+returnID); 
-    		gantt.changeTaskId(id, returnID); //Change Task ID from GANTT generated ID to QB generated ID
-            gantt.updateTask(returnID); 
-            //gantt.deleteTask(id);
-           // gantt.refreshData();
+    		//var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
+    		
+    		
+
     	}
     }
     return true;
 })
+gantt.attachEvent("onTaskCreated", function(task){
+
+    console.log(task); 
+    //gantt.changeTaskId(task.id, parseInt(returnID); //Change Task ID from GANTT generated ID to QB generated ID
+   // console.log("Return ID = "+returnID); 
+    //any custom logic here
+    /*gantt.changeTaskId(id,returnID); 
+    		gantt.updateTask(returnID); 
+            gantt.refreshData(); */
+    return true;
+});
+gantt.attachEvent("onTaskIdChange", function(id,new_id){
+
+    gantt.refreshData();
+});
+
 	 
 	function is_selected_column (column_date){
 	    if(selected_column && column_date.valueOf() == selected_column.valueOf()){
@@ -111,21 +121,15 @@ gantt.attachEvent("onLightboxSave", function(id, task, is_new){
 		//gantt.message({text:"Some text", type:"error", expire:-1});
 		//gantt.parse(projects_with_milestones);
 		for(var i=0; i<projArray.length; i++){
-			//console.log("original date: "+ projArray[i].projStart); 
 			var date = new Date(parseInt(projArray[i].projStart));
-			//console.log("Bad Date = "+date, projArray[i].projStart, i);
-			//console.log("modified date: " + date); 
 			gantt.addTask({
 		    id:projArray[i].projRID+"_project",
 		    text:projArray[i].projName,
 		    start_date:date
 			});
-			//console.log("PROJECT TASK ADDED",projArray[i].projRID);
-			console.log("i=",i,"about to get task array"); 
 			gettaskarray(projArray[i].projRID); 
 
 		}
-			console.log("done creating tasks, add links here"); 
 			addlinks(); 
 		
 
@@ -148,7 +152,6 @@ function addtask(rid,text,start,end, taskid, type){
 	}
 
 	
-	console.log(url); 
 	
 	//var returntext = "RID = "+rid+" Text= "+text+" Start= "+start+" End= "+end; 
 	var rid = 0; 
@@ -183,7 +186,6 @@ function editrecord(){
 
 function adjustdate(taskID,start,end, ID_project){
 	var diff = (end-start)/(24*3600*1000);
-	console.log(taskID,"Start="+start,"End="+end, "Diff= "+diff, end-start); 
     
 	var url2 = "https://team.quickbase.com/db/bmfirusyr?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
 	url2    += "&rid="+taskID;
@@ -203,7 +205,6 @@ function adjustdate(taskID,start,end, ID_project){
               var xml = $(response);
               if (xml.find('qdbapi').find('errcode').text() === "0") {
                   rid = xml.find('qdbapi').find('rid').text();
-                  //console.log("RID= "+rid, taskID);
                   //checkparentdate(); 
               }
               else {
@@ -245,7 +246,6 @@ function checkparentdate(){
 		                        var projectstart =new Date(parseInt($(this).find("project_start__from_tasks_").text()));
 		                        var projectend=new Date(parseInt($(this).find("project_end__from_tasks_").text()));
 		                        var RID =$(this).find("record_id_").text();
-		                        //console.log("Before Adjusting",RID,projectstart,projectend);
 		                        //adjustprojectdate(RID, projectstart, projectend); 
 		                        	var url2 = "https://team.quickbase.com/db/bmfirusyp?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
 									url2    += "&rid="+RID;
@@ -260,11 +260,9 @@ function checkparentdate(){
   								        dataType: "xml",
   								        processData: false,
   								        success: function (response) {
-  								        //alert("Boom.... success baby");
   								            var xml = $(response);
   								            if (xml.find('qdbapi').find('errcode').text() === "0") {
   								                rid = xml.find('qdbapi').find('rid').text();
-  								                //console.log("RID= "+rid);
   								            }
   								            else {
   								                console.log("Quickbase returned an error.");
@@ -312,7 +310,6 @@ $(document).ready(function () {
 function timerIncrement() {
     idleTime = idleTime + 1;
     if (idleTime > 2) { // 20 minutes
-        //console.log("fire"); 
         checkparentdate();
         //window.location.reload();
     }
