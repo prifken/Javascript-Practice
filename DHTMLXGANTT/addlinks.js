@@ -1,16 +1,4 @@
-/*
-function tasks(){
-  this.taskID="string";
-  this.taskName="string";
-  this.taskStatus="string (Resource)";
-  this.taskStartDate="StartDate";
-  this.taskEndDate="EndDate";
-  this.taskDuration=0;
-  this.taskPercentComplete=0;
-  this.taskPredID="Name";
-  this.taskRelProject="string"; 
-}
-*/
+
 function addlinks(){
 		var url = "https://team.quickbase.com/db/bmfirusyr/?a=API_DoQuery";     // Remember to put in YOUR baseURL
 		
@@ -48,18 +36,19 @@ function addlinks(){
 								if(x.taskPredID){
 									console.log("add link",x.taskPredID); 
 									var predtasks = x.taskPredID.split(", "); //if multiple predecesors exist, need to parse with a ','
-									console.log(predtasks); 
+									console.log("Pred Tasks: ",predtasks); 
 									//console.log(x.taskID,x.taskPredID); 
 									for(var i = 0; i<predtasks.length; i++){
 											gantt.addLink({
-											id:x.taskID+"_link",
+											id:x.taskID+"_link"+i,
 											source: predtasks[i],
 											target: x.taskID, 
 											type:0
 											});
-											console.log("Task ID: "+x.taskID+" Predecessor Task Added: "+predtasks[i]); 
+											console.log("Task ID: "+x.taskID+" Predecessor Task Added:@"+predtasks[i]+"@"); 
+											//gantt.render();
 									}
-									gantt.refreshData();
+									//gantt.refreshData();
 								
 								}
 								else{

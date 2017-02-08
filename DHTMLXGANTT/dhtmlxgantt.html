@@ -57,6 +57,9 @@ gantt.attachEvent("onLightboxSave", function(id, task, is_new){
     			console.log("Task Created: "+task.text+" ID: "+task.id);  
     			var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
     		console.log("This is a task within a project with ID "+task.parent.split("_")[0]); 
+    		console.log("returnID= ",returnID); 
+    		
+    		gantt.render(); 
     		//var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
     		
     		
@@ -67,27 +70,34 @@ gantt.attachEvent("onLightboxSave", function(id, task, is_new){
 })
 gantt.attachEvent("onTaskCreated", function(task){
 
-    console.log(task); 
+    console.log("TASK CREATED: ",task); 
+    //gantt.changeTaskId(task.id,returnID); 
     //gantt.changeTaskId(task.id, parseInt(returnID); //Change Task ID from GANTT generated ID to QB generated ID
    // console.log("Return ID = "+returnID); 
     //any custom logic here
     /*gantt.changeTaskId(id,returnID); 
     		gantt.updateTask(returnID); 
             gantt.refreshData(); */
+            gantt.render(); 
     return true;
+});
+gantt.attachEvent("onAfterTaskUpdate", function(id,item){
+    console.log("On AFTER Task Update with ID and ITEM: ",id,item); 
 });
 $(document).ready(function(){
 	gantt.attachEvent("onAfterLinkAdd", function(id,item){
 	   // console.log(id,item); 
 	   // console.log("source: ",item.source," target: ",item.target," type: ",item.type); 
 	    updateTaskDependencies(item.source,item.target); 
+
 	});
 });
 
 
 gantt.attachEvent("onTaskIdChange", function(id,new_id){
 
-    gantt.refreshData();
+    console.log("ID changed of task from",id," to ",new_id); 
+    gantt.render(); 
 });
 
 	 

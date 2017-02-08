@@ -27,41 +27,9 @@ function updateTaskDependencies(source,target){
 		                        	predecessors=source;
 		                        }
 		                        else{
-		                        	var split = predecessors.split(",");
-		                        	
-		                        	for(i=0; i<split.length; i++){
-		                        		console.log("i=",i,"Not empty, #items = ",split.length, split); 
-		                        		if(i==(split.length-1)){
-		                        			console.log(i,"LAST ITEM IN ARRAY"); 
-		                        			if(split.length==1){
-		                        				console.log("Length = 1"); 
-		                        				predecessors += ", "+source; 
-		                        			}
-		                        			else{
-		                        				predecessors += source; 
-		                        			}
-		                        		}
-		                        		else{
-		                        		predecessors += ", "+split[i]; 
-		                        		    console.log(i,split[i],predecessors,"business as usual");
-		                        		}
-		                        		}
+		                        	predecessors += ", "+source; 
 		                        }
-		                         
-		                        
 
-		                       /*
-		                        if(split.length==0){
-		                        	console.log("TRUE, =0!"); 
-		                        	predecessors=source; 
-
-		                        }
-		                        else{
-		                        	console.log("NOT = 0!"); 
-		                        	
-		                        } */
-		                        
-		                        
 		                        console.log("Predecessors before edit call: ",predecessors); 
 		                            
 		                        	var url2 = "https://team.quickbase.com/db/bmfirusyr?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
