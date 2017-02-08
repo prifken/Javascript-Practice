@@ -28,22 +28,24 @@ function updateTaskDependencies(source,target){
 		                        }
 		                        else{
 		                        	var split = predecessors.split(",");
-		                        	console.log("Not empty, #items = ",split.length, split); 
+		                        	
 		                        	for(i=0; i<split.length; i++){
-		                        	if(i==(split.length-1)){
-		                        		console.log("i== split.length-1, or last item"); 
-		                        		if(split.length==1){
-		                        			predecessors += ", "+source; 
+		                        		console.log("i=",i,"Not empty, #items = ",split.length, split); 
+		                        		if(i==(split.length-1)){
+		                        			console.log(i,"LAST ITEM IN ARRAY"); 
+		                        			if(split.length==1){
+		                        				console.log("Length = 1"); 
+		                        				predecessors += ", "+source; 
+		                        			}
+		                        			else{
+		                        				predecessors += source; 
+		                        			}
 		                        		}
 		                        		else{
-		                        			predecessors += source; 
+		                        		predecessors += ", "+split[i]; 
+		                        		    console.log(i,split[i],predecessors,"business as usual");
 		                        		}
-		                        	}
-		                        	else{
-		                        		console.log("business as usual"); 
-		                        	predecessors += ", "+split[i]; 
-		                        	}
-		                        }
+		                        		}
 		                        }
 		                         
 		                        
