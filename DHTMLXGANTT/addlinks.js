@@ -46,14 +46,21 @@ function addlinks(){
 		                        x.taskRelProject=$(this).find("related_project").text();
 
 								if(x.taskPredID){
-									console.log("add link"); 
-									console.log(x.taskID,x.taskPredID); 
-									gantt.addLink({
-									id:x.taskID+"_link",
-									source: x.taskPredID,
-									target: x.taskID, 
-									type:0
-									});
+									console.log("add link",x.taskPredID); 
+									var predtasks = x.taskPredID.split(", "); //if multiple predecesors exist, need to parse with a ','
+									console.log(predtasks); 
+									//console.log(x.taskID,x.taskPredID); 
+									for(var i = 0; i<predtasks.length; i++){
+											gantt.addLink({
+											id:x.taskID+"_link",
+											source: predtasks[i],
+											target: x.taskID, 
+											type:0
+											});
+											console.log("Task ID: "+x.taskID+" Predecessor Task Added: "+predtasks[i]); 
+									}
+									gantt.refreshData();
+								
 								}
 								else{
 									console.log("empty"); 

@@ -16,8 +16,10 @@
 	<script type="text/javascript" src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=39"></script><!--../common/testdata.js-->
 	<script type="text/javascript" src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=41"></script><!--gettaskarray.js from QB, takes "RID" as an input and creates tasks under projects -->
 	<script type="text/javascript" src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=42"></script><!--addlinks.js from QB, checks for dependencies and creates links-->
+	<script type="text/javascript" src="https://team.quickbase.com/db/bmfirusgi?a=pagePreview&pageID=43"></script><!--updateTaskDependencies.js from QB, updates dependencies and creates links-->
 
 	<script>
+
 
 gantt.attachEvent("onTaskSelected", function(id,item){
 	console.log("Task Selected pre-save: ",id,item); 
@@ -74,6 +76,15 @@ gantt.attachEvent("onTaskCreated", function(task){
             gantt.refreshData(); */
     return true;
 });
+$(document).ready(function(){
+	gantt.attachEvent("onAfterLinkAdd", function(id,item){
+	   // console.log(id,item); 
+	   // console.log("source: ",item.source," target: ",item.target," type: ",item.type); 
+	    updateTaskDependencies(item.source,item.target); 
+	});
+});
+
+
 gantt.attachEvent("onTaskIdChange", function(id,new_id){
 
     gantt.refreshData();
@@ -314,6 +325,8 @@ function timerIncrement() {
         //window.location.reload();
     }
 }
+
+
 </script> 
 
 
