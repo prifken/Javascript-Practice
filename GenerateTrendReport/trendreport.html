@@ -1,0 +1,126 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+
+<script>
+function editrecord(plannedorders,rid,testID){
+  console.log(plannedorders,rid); 
+
+
+
+var url2 = "https://team.quickbase.com/db/bmjvxe629?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53";   
+url2    += "&rid="+rid;
+url2    += "&_fid_"+testID+"="+plannedorders; 
+console.log(url2); 
+//alert(url2);
+$.ajax({
+          type: "POST",
+          contentType: "text/xml",
+          async: false,
+          url: url2,
+          dataType: "xml",
+          processData: false,
+          success: function (response) {
+          //alert("Boom.... success baby");
+              var xml = $(response);
+              if (xml.find('qdbapi').find('errcode').text() === "0") {
+                  rid = xml.find('qdbapi').find('rid').text();
+                  console.log("RID= "+rid);
+              }
+              else {
+                  console.log("Quickbase returned an error.");
+                  console.log(response);
+              } 
+          },
+          error: function (e) {
+               console.log(e);  
+          }
+      }); 
+}
+</script>
+<script>
+
+function runscript(TestFID){
+var url = "https://team.quickbase.com";     // Remember to put in YOUR baseURL
+  url    += "/db/";
+  url    += "bmjvxe629";                                   // Remember to put in YOUR tableDBID
+  url    += "?a=API_DoQuery&query={'7'.EX.'8'}";
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+var planned_orders_placed = 0; 
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+          success: function (response) {
+            console.log(response); 
+           var xml = $(response); //Convert response to XML Code
+           if (xml.find('qdbapi').find('errcode').text() == "0") {
+      //Looping Through Response Begins Below
+                       xml.find('qdbapi').find('record').each(function(index){  
+                         var x = new Date(parseInt($(this).find("date").text()));
+                         var RID = $(this).find("record_id_").text();
+                         
+                        console.log(x); 
+                        console.log($(this).find("planned_orders_placed").text());
+                        if(!$(this).find("planned_orders_placed").text()){
+                          editrecord(planned_orders_placed.toString(), RID,TestFID); 
+                          console.log("falsey");
+                        }
+                        else{
+                          planned_orders_placed+= parseFloat($(this).find("planned_orders_placed").text());
+                          console.log("To String before Edit: "+planned_orders_placed); 
+                          editrecord(planned_orders_placed.toString(), RID, TestFID); 
+                          console.log("not falsey"); 
+                        }
+                        console.log(planned_orders_placed); 
+                        //console.log(coachArray);
+                      console.log("\n\n");
+                    });//End XML Loop
+        //console.log(coachArray);
+        }
+          else 
+          {
+           console.log("Quickbase returned an error.");
+           //console.log(response);
+         } 
+       },
+error: function (response)
+  {
+  console.log("Quickbase returned an error.");
+  console.log(response);
+  }
+});
+}
+</script>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
+    <meta charset="utf-8">
+    <style>
+    </style>
+  </head>
+  <body>
+    
+    <script>
+     
+    </script>
+    
+
+
+<script>
+function addnumber(response){
+}
+</script>
+
+</body>
+</html>
+

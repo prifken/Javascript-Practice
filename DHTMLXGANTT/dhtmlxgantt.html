@@ -46,6 +46,35 @@ gantt.attachEvent("onLightboxSave", function(id, task, is_new){
     if(is_new){
     	console.log("Add Record with Parent ID of "+task.parent+" and currently at level "+task.$level); 
     	if(task.$level==0){
+    	console.log("On Lightbox Save - Project",id,task,is_new); 
+    		//var returnID = addtask(task.id, task.text, task.start_date, task.end_date, task.id, "project");
+    		//console.log("Project RID= "+returnID); 
+    		
+            //gantt.updateTask(returnID); 
+            //gantt.deleteTask(id);
+            
+    	}
+    	else if(task.$level==1){
+    			console.log("Task Created (On Save): "+task.text+" ID: "+task.id);  
+    		//var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
+    		console.log("This is a task within a project with ID "+task.parent.split("_")[0]); 
+    		//console.log("returnID= ",returnID); 
+    		
+    		gantt.render(); 
+    		//var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
+    		
+    		
+
+    	}
+    }
+    return true;
+})
+gantt.attachEvent("onEventAdded", function(id, task, is_new){
+    //any custom logic here
+    console.log(id, task, "New Task? = "+is_new); 
+    if(is_new){
+    	console.log("Add Record with Parent ID of "+task.parent+" and currently at level "+task.$level); 
+    	if(task.$level==0){
     		var returnID = addtask(task.id, task.text, task.start_date, task.end_date, task.id, "project");
     		console.log("Project RID= "+returnID); 
     		
@@ -58,10 +87,8 @@ gantt.attachEvent("onLightboxSave", function(id, task, is_new){
     			var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
     		console.log("This is a task within a project with ID "+task.parent.split("_")[0]); 
     		console.log("returnID= ",returnID); 
-    		
-    		gantt.render(); 
-    		//var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
-    		
+    		var returnID = addtask(task.parent.split("_")[0], task.text, task.start_date, task.end_date, task.id, "task");
+    		gantt.changeTaskId(task.id,returnID); 
     		
 
     	}
