@@ -1,7 +1,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.13/datatables.min.css"/>
-
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
 <script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
+
 
 <!doctype html>
 
@@ -9,20 +10,21 @@
 <head>
   <meta charset="utf-8">
 
-  <title>The Lost Search</title>
+  <title>App Search</title>
   <meta name="description" content="The HTML5 Herald">
   <meta name="author" content="SitePoint">
 
 
 <script type="text/javascript">
 
-
+/* not necessary in this page
 function apps(){
 	this.appfeatures="features";
 	this.appkeys="key words";
 	this.applink="link";
 	this.appID="Record ID"; 
-}
+	this.appname="app name"; 
+}*/
 
 var url_apps = "https://team.quickbase.com";     // Remember to put in YOUR baseurl_opps
   url_apps    += "/db/";
@@ -48,31 +50,20 @@ data: request,
 				
 					
 			//Looping Through Response Begins Below
-									  	 xml.find('qdbapi').find('record').each(function(index){	
-									  	 	//var x = new apps("Test","Test", "Test", "Test"); 
-									  	 	appArray.push([
-									  	 		$(this).find("features").text(),
-									  	 		$(this).find("key_words").text(),
-									  	 		$(this).find("link_to_app").text(),
-									  	 		$(this).find("record_id_").text()
-									  	 		]);
-									 	});//End XML Loop
-
-									  	 /*
-									  	 testarray.push([
-									    		$(this).find("opportunity_name").text(),
-									    		$(this).find("opportunity_id").text(),
-									    		$(this).find("close_quarter").text(),
-									    		$(this).find("forecasted_monthly_fees").text(),
-									    		"<a href=https://team.quickbase.com/db/bdms4889h?a=dr&rid="+$(this).find("opportunity_id").text()+"&rl=zth target='_blank'>"+$(this).find("opportunity_id").text()+"</a>",
-									    		$(this).find("current_opportunity_stage").text(),
-									    		$(this).find("coach_name").text(),
-									    		$(this).find("company_name").text(),
-									    		$(this).find("primary_contact___name").text()
-									    		]);*/
+							 xml.find('qdbapi').find('record').each(function(index)
+							 {	
+							 	//var x = new apps("Test","Test", "Test", "Test"); 
+							 	appArray.push
+							 	([
+							 		$(this).find("app_name").text(),
+							 		$(this).find("features").text(),
+							 		$(this).find("key_words").text(),
+							 		"<a href="+ $(this).find("link_to_app").text()+" target='_blank'>Link to App</a>",
+							 		"<a href=https://team.quickbase.com/db/bmndjxzq4?a=dr&rid="+$(this).find("record_id_").text()+"&rl=unm target='_blank'>Link to Record</a>",
+							 		$(this).find("ae_or_csm").text(),
+							 	]);
+							});//End XML Loop
 				console.log(appArray);
-				
-           // alert(coachArray);
 			 	}
 			    else 
 			    {
@@ -93,13 +84,15 @@ error: function (response)
 
 <body>
 <!--BODY-CODE-->
-<table id="example" class="cell-border hover" cellspacing="0" width="100%">
+<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
 	<tfoot>
             <tr>
+                <th>App Name</th>
                 <th>Features</th>
                 <th>Key Words</th>
                 <th>Link</th>
                 <th>Record ID</th>
+                <th>AE or CSM</th>
             </tr>
         </tfoot>
 </table>
@@ -112,13 +105,16 @@ $(document).ready(function() {
     	data:appArray,
     	"pageLength": 25,
     	 columns: [
+    	    { title: "App Name" },
             { title: "Features" },
             { title: "Key Words" },
             { title: "Link" },
             { title: "Record ID" },
-            
+            { title: "AE or CSM" },
+         
         
         ],
+
         order:[[1,'desc']],
         initComplete: function () {
        		$('#example tfoot th').each( function () {
