@@ -28,7 +28,7 @@ function apps(){
 
 var url_apps = "https://team.quickbase.com";     // Remember to put in YOUR baseurl_opps
   url_apps    += "/db/";
-  url_apps    += "bmndjxzq4";  //Opps DBID
+  url_apps    += "bmnsj2g5p";  //Opps DBID
   url_apps    += "?a=API_DoQuery";
   var request = "<qdbapi>";
   request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR 
@@ -55,13 +55,14 @@ data: request,
 							 	//var x = new apps("Test","Test", "Test", "Test"); 
 							 	appArray.push
 							 	([
-							 		$(this).find("resource_name").text(),
-							 		$(this).find("features").text(),
-							 		$(this).find("key_words").text(),
-							 		"<a href="+ $(this).find("link_to_resource").text()+" target='_blank'>Link to App</a>",
-							 		"<a href=https://team.quickbase.com/db/bmndjxzq4?a=dr&rid="+$(this).find("record_id_").text()+"&rl=unm target='_blank'>Link to Record</a>",
-							 		$(this).find("requested_by").text(),
-							 		$(this).find("engagement_description").text()
+							 		$(this).find("customer_name").text(),
+							 		$(this).find("business_segment").text(),
+							 		$(this).find("business_priority__products___services_").text(),
+							 		$(this).find("industry").text(),
+							 		$(this).find("profiler_name").text(),
+							 		$(this).find("lead_assigned_to").text(),
+							 		"<a href="+ $(this).find("rsc_assets_link").text()+" target='_blank'>RSC Asset</a>",
+							 		$(this).find("reference_stage").text()
 							 	]);
 							});//End XML Loop
 				console.log(appArray);
@@ -88,13 +89,14 @@ error: function (response)
 <table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
 	<tfoot>
             <tr>
-                <th>Resource Name</th>
-                <th>Features</th>
-                <th>Key Words</th>
-                <th>Link</th>
-                <th>Record ID</th>
-                <th>Requested By Email</th>
-                <th>Engagement Description</th>
+                <th>Customer Name</th>
+                <th>Business Segment</th>
+                <th>Business Priority - Products and Services</th>
+                <th>Industry</th>
+                <th>Profiler</th>
+                <th>Lead Assigned To</th>
+                <th>RSC Link</th>
+                <th>Reference Stage</th>
             </tr>
         </tfoot>
 </table>
@@ -107,13 +109,14 @@ $(document).ready(function() {
     	data:appArray,
     	"pageLength": 5,
     	 columns: [
-    	    { title: "Resource Name" },
-            { title: "Features" },
-            { title: "Key Words" },
-            { title: "Link" },
-            { title: "Record ID"},
-            { title: "Requested by Email"},
-            { title: "Engagement Description"}
+    	    { title: "Customer Name" },
+            { title: "Business Segment" },
+            { title: "Business Priority - Products & Services" },
+            { title: "Industry" },
+            { title: "Profiler" },
+            { title: "Lead Assigned To" },
+            { title: "RSC Link"},
+            { title: "Reference Stage"}
          
         
         ],
