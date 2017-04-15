@@ -1,0 +1,141 @@
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.13/css/dataTables.bootstrap.min.css"/>
+<link rel="stylesheet" type="text/css" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+<script type="text/javascript" src="https://cdn.datatables.net/v/bs-3.3.7/jq-2.2.4/dt-1.10.13/datatables.min.js"></script>
+
+
+<!doctype html>
+
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+
+  <title>App Search</title>
+  <meta name="description" content="The HTML5 Herald">
+  <meta name="author" content="SitePoint">
+
+
+<script type="text/javascript">
+
+/* not necessary in this page
+function apps(){
+	this.appfeatures="features";
+	this.appkeys="key words";
+	this.applink="link";
+	this.appID="Record ID"; 
+	this.appname="app name"; 
+}*/
+
+var url_apps = "https://team.quickbase.com";     // Remember to put in YOUR baseurl_opps
+  url_apps    += "/db/";
+  url_apps    += "bk37hwj3f";  //Opps DBID
+  url_apps    += "?a=API_DoQuery";
+  var request = "<qdbapi>";
+  request    += "<apptoken>syc8wwcyfj9addktutjfqbw54a</apptoken>";  
+  request    += "<qid>8</qid>";          // Remember to put in YOUR 
+  request    += "</qdbapi>";
+
+var appArray=[]; 
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url_apps,
+dataType: "xml",
+processData: false,
+data: request,
+			    success: function (response) {
+			     var xml = $(response); //Convert response to XML Code
+			     if (xml.find('qdbapi').find('errcode').text() == "0") {
+				
+					
+			//Looping Through Response Begins Below
+							 xml.find('qdbapi').find('record').each(function(index)
+							 {	
+							 	//var x = new apps("Test","Test", "Test", "Test"); 
+							 	appArray.push
+							 	([
+							 		$(this).find("area").text(),
+							 		$(this).find("status").text(),
+							 		$(this).find("statement").text(),
+							 		$(this).find("position").text(),
+							 		"<a href=https://team.quickbase.com/db/bk37hwj3f?a=dr&rid="+$(this).find("record_id_").text()+"&rl=unm target='_blank'>Link to Record</a>"
+							 	]);
+							});//End XML Loop
+				console.log(appArray);
+			 	}
+			    else 
+			    {
+			     console.log("Quickbase returned an error.");
+			     console.log(response);
+			   } 
+			 },
+error: function (response)
+	{
+	console.log("Quickbase returned an error.");
+	console.log(response);
+	}
+});
+
+
+</script>
+</head>
+
+<body>
+<!--BODY-CODE-->
+<table id="example" class="table table-striped table-bordered" cellspacing="0" width="100%">
+	<tfoot>
+            <tr>
+                <th>Area</th>
+                <th>Status</th>
+                <th>Statements Key Words</th>
+                <th>Position Key Words</th>
+                <th>Record ID</th>
+            </tr>
+        </tfoot>
+</table>
+   
+ 
+<script>
+
+$(document).ready(function() {
+    var table=$('#example').DataTable({
+    	data:appArray,
+    	"pageLength": 5,
+    	 columns: [
+    	    { title: "Area" },
+            { title: "Status" },
+            { title: "Statement" },
+            { title: "Position" },
+            { title: "Link to Record"}
+        ],
+
+        order:[[1,'desc']],
+        initComplete: function () {
+       		$('#example tfoot th').each( function () {
+        	var title = $(this).text();
+        	console.log(title);
+        	console.log("\n");
+        	$(this).html( '<input type="text" placeholder="Search '+title+'" />' );
+    			});
+      	   }
+    } );
+
+ 	table.columns().every( function () {
+        var that = this;
+ 
+        $( 'input', this.footer() ).on( 'keyup change', function () {
+            if ( that.search() !== this.value ) {
+                that
+                    .search( this.value )
+                    .draw();
+            }
+       		 } );
+    	} );
+} );
+
+</script>
+</body>
+</html>
+
