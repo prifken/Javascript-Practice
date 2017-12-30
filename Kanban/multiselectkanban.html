@@ -2,6 +2,7 @@
 <html>
 <head>
 	<title>Multiple tasks selection</title>
+	<script src="https://use.fontawesome.com/09e4da688e.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
 	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
 
@@ -10,7 +11,7 @@
 
 	<link rel="stylesheet" type="text/css" href="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=6"> <!--webix.css-->
 	<link rel="stylesheet" type="text/css" href="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=4"> <!--kanban.css -->
-
+    <script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=10"></script><!--types.js-->
 	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=2"></script> <!--data.js -->
 	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=8"></script><!-- testarray.js -->
 	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=9"></script><!-- Quick Base functions (e.g., edit record)-->
@@ -64,9 +65,39 @@
 		else
 			webix.message("Item '"+item.text+"' was moved to the "+item.$index +" position");
 	}
+
+	webix.type(webix.ui.kanbanlist,{
+		name: "cards",
+		icons:[
+			{icon: "comment" , show: function(obj){ return !!obj.comments }, template:"#comments.length#"},
+			{icon: "pencil"}
+		],
+		// avatar template
+		templateAvatar: function(obj){
+			if(obj.personId){
+				var name = "";
+				for(var i=0; i < staff.length && !name;i++){
+					if(staff[i].id == obj.personId){
+						name = staff[i].name;
+					}
+				}
+				return '<img class="avatar" src="../common/imgs/'+obj.personId+'.jpg" title="'+name+'"/>';
+			}
+			return "";
+		},
+		// template for item body
+		// show item image and text
+		templateBody: function(obj){
+			var html = "<a href='http://www.google.com' target='_blank'>Google</a>";
+			if(obj.image)
+				html += "<img class='image' src='../common/imgs/attachments/"+obj.image+"'/>";
+			html += "<div>"+obj.text+"</div>";
+			return html;
+		}
+	});
 	webix.ready(function(){
 		webix.ui({
-			view:"kanban", type:"space",
+			view:"kanban",type:"space",
 			on:{
 						onListBeforeDrag: onBeforeDrag,
 						onListBeforeDragIn: onBeforeDragIn,
@@ -74,13 +105,13 @@
 					},
 			cols:[
 				{ header:"Backlog",
-					body:{ view:"kanbanlist", status:"0 - Not Started", multiselect: true }},
+					body:{ view:"kanbanlist", status:"0 - Not Started", multiselect: true, type: "cards"}},
 				{ header:"In Progress",
-					body:{ view:"kanbanlist", status:"1 - In-Progress", multiselect: true }},
+					body:{ view:"kanbanlist", status:"1 - In-Progress", multiselect: true, type: "cards"}},
 				{ header:"Issue",
-					body:{ view:"kanbanlist", status:"2 - Issue", multiselect: true }},
+					body:{ view:"kanbanlist", status:"2 - Issue", multiselect: true, type: "cards"}},
 				{ header:"Completed",
-					body:{ view:"kanbanlist", status:"3 - Completed", multiselect: true }}
+					body:{ view:"kanbanlist", status:"3 - Completed", multiselect: true, type: "cards"}}
 			],
 
 			data: taskArray
