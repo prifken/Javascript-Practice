@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+<head>
+	<title>Multiple tasks selection</title>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=5"></script> <!-- webix.js -->
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=3" type="text/javascript"></script><!--kanban.js -->
+
+	<link rel="stylesheet" type="text/css" href="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=6"> <!--webix.css-->
+	<link rel="stylesheet" type="text/css" href="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=4"> <!--kanban.css -->
+
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=2"></script> <!--data.js -->
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=8"></script><!-- testarray.js -->
+</head>
+<body>
+	<!--
+0 - Not Started
+4 - Canceled
+2 - Issue
+3 - Completed
+1 - In-Progress
+	-->
+<script type="text/javascript">
+
+	function onBeforeDrag(dragContext){
+		webix.message("Drag has been started");
+		return true
+	}
+	function onBeforeDragIn(dragContext,e,list){
+
+		// item id
+		var item =this.getItem(dragContext.start);
+		console.log("OnBefore Drag, dragContext: "+item.text); 
+		// if we move an item from one list to another
+		if(dragContext.from != dragContext.to){
+			var statusFrom = dragContext.from.config.status;
+			var statusTo = dragContext.to.config.status;
+			var statusIndex = {"new":0,"work":1, "test": 2, "done":3};
+			var diff = Math.abs(statusIndex[statusFrom] - statusIndex[statusTo]);
+			if(diff>1){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function onAfterDrop(dragContext,e,list){
+
+		// item id
+		var item =this.getItem(dragContext.start);
+
+		// if we move an item from one list to another
+		if(dragContext.from != dragContext.to){
+			var status = dragContext.to.config.status;
+			// show a message with new status and order
+			webix.message("Item '"+item.text+"' was moved into '"+status+"' column to the "+item.$index +" position");
+		}
+		else
+			webix.message("Item '"+item.text+"' was moved to the "+item.$index +" position");
+	}
+	webix.ready(function(){
+		webix.ui({
+			view:"kanban", type:"space",
+			on:{
+						onListBeforeDrag: onBeforeDrag,
+						onListBeforeDragIn: onBeforeDragIn,
+						onListAfterDrop: onAfterDrop
+					},
+			cols:[
+				{ header:"Backlog",
+					body:{ view:"kanbanlist", status:"0 - Not Started", multiselect: true }},
+				{ header:"In Progress",
+					body:{ view:"kanbanlist", status:"1 - In-Progress", multiselect: true }},
+				{ header:"Issue",
+					body:{ view:"kanbanlist", status:"2 - Issue", multiselect: true }},
+				{ header:"Completed",
+					body:{ view:"kanbanlist", status:"3 - Completed", multiselect: true }}
+			],
+
+			data: taskArray
+		});
+
+		
+	});
+</script>
+
+
+
+
+</body>
+</html>
