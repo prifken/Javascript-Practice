@@ -13,6 +13,9 @@
 
 	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=2"></script> <!--data.js -->
 	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=8"></script><!-- testarray.js -->
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=9"></script><!-- Quick Base functions (e.g., edit record)-->
+	<!--function updatetask(id,text,status)-->
+
 </head>
 <body>
 	<!--
@@ -25,14 +28,14 @@
 <script type="text/javascript">
 
 	function onBeforeDrag(dragContext){
-		webix.message("Drag has been started");
+		//webix.message("Drag has been started");
 		return true
 	}
 	function onBeforeDragIn(dragContext,e,list){
 
 		// item id
 		var item =this.getItem(dragContext.start);
-		console.log("OnBefore Drag, dragContext: "+item.text); 
+		//console.log("OnBefore Drag, dragContext: "+item.text); 
 		// if we move an item from one list to another
 		if(dragContext.from != dragContext.to){
 			var statusFrom = dragContext.from.config.status;
@@ -56,6 +59,7 @@
 			var status = dragContext.to.config.status;
 			// show a message with new status and order
 			webix.message("Item '"+item.text+"' was moved into '"+status+"' column to the "+item.$index +" position");
+			updatetask(item.id,item.text,item.status); 
 		}
 		else
 			webix.message("Item '"+item.text+"' was moved to the "+item.$index +" position");
