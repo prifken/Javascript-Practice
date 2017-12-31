@@ -1,9 +1,9 @@
 function updatetask(id,text,status){
 console.log("id= ",id," text= ",text," status= ",status); 
 	
-			var url = "https://team.quickbase.com/db/bnbk56xz3?a=API_EditRecord&usertoken=b287yg_uyp_cxbp7xgd3h2ynzxi6sfscwmr6nk"
+			var url = "https://team.quickbase.com/db/bk7sy9jpi?a=API_EditRecord&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53"
       url+= "&rid="+id; 
-			url+= "&_fid_55="+text; //History, Notes, and Issues = FID 55
+			url+= "&_fid_173="+text; //History, Notes, and Issues = FID 55
 			url+= "&_fid_12="+status; //Activtion Status = FID 12, replace with NEW Status
 
 //https://team.quickbase.com/db/bnbk56xz3?a=td
