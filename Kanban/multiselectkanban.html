@@ -18,6 +18,15 @@
 	<!--function updatetask(id,text,status)-->
 
 </head>
+	<style>
+		.toolbar{
+			background-color: #f8f8f8;
+		}
+		.shadow{
+			box-shadow: inset 0 1px 3px #aaa;
+		}
+	</style>
+
 <body>
 	<!--
 0 - Not Started
@@ -70,6 +79,16 @@
 		else
 			webix.message("Item '"+item.text+"' was moved to the "+item.$index +" position");
 	}
+	
+			function avatarClick(id,e,node,list){
+		$$("staffPopup").show(node);
+		var personId = this.getItem(id).personId;
+		console.log("avatarClick");
+		if(personId)
+			$$("staffList").select(personId);
+			console.log("personId: "+personId + " <--Anything?");
+	}
+
 	webix.ui({
 		view: "popup",
 		id: "staffPopup",
@@ -99,14 +118,7 @@
 		}
 	});
 
-		function avatarClick(id,e,node,list){
-		$$("staffPopup").show(node);
-		var personId = this.getItem(id).personId;
-		console.log("avatarClick");
-		if(personId)
-			$$("staffList").select(personId);
-			console.log("personId: "+personId + " <--Anything?");
-	}
+
 
 
 
