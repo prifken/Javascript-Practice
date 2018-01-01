@@ -40,7 +40,8 @@ webix.type(webix.ui.kanbanlist,{
 			var html = "";
 			//console.log("Templatebody");
 			html += "<div>"+obj.text+"</div>";
-			html += "<div>"+name+id+"</div>";
+			html += "<div>"+name+"</div>";
+			//updatetaskowner(id,obj.id);
 			//console.log(name);
 			//html += "<div>"+name+"</div>";
 			return html;
