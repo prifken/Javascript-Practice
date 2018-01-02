@@ -43,7 +43,8 @@
 <script type="text/javascript">
 
 	function add(){
-		var id = $$("myBoard").add({status: "new", text: ""});
+		var id = $$("myBoard").add({status: "0 - Not Started", text: "New Task", personID:0});
+		console.log("add ID= " + id);
 		$$("myForm").show();
 
 		$$("myBoard").select(id);
@@ -66,10 +67,16 @@
 	}
 
 	function save(){
+		var id = $$("myBoard").getCursor();
+		var obj = $$("myBoard").getItem(id);
+		console.log("save ID= "+id," obj text= "+obj.text, " obj status= "+obj.status, " personId stringify= "+JSON.stringify(obj)); 
 		$$("myForm").save();
+		console.log("save ID= "+id," obj text= "+obj.text, " obj status= "+obj.status, " personId= ",obj.personId); 
 		$$("myForm").hide();
 	}
-
+	function addtask(id,obj,index){
+		console.log("addtask");
+	}
 	function onBeforeDrag(dragContext){
 		//webix.message("Drag has been started");
 		return true
@@ -176,7 +183,8 @@
 													onListBeforeDrag: onBeforeDrag,
 													onListBeforeDragIn: onBeforeDragIn,
 													onListAfterDrop: onAfterDrop,
-													onAvatarClick: avatarClick
+													onAvatarClick: avatarClick,
+													onAfterAdd: addtask
 											},
 										cols:[
 												{ header:"Backlog",
@@ -206,10 +214,28 @@
 												{ view: "richselect",	label: "Assign to", name: "personId", suggest:{
 													padding:0,
 													body:{
-														//template: "<img class='list_avatar' src='../common/imgs/#id#.jpg' title='#name#'/> #name#",
+														template: "<div>#id# and #name#</div>",
 														data:studentarray
 													}
 				
+												}},
+												{ view: "richselect",	label: "Status", name: "status", suggest:{
+													padding:0,
+													body:{
+														template: "<div>#id#</div>",
+														data:[
+															  {id:"0 - Not Started"},
+															  {id:"1 - In-Progress"},
+															  {id:"2 - Issue"},
+															  {id:"3 - Completed"},
+															  {id:"4 - Canceled"}
+															]
+													}
+				
+
+
+
+
 												}},
 												{
 													borderless: true,
