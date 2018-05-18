@@ -15,21 +15,41 @@ var base_task_set =[
   { id:13, status:"ready", text:"Task 14",  personId: 8}
 ];
 
+var staff= [
+  {id:1, name:"Rick Lopes"},
+  {id:2, name:"Martin Farrell"},
+  {id:3, name:"Douglass Moore"},
+  {id:4, name:"Eric Doe"},
+  {id:5, name:"Sophi Elliman"},
+  {id:6, name:"Anna O'Neal"},
+  {id:7, name:"Marcus Storm"},
+  {id:8, name:"Nick Branson"}
+];
+
+function students(){
+  this.id=0;
+  this.name="string (Resource)";
+}
+
 function tasks(){
   this.id=0
   this.status="string (Resource)";
   this.text="string";
+  this.personId=0;
 }
+//init arrays
+var taskArray=[]; 
+var studentarray=[]; 
 
 //Query Tasks Table and Create Tasks Array ?a=td
- var url = "https://team.quickbase.com/db/bnbk56xz3?a=API_DoQuery&qid=62";     // Remember to put in YOUR baseURL
+ var url = "https://team.quickbase.com/db/bk7sy9jpi?a=API_DoQuery&qid=1";     // Remember to put in YOUR baseURL
   //url    += "&query={'48'.EX.'6'}"; //Replace with {'YOUR RELATED PROJECT IDE'.EX."RELATED PROJECT}"
 
   var request = "<qdbapi>";
-  request    += "<usertoken>b287yg_uyp_cxbp7xgd3h2ynzxi6sfscwmr6nk</usertoken>";            // Remember to put in YOUR appToken
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
   request    += "</qdbapi>";
   <!-- https://team.quickbase.com/db/bmfirusyr?a=API_DoQuery&query={'48'.EX.'6'}&usertoken=b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53 --> 
-var taskArray=[]; 
+
 
 $.ajax({
 type: "POST",
@@ -47,11 +67,60 @@ data: request,
          // console.log(response); 
       //Looping Through Response Begins Below
                        xml.find('qdbapi').find('record').each(function(index){  
-                        var x = new tasks(0, "Task Name", "Status"); 
-                        x.id=$(this).find("record_id_").text();
+                        var x = new tasks(0, "Task Name", "Status",0); 
+                        x.id=$(this).find("task_id").text();
                         x.text=$(this).find("task_name").text();
-                        x.status=$(this).find("activation_status").text();
+                        x.status=$(this).find("status").text();
+                        x.personId=$(this).find("related_team_member").text();
                         taskArray.push(x);
+                        //console.log(x); 
+                        
+                      //console.log("\n\n");
+                    });//End XML Loop
+        //console.log(coachArray);
+        }
+          else 
+          {
+           console.log("Quickbase returned an error.");
+           console.log(response);
+         } 
+       },
+error: function (response)
+  {
+  console.log("Quickbase returned an error.");
+  console.log(response);
+  }
+});
+
+//Query Active Team Members Table and Create Students Array 
+ var url = "https://team.quickbase.com/db/bk7sy9jug?a=API_DoQuery&qid=45";     // Remember to put in YOUR baseURL
+  //url    += "&query={'48'.EX.'6'}"; //Replace with {'YOUR RELATED PROJECT IDE'.EX."RELATED PROJECT}"
+
+  var request = "<qdbapi>";
+  request    += "<usertoken>b287yg_uyp_dsagzw8b755gx7bvr8hfmdp3fu53</usertoken>";            // Remember to put in YOUR appToken
+  request    += "</qdbapi>";
+
+
+$.ajax({
+type: "POST",
+contentType: "text/xml",
+async: false,
+url: url,
+dataType: "xml",
+processData: false,
+data: request,
+          success: function (response) {
+
+           var xml = $(response); //Convert response to XML Code
+           if (xml.find('qdbapi').find('errcode').text() == "0") {
+        
+         // console.log(response); 
+      //Looping Through Response Begins Below
+                       xml.find('qdbapi').find('record').each(function(index){  
+                        var x = new students(0, "Student Name"); 
+                        x.id=$(this).find("record_id_").text();
+                        x.name=$(this).find("full_name").text();
+                        studentarray.push(x);
                         //console.log(coachArray);
                         //console.log(x); 
                         
@@ -71,5 +140,5 @@ error: function (response)
   console.log(response);
   }
 });
-console.log(taskArray); 
-console.log(base_task_set); 
+console.log(taskArray);
+console.log(studentarray);

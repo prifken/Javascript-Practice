@@ -33,16 +33,7 @@ var task_set = [
 	{ id:22, status:"ready", text:"Task 22", tags:"webix,docs" },
 	{ id:23, color:"red", status:"ready", text:"Task 23", tags:"webix" }
 ];
-var staff= [
-	{id:1, name:"Rick Lopes"},
-	{id:2, name:"Martin Farrell"},
-	{id:3, name:"Douglass Moore"},
-	{id:4, name:"Eric Doe"},
-	{id:5, name:"Sophi Elliman"},
-	{id:6, name:"Anna O'Neal"},
-	{id:7, name:"Marcus Storm"},
-	{id:8, name:"Nick Branson"}
-];
+
 
 var user_task_set =[
 	{ id:1, status:"new", text:"Test new authentification service", tags:"webix", comments:[{text:"Comment 1"}, {text:"Comment 2"}] },

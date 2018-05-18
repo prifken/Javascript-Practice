@@ -15,15 +15,37 @@ webix.type(webix.ui.kanbanlist,{
 	templateAvatar: function(obj){
 		if(obj.personId){
 			var name = "";
-			for(var i=0; i < staff.length && !name;i++){
-				if(staff[i].id == obj.personId){
-					name = staff[i].name;
+			for(var i=0; i < studentarray.length && !name;i++){
+				if(studentarray[i].id == obj.personId){
+					name = studentarray[i].name;
 				}
 			}
-			return '<img class="avatar" src="../common/imgs/'+obj.personId+'.jpg" title="'+name+'"/>';
+			return "";//'<img class="avatar" src="../common/imgs/'+obj.personId+'.jpg" title="'+name+'"/>';
 		}
 		return "";
-	}
+	},
+	templateBody: function(obj){
+		    var html2 = "";
+			if(obj.personId){
+			var name = "";
+			var id = ""; 
+			for(var i=0; i < studentarray.length && !name;i++){
+				if(studentarray[i].id == obj.personId){
+					name = studentarray[i].name;
+					id = studentarray[i].id.toString();
+					html2 += "<div>SUCCESS</div>";
+				}
+			}
+			}
+			var html = "";
+			//console.log("Templatebody");
+			html += "<div>"+obj.text+"</div>";
+			html += "<div>"+name+"</div>";
+			//updatetaskowner(id,obj.id);
+			//console.log(name);
+			//html += "<div>"+name+"</div>";
+			return html;
+		}
 });
 webix.type(webix.ui.kanbanlist,{
 	name: "users",
@@ -33,7 +55,7 @@ webix.type(webix.ui.kanbanlist,{
 	],
 	templateAvatar: function(obj){
 		if(obj.user){
-			return '<img class="avatar" src="../common/photos/'+obj.user+'.png" title="'+name+'"/>';
+			return "";//'<img class="avatar" src="../common/photos/'+obj.user+'.png" title="'+name+'"/>';
 		}
 		return "";
 	}
@@ -41,10 +63,10 @@ webix.type(webix.ui.kanbanlist,{
 
 webix.type(webix.ui.dataview,{
 	name: "avatars",
-	width: 80,
+	width: 120,
 	height: 80,
 	template: function(obj){
 		var name = obj.name.split(" ");
-		return '<img class="large_avatar" src="../common/imgs/'+obj.id+'.jpg" title="'+obj.name+'"/><div class="name">'+name[0]+'</div>'
+		return '<div class="name">'+obj.name+'</div>'//<img class="large_avatar" src="../common/imgs/'+obj.id+'.jpg" title="'+obj.name+'"/> before <div...
 	}
 });

@@ -18,6 +18,15 @@
 	<!--function updatetask(id,text,status)-->
 
 </head>
+	<style>
+		.toolbar{
+			background-color: #f8f8f8;
+		}
+		.shadow{
+			box-shadow: inset 0 1px 3px #aaa;
+		}
+	</style>
+
 <body>
 	<!--
 0 - Not Started
@@ -25,6 +34,11 @@
 2 - Issue
 3 - Completed
 1 - In-Progress
+
+
+
+	
+
 	-->
 <script type="text/javascript">
 
@@ -65,53 +79,69 @@
 		else
 			webix.message("Item '"+item.text+"' was moved to the "+item.$index +" position");
 	}
+	
+			function avatarClick(id,e,node,list){
+		$$("staffPopup").show(node);
+		var personId = this.getItem(id).personId;
+		console.log("avatarClick");
+		if(personId)
+			$$("staffList").select(personId);
+			console.log("personId: "+personId + " <--Anything?");
+	}
 
-	webix.type(webix.ui.kanbanlist,{
-		name: "cards",
-		icons:[
-			{icon: "comment" , show: function(obj){ return !!obj.comments }, template:"#comments.length#"},
-			{icon: "pencil"}
-		],
-		// avatar template
-		templateAvatar: function(obj){
-			if(obj.personId){
-				var name = "";
-				for(var i=0; i < staff.length && !name;i++){
-					if(staff[i].id == obj.personId){
-						name = staff[i].name;
-					}
+	webix.ui({
+		view: "popup",
+		id: "staffPopup",
+		body:{
+			id: "staffList",
+			view: "dataview",
+			xCount: 9,
+			height: 320,
+			borderless: true,
+			css: "members",
+			autoheight: true,
+			select: true,
+			type: "avatars",
+			on:{
+				onItemClick: function(id){
+					var selectedTaskId  = $$("myBoard").getSelectedId();
+					var task = $$("myBoard").getItem(selectedTaskId);
+					task.personId = id;
+					console.log("new id= "+id+"task id="+task.id);
+					updatetaskowner(id,task.id);
+					$$("myBoard").refresh(selectedTaskId);
+					$$("staffPopup").hide();
+					
 				}
-				return '<img class="avatar" src="../common/imgs/'+obj.personId+'.jpg" title="'+name+'"/>';
-			}
-			return "";
-		},
-		// template for item body
-		// show item image and text
-		templateBody: function(obj){
-			var html = "<a href='http://www.google.com' target='_blank'>Google</a>";
-			if(obj.image)
-				html += "<img class='image' src='../common/imgs/attachments/"+obj.image+"'/>";
-			html += "<div>"+obj.text+"</div>";
-			return html;
+			},
+			data: studentarray
 		}
 	});
+
+
+
+
+
 	webix.ready(function(){
 		webix.ui({
-			view:"kanban",type:"space",
+			view:"kanban",
+			id: "myBoard",
+			type:"space",
 			on:{
 						onListBeforeDrag: onBeforeDrag,
 						onListBeforeDragIn: onBeforeDragIn,
-						onListAfterDrop: onAfterDrop
+						onListAfterDrop: onAfterDrop,
+						onAvatarClick: avatarClick
 					},
 			cols:[
 				{ header:"Backlog",
-					body:{ view:"kanbanlist", status:"0 - Not Started", multiselect: true, type: "cards"}},
+					body:{ view:"kanbanlist", status:"0 - Not Started", multiselect: true, type: "avatars"}},
 				{ header:"In Progress",
-					body:{ view:"kanbanlist", status:"1 - In-Progress", multiselect: true, type: "cards"}},
+					body:{ view:"kanbanlist", status:"1 - In-Progress", multiselect: true, type: "avatars"}},
 				{ header:"Issue",
-					body:{ view:"kanbanlist", status:"2 - Issue", multiselect: true, type: "cards"}},
+					body:{ view:"kanbanlist", status:"2 - Issue", multiselect: true, type: "avatars"}},
 				{ header:"Completed",
-					body:{ view:"kanbanlist", status:"3 - Completed", multiselect: true, type: "cards"}}
+					body:{ view:"kanbanlist", status:"3 - Completed", multiselect: true, type: "avatars"}}
 			],
 
 			data: taskArray

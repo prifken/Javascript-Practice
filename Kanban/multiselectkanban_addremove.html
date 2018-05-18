@@ -1,0 +1,275 @@
+<!doctype html>
+<html>
+<head>
+	<title>Multiple tasks selection</title>
+	<script src="https://use.fontawesome.com/09e4da688e.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+	<meta  name = "viewport" content = "initial-scale = 1.0, maximum-scale = 1.0, user-scalable = no">
+
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=5"></script> <!-- webix.js -->
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=3" type="text/javascript"></script><!--kanban.js -->
+
+	<link rel="stylesheet" type="text/css" href="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=6"> <!--webix.css-->
+	<link rel="stylesheet" type="text/css" href="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=4"> <!--kanban.css -->
+    <script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=10"></script><!--types.js-->
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=2"></script> <!--data.js -->
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=8"></script><!-- testarray.js -->
+	<script src="https://team.quickbase.com/db/bnb2y6csy?a=pagePreview&pageID=9"></script><!-- Quick Base functions (e.g., edit record)-->
+	<!--function updatetask(id,text,status)-->
+
+</head>
+	<style>
+		.toolbar{
+			background-color: #f8f8f8;
+		}
+		.shadow{
+			box-shadow: inset 0 1px 3px #aaa;
+		}
+	</style>
+
+<body>
+	<!--
+0 - Not Started
+4 - Canceled
+2 - Issue
+3 - Completed
+1 - In-Progress
+
+
+
+	
+
+	-->
+<script type="text/javascript">
+
+	function add(){
+		var id = $$("myBoard").add({status: "0 - Not Started", text: "New Task", personID:0});
+		console.log("add ID= " + id);
+		$$("myForm").show();
+
+		$$("myBoard").select(id);
+		$$("myBoard").setCursor(id);
+		$$("myForm").focus();
+	}
+
+	function remove(){
+		var id = $$("myBoard").getSelectedId();
+		if(!id){
+			return webix.alert("Please selected a card that you want to remove!");
+		}
+		$$("myBoard").remove(id);
+	}
+
+	function cancelAdd(){
+		var id = $$("myBoard").getCursor();
+		$$("myBoard").remove(id);
+		$$("myForm").hide();
+	}
+
+	function save(){
+		var id = $$("myBoard").getCursor();
+		var obj = $$("myBoard").getItem(id);
+		//console.log("save ID= "+id," obj text= "+obj.text, " obj status= "+obj.status, " personId stringify= "+JSON.stringify(obj),JSON.stringify(id)); 
+		
+		$$("myForm").save();
+		console.log("save ID= "+id," obj text= "+obj.text, " obj status= "+obj.status, " personId = "+obj.personId); 
+		addnewtask(obj.text,obj.personId,obj.status);
+		$$("myForm").hide();
+	}
+	function addtask(id,obj,index){
+		console.log("addtask");
+	}
+	function onBeforeDrag(dragContext){
+		//webix.message("Drag has been started");
+		return true
+	}
+
+	function onBeforeDragIn(dragContext,e,list){
+		// item id
+		var item =this.getItem(dragContext.start);
+		//console.log("OnBefore Drag, dragContext: "+item.text); 
+		// if we move an item from one list to another
+		if(dragContext.from != dragContext.to){
+			var statusFrom = dragContext.from.config.status;
+			var statusTo = dragContext.to.config.status;
+			var statusIndex = {"new":0,"work":1, "test": 2, "done":3};
+			var diff = Math.abs(statusIndex[statusFrom] - statusIndex[statusTo]);
+			if(diff>1){
+				return false;
+			}
+		}
+		return true;
+	}
+
+	function onAfterDrop(dragContext,e,list){
+
+		// item id
+		var item =this.getItem(dragContext.start);
+
+		// if we move an item from one list to another
+		if(dragContext.from != dragContext.to){
+			var status = dragContext.to.config.status;
+			// show a message with new status and order
+			webix.message("Item '"+item.text+"' was moved into '"+status+"' column to the "+item.$index +" position");
+			updatetask(item.id,item.text,item.status); 
+		}
+		else
+			webix.message("Item '"+item.text+"' was moved to the "+item.$index +" position");
+	}
+	function avatarClick(id,e,node,list){
+		$$("staffPopup").show(node);
+		var personId = this.getItem(id).personId;
+		console.log("avatarClick");
+		if(personId)
+			$$("staffList").select(personId);
+			console.log("personId: "+personId + " <--Anything?");
+		}
+
+	webix.ui({
+		view: "popup",
+		id: "staffPopup",
+		body:{
+				id: "staffList",
+				view: "dataview",
+				xCount: 9,
+				height: 320,
+				borderless: true,
+				css: "members",
+				autoheight: true,
+				select: true,
+				type: "avatars",
+				on:{
+					onItemClick: function(id){
+						var selectedTaskId  = $$("myBoard").getSelectedId();
+						var task = $$("myBoard").getItem(selectedTaskId);
+						task.personId = id;
+						console.log("new id= "+id+"task id="+task.id);
+						updatetaskowner(id,task.id);
+						$$("myBoard").refresh(selectedTaskId);
+						$$("staffPopup").hide();
+						
+					}
+				},
+				data: studentarray
+			}
+		});
+
+
+
+	webix.ready(function(){
+		webix.ui({
+				rows:[
+						{
+							css: "toolbar",
+							borderless: true,
+							paddingY:7,
+		
+							paddingX:10,
+							margin: 7,
+							cols:[
+								{ view: "label", label: "You can add and remove cards in Kanban Board"},
+								{view: "button", type: "danger", label: "Remove selected", click: remove, width: 150},
+								{view: "button", type: "form",  label: "Add new card", click: add, width: 150}
+							]
+						},
+						{
+							css: "shadow",
+							type:"space",
+							borderless: true,
+							cols:[
+									{
+										view:"kanban",
+										id: "myBoard",
+										type:"wide",
+										on:{
+													onListBeforeDrag: onBeforeDrag,
+													onListBeforeDragIn: onBeforeDragIn,
+													onListAfterDrop: onAfterDrop,
+													onAvatarClick: avatarClick,
+													onAfterAdd: addtask
+											},
+										cols:[
+												{ header:"Backlog",
+													body:{ view:"kanbanlist", status:"0 - Not Started", type: "avatars"}},
+												{ header:"In Progress",
+													body:{ view:"kanbanlist", status:"1 - In-Progress", type: "avatars"}},
+												{ header:"Issue",
+													body:{ view:"kanbanlist", status:"2 - Issue",type: "avatars"}},
+												{ header:"Completed",
+													body:{ view:"kanbanlist", status:"3 - Completed", type: "avatars"}}
+											],
+										data: taskArray
+									},
+									{
+											id: "myForm",
+											view: "form",
+											width: 300,
+				
+											hidden: true,
+											elementsConfig:{
+												labelPosition: "top"
+											},
+											elements:[
+				
+												{ view: "text", label: "Title", name: "text", focus: true},
+												{ view: "textarea",	label: "Description", name: "textarea", height: 90},
+												{ view: "richselect",	label: "Assign to", name: "personId", suggest:{
+													padding:0,
+													body:{
+														template: "<div>#name#</div>",
+														data:studentarray
+													}
+				
+												}},
+												{ view: "richselect",	label: "Status", name: "status", suggest:{
+													padding:0,
+													body:{
+														template: "<div>#id#</div>",
+														data:[
+															  {id:"0 - Not Started"},
+															  {id:"1 - In-Progress"},
+															  {id:"2 - Issue"},
+															  {id:"3 - Completed"},
+															  {id:"4 - Canceled"}
+															]
+													}
+				
+
+
+
+
+												}},
+												{
+													borderless: true,
+													paddingY: 20,
+													paddingX: 2,
+													margin: 7,
+													cols:[
+														{},
+														{view: "button", label: "Cancel", click: cancelAdd},
+														{view: "button", type: "form", label: "Save", click: save}
+													]
+												},
+												{}
+											]
+									} //end second column
+								] //end columns in this row
+							}
+					] //end rows []
+			
+
+		}); // end webix UI
+		$$("myForm").bind($$("myBoard"));
+
+		});
+
+		
+
+
+</script>
+
+
+
+
+</body>
+</html>
